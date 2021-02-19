@@ -14,6 +14,7 @@
   "public": {
     "applicationName": "KnowledgeGrapher",
     "organization": "built by Metabolics, Ltd.",
-    "organizationUrl": "https://www.metabolics.co.jp/"
+    "organizationUrl": "https://www.metabolics.co.jp/",
+    "selfRegistration": true
   }
 }
