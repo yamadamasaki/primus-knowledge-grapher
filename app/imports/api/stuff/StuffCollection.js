@@ -1,15 +1,15 @@
-import { Meteor } from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
-import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
-import { Roles } from 'meteor/alanning:roles';
-import BaseCollection from '../base/BaseCollection';
+import { Meteor } from 'meteor/meteor'
+import SimpleSchema from 'simpl-schema'
+import { check } from 'meteor/check'
+import { _ } from 'meteor/underscore'
+import { Roles } from 'meteor/alanning:roles'
+import BaseCollection from '../base/BaseCollection'
 
-export const stuffConditions = ['excellent', 'good', 'fair', 'poor'];
+export const stuffConditions = ['excellent', 'good', 'fair', 'poor']
 export const stuffPublications = {
   stuff: 'Stuff',
   stuffAdmin: 'StuffAdmin',
-};
+}
 
 class StuffCollection extends BaseCollection {
   constructor() {
@@ -22,7 +22,7 @@ class StuffCollection extends BaseCollection {
         allowedValues: stuffConditions,
         defaultValue: 'good',
       },
-    }));
+    }))
   }
 
   /**
@@ -39,8 +39,8 @@ class StuffCollection extends BaseCollection {
       quantity,
       owner,
       condition,
-    });
-    return docID;
+    })
+    return docID
   }
 
   /**
@@ -51,18 +51,18 @@ class StuffCollection extends BaseCollection {
    * @param condition the new condition (optional).
    */
   update(docID, { name, quantity, condition }) {
-    const updateData = {};
+    const updateData = {}
     if (name) {
-      updateData.name = name;
+      updateData.name = name
     }
     // if (quantity) { NOTE: 0 is falsy so we need to check if the quantity is a number.
     if (_.isNumber(quantity)) {
-      updateData.quantity = quantity;
+      updateData.quantity = quantity
     }
     if (condition) {
-      updateData.condition = condition;
+      updateData.condition = condition
     }
-    this._collection.update(docID, { $set: updateData });
+    this._collection.update(docID, { $set: updateData })
   }
 
   /**
@@ -71,10 +71,10 @@ class StuffCollection extends BaseCollection {
    * @returns true
    */
   removeIt(name) {
-    const doc = this.findDoc(name);
-    check(doc, Object);
-    this._collection.remove(doc._id);
-    return true;
+    const doc = this.findDoc(name)
+    check(doc, Object)
+    this._collection.remove(doc._id)
+    return true
   }
 
   /**
@@ -84,23 +84,23 @@ class StuffCollection extends BaseCollection {
   publish() {
     if (Meteor.isServer) {
       // get the StuffCollection instance.
-      const instance = this;
+      const instance = this
       /** This subscription publishes only the documents associated with the logged in user */
       Meteor.publish(stuffPublications.stuff, function publish() {
         if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
+          const username = Meteor.users.findOne(this.userId).username
+          return instance._collection.find({ owner: username })
         }
-        return this.ready();
-      });
+        return this.ready()
+      })
 
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
       Meteor.publish(stuffPublications.stuffAdmin, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
-          return instance._collection.find();
+          return instance._collection.find()
         }
-        return this.ready();
-      });
+        return this.ready()
+      })
     }
   }
 
@@ -109,9 +109,9 @@ class StuffCollection extends BaseCollection {
    */
   subscribeStuff() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(stuffPublications.stuff);
+      return Meteor.subscribe(stuffPublications.stuff)
     }
-    return null;
+    return null
   }
 
   /**
@@ -120,9 +120,9 @@ class StuffCollection extends BaseCollection {
    */
   subscribeStuffAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(stuffPublications.stuffAdmin);
+      return Meteor.subscribe(stuffPublications.stuffAdmin)
     }
-    return null;
+    return null
   }
 
 }
@@ -130,4 +130,4 @@ class StuffCollection extends BaseCollection {
 /**
  * Provides the singleton instance of this class to all other entities.
  */
-export const Stuffs = new StuffCollection();
+export const Stuffs = new StuffCollection()

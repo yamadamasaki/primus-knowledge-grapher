@@ -51,7 +51,8 @@
     "indent": "off",
     "prefer-arrow-callback": "off",
     "prefer-destructuring": "off",
-    "prefer-promise-reject-errors": "off"
+    "prefer-promise-reject-errors": "off",
+    "semi": "off"
   },
   "globals": {
     "Assets": true // Meteor disallows importing of Assets, see https://docs.meteor.com/api/assets.html

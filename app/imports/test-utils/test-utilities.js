@@ -1,23 +1,23 @@
-import { Meteor } from 'meteor/meteor';
-import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { DDP } from 'meteor/ddp-client';
-import faker from 'faker';
-import { Accounts } from 'meteor/accounts-base';
-import { Roles } from 'meteor/alanning:roles';
-import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
-import { Stuffs } from '../api/stuff/StuffCollection';
+import { Meteor } from 'meteor/meteor'
+import { ValidatedMethod } from 'meteor/mdg:validated-method'
+import { DDP } from 'meteor/ddp-client'
+import faker from 'faker'
+import { Accounts } from 'meteor/accounts-base'
+import { Roles } from 'meteor/alanning:roles'
+import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin'
+import { Stuffs } from '../api/stuff/StuffCollection'
 
 export function withSubscriptions() {
   return new Promise((resolve => {
     // Add the collections to subscribe to.
-    Stuffs.subscribeStuff();
+    Stuffs.subscribeStuff()
     const poll = Meteor.setInterval(() => {
       if (DDP._allSubscriptionsReady()) {
-        Meteor.clearInterval(poll);
-        resolve();
+        Meteor.clearInterval(poll)
+        resolve()
       }
-    }, 200);
-  }));
+    }, 200)
+  }))
 }
 
 /**
@@ -31,21 +31,21 @@ export const defineTestAdminUser = new ValidatedMethod({
   run() {
     // Only do this if in test or test-app.
     if (Meteor.isTest || Meteor.isAppTest) {
-      const username = faker.internet.userName();
-      const email = faker.internet.email();
-      const password = faker.internet.password();
+      const username = faker.internet.userName()
+      const email = faker.internet.email()
+      const password = faker.internet.password()
       const users = Accounts.createUser({
         username,
         email,
         password,
-      });
-      Roles.createRole('admin', { unlessExists: true });
-      Roles.addUsersToRoles([users], ['admin']);
-      return { username, email, password };
+      })
+      Roles.createRole('admin', { unlessExists: true })
+      Roles.addUsersToRoles([users], ['admin'])
+      return { username, email, password }
     }
-    throw new Meteor.Error('Need to be in test mode to call this method.');
+    throw new Meteor.Error('Need to be in test mode to call this method.')
   },
-});
+})
 
 /**
  * Defines a test user.
@@ -58,20 +58,21 @@ export const defineTestUser = new ValidatedMethod({
   run() {
     // Only do this if in test or test-app.
     if (Meteor.isTest || Meteor.isAppTest) {
-      const username = faker.internet.userName();
-      const email = faker.internet.email();
-      const password = faker.internet.password();
+      const username = faker.internet.userName()
+      const email = faker.internet.email()
+      const password = faker.internet.password()
       // console.log('defineTestUser', username, password);
       Accounts.createUser({
         username,
         email,
         password,
-      });
-      return { username, email, password };
+      })
+      return { username, email, password }
     }
-    throw new Meteor.Error('Need to be in test mode to call this method.');
+    throw new Meteor.Error('Need to be in test mode to call this method.')
   },
-});
+})
+
 /**
  * Returns a Promise that resolves if one can successfully login with the passed credentials.
  * Credentials default to the standard admin username and password.
@@ -81,13 +82,13 @@ export function withLoggedInUser({ username = 'admin@foo.com', password = 'chang
   return new Promise((resolve, reject) => {
     Meteor.loginWithPassword(username, password, (error) => {
       if (error) {
-        console.log('Error: withLoggedInUser', error);
-        reject();
+        console.log('Error: withLoggedInUser', error)
+        reject()
       } else {
-        resolve();
+        resolve()
       }
-    });
-  });
+    })
+  })
 }
 
 /**
@@ -99,11 +100,11 @@ export function logOutUser() {
   return new Promise((resolve, reject) => {
     Meteor.logout((error) => {
       if (error) {
-        console.log('Error: logOutUser', error);
-        reject();
+        console.log('Error: logOutUser', error)
+        reject()
       } else {
-        resolve();
+        resolve()
       }
-    });
-  });
+    })
+  })
 }
