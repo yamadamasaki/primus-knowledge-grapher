@@ -2,5 +2,9 @@
   "Login to your account": "Login to your account",
   "Email": "Email",
   "Password": "Password",
-  "Submit": "Submit"
+  "Submit": "Submit",
+  "Login": "Login",
+  "Sign In": "Sign In",
+  "Sign Out": "Sign Out",
+  "Sign Up": "Sign Up"
 }

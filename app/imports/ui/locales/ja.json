@@ -2,5 +2,9 @@
   "Login to your account": "自分のアカウントにログインしてください",
   "Email": "Email アドレス",
   "Password": "パスワード",
-  "Submit": "送信"
+  "Submit": "送信",
+  "Login": "ログイン",
+  "Sign In": "サインイン",
+  "Sign Out": "サインアウト",
+  "Sign Up": "サインアップ"
 }
