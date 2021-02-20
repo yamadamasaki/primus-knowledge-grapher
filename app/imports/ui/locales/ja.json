@@ -6,5 +6,7 @@
   "Login": "ログイン",
   "Sign In": "サインイン",
   "Sign Out": "サインアウト",
-  "Sign Up": "サインアップ"
+  "Sign Up": "サインアップ",
+  "You are signed out": "サインアウトしました",
+  "Page not found": "ページが見つかりません"
 }
