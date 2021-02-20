@@ -12,9 +12,12 @@
   ],
 
   "public": {
+    "debug": true,
+
     "applicationName": "KnowledgeGrapher",
     "organization": "built by Metabolics, Ltd.",
     "organizationUrl": "https://www.metabolics.co.jp/",
+
     "selfRegistration": true
   }
 }
