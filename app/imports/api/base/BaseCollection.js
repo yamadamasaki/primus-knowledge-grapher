@@ -58,8 +58,8 @@ class BaseCollection {
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
    * @param { String | Object } name A document or docID in this collection.
    */
-  removeIt(name) {
-    throw new Meteor.Error(`removeIt(${name}) is not defined in BaseCollection.`)
+  remove(selector) {
+    this._collection.remove(selector)
   }
 
   /**
@@ -80,6 +80,7 @@ class BaseCollection {
    * @returns { Object } The document associated with name.
    * @throws { Meteor.Error } If the document cannot be found.
    */
+  /* this should not be used and should be removed */
   findDoc(name) {
     if (_.isNull(name) || _.isUndefined(name)) {
       throw new Meteor.Error(`${name} is not a defined ${this.type}`)
