@@ -25,22 +25,8 @@ class StuffCollection extends BaseCollection {
     }))
   }
 
-  /**
-   * Defines a new Stuff item.
-   * @param name the name of the item.
-   * @param quantity how many.
-   * @param owner the owner of the item.
-   * @param condition the condition of the item.
-   * @return {String} the docID of the new document.
-   */
-  define({ name, quantity, owner, condition }) {
-    const docID = this._collection.insert({
-      name,
-      quantity,
-      owner,
-      condition,
-    })
-    return docID
+  define(obj) {
+    return super.define(obj)
   }
 
   /**

@@ -12,7 +12,7 @@ class BaseCollection {
   constructor(type, schema) {
     this._type = type
     this._collectionName = `${this._type}Collection`
-    this._collection = new Mongo.Collection(this._collectionName)
+    this._collection = new Mongo.Collection(this._type.toLowerCase())
     this._schema = schema
     this._collection.attachSchema(this._schema)
   }
@@ -30,7 +30,13 @@ class BaseCollection {
    * @param {Object} obj the object defining the new document.
    */
   define(obj) {
-    throw new Meteor.Error(`The define(${obj}) method is not defined in BaseCollection.`)
+    const now = new Date()
+    const schema = this._schema._schema
+    if (schema.createdAt && !obj.createdAt) obj.createdAt = now
+    if (schema.updatedAt && !obj.updatedAt) obj.updatedAt = now
+    if (schema.owner && !obj.owner) obj.owner = this.userId
+    this._schema.validate(obj)
+    return this._collection.insert(obj)
   }
 
   /**
