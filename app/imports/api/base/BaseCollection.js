@@ -1,6 +1,6 @@
-import { Meteor } from 'meteor/meteor'
-import { Mongo } from 'meteor/mongo'
-import { _ } from 'meteor/underscore'
+import {Meteor} from 'meteor/meteor'
+import {Mongo} from 'meteor/mongo'
+import {_} from 'meteor/underscore'
 
 class BaseCollection {
   /**
@@ -22,8 +22,7 @@ class BaseCollection {
    * @returns { Number } The number of elements in this collection.
    */
   count() {
-    return this._collection.find()
-        .count()
+    return this._collection.find().count()
   }
 
   /**
@@ -76,8 +75,8 @@ class BaseCollection {
     }
     const doc = (
         this._collection.findOne(name)
-        || this._collection.findOne({ name })
-        || this._collection.findOne({ _id: name }))
+        || this._collection.findOne({name})
+        || this._collection.findOne({_id: name}))
     if (!doc) {
       if (typeof name !== 'string') {
         throw new Meteor.Error(`${JSON.stringify(name)} is not a defined ${this._type}`, '', Error().stack)
@@ -143,8 +142,8 @@ class BaseCollection {
     }
     return (
         !!this._collection.findOne(name)
-        || !!this._collection.findOne({ name })
-        || !!this._collection.findOne({ _id: name }))
+        || !!this._collection.findOne({name})
+        || !!this._collection.findOne({_id: name}))
   }
 
   /**
