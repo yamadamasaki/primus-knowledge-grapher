@@ -44,9 +44,14 @@ class BaseCollection {
    * @see {@link http://docs.meteor.com/api/collections.html#Mongo-Collection-update}
    * @param { Object } selector A MongoDB selector.
    * @param { Object } modifier A MongoDB modifier
+   * -> 一般的な modifier を使いたい場合, upsert したい場合, 複数 update したい場合には, サブクラス側で自前で書くべし
    */
-  update(selector, modifier) {
-    throw new Meteor.Error(`update(${selector}, ${modifier}) is not not defined in BaseCollection.`)
+  update(selector, doc) {
+    const omitted = _.omit(doc, ['id', 'owner', 'createdAt', 'updatedAt'])
+    if (this._schema._schema.updatedAt) omitted.updatedAt = new Date()
+    const modifier = {$set: omitted}
+    this._schema.validate(modifier, {modifier: true})
+    return this._collection.update(selector, modifier)
   }
 
   /**

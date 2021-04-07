@@ -25,32 +25,6 @@ class StuffCollection extends BaseCollection {
     }))
   }
 
-  define(obj) {
-    return super.define(obj)
-  }
-
-  /**
-   * Updates the given document.
-   * @param docID the id of the document to update.
-   * @param name the new name (optional).
-   * @param quantity the new quantity (optional).
-   * @param condition the new condition (optional).
-   */
-  update(docID, { name, quantity, condition }) {
-    const updateData = {}
-    if (name) {
-      updateData.name = name
-    }
-    // if (quantity) { NOTE: 0 is falsy so we need to check if the quantity is a number.
-    if (_.isNumber(quantity)) {
-      updateData.quantity = quantity
-    }
-    if (condition) {
-      updateData.condition = condition
-    }
-    this._collection.update(docID, { $set: updateData })
-  }
-
   /**
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
    * @param { String | Object } name A document or docID in this collection.
