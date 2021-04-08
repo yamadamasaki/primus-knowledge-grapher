@@ -2,6 +2,13 @@ import {Meteor} from 'meteor/meteor'
 import {Mongo} from 'meteor/mongo'
 import {_} from 'meteor/underscore'
 
+const baseAccessibility = {
+  _: {canRead: ['members'],},
+  createdAt: {canRead: ['members'],},
+  updatedAt: {canRead: ['members'],},
+  owner: {canRead: ['members'],}
+}
+
 class BaseCollection {
   /**
    * Superclass constructor for all meteor-application-template-react-production entities.
@@ -9,12 +16,17 @@ class BaseCollection {
    * @param {String} type The name of the entity defined by the subclass.
    * @param {SimpleSchema} schema The schema for validating fields on insertion to the DB.
    */
-  constructor(type, schema) {
+  constructor(type, schema, accessibility = {}, channels = {}) {
     this._type = type
     this._collectionName = `${this._type}Collection`
     this._collection = new Mongo.Collection(this._type.toLowerCase())
     this._schema = schema
     this._collection.attachSchema(this._schema)
+    this._accessibility = {...baseAccessibility, ...accessibility}
+    this._channels =  {...{
+        all: `${type}.all`,
+        allWithMeta: `${type}.all.meta`,
+      }, ...channels}
   }
 
   /**
@@ -164,7 +176,18 @@ class BaseCollection {
    */
   publish() {
     if (Meteor.isServer) {
-      Meteor.publish(this._collectionName, () => this._collection.find())
+      const instance = this
+      const fields = accessibleFields(this._accessibility, 'canRead', Meteor.userId)
+      Meteor.publish(this._channels.all, function () {
+        if (isAccessible(this.userId, (instance._accessibility._||{}).canRead)) {
+          return instance._collection.find({}, {fields})
+        }
+      })
+      Meteor.publish(this._channels.all.meta, function () {
+        if (isAccessible(this.userId, (instance._accessibility._||{}).canRead)) {
+          return instance._collection.find({}, {fields})
+        }
+      })
     }
   }
 
@@ -172,12 +195,34 @@ class BaseCollection {
    * Default subscription method for entities.
    * It subscribes to the entire collection. Should be overridden in subclass
    */
-  subscribe() {
+  subscribe(channel) {
     if (Meteor.isClient) {
-      Meteor.subscribe(this._collectionName)
+      return Meteor.subscribe(channel)
     }
+    return null
   }
 }
+
+const isAccessible = (userId, roles) => {
+  if (!roles || roles.length === 0) return false
+  if (!userId) return !!roles.includes('guest')
+
+  if (roles.includes('members')) return true
+
+  const user = Meteor.users.findOne(userId)
+  if (user.isAdmin && roles.includes('admins')) return true
+
+  return Roles.userIsInRole(userId, roles)
+}
+
+const accessibleFields = (accessibility, mode, userId) =>
+  Object.fromEntries(
+      Object.entries(accessibility).
+        filter(entry => entry[0] !== '_').
+        filter(entry => isAccessible(userId, entry[1][mode])).
+        map(entry => [entry[0], 1])
+  )
+
 
 /**
  * The BaseCollection used by all meteor-application-template-react-production entities.
