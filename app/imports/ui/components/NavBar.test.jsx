@@ -13,10 +13,12 @@ configure({adapter: new Adapter()})
 /* eslint-env mocha */
 
 if (Meteor.isClient) {
+  const {applicationName} = Meteor.settings.public
+
   describe('NavBar', function testSuite() {
     it('should render logged out', function test1() {
       const wrapper = mount(<Router><NavBar/></Router>)
-      expect(wrapper.find('a').at(0).text()).to.equal('meteor-application-template')
+      expect(wrapper.find('a').at(0).text()).to.equal(applicationName)
       expect(wrapper.find('a').at(1).text()).to.equal('Sign In')
       expect(wrapper.find('a').at(2).text()).to.equal('Sign Up')
     })
@@ -29,9 +31,9 @@ if (Meteor.isClient) {
       })
       const wrapper = mount(<Router><NavBar/></Router>)
       expect(wrapper.find('a')).to.have.lengthOf(4)
-      expect(wrapper.find('a').at(0).text()).to.equal('meteor-application-template')
-      expect(wrapper.find('a').at(1).text()).to.equal('Add Stuff')
-      expect(wrapper.find('a').at(2).text()).to.equal('List Stuff')
+      expect(wrapper.find('a').at(0).text()).to.equal(applicationName)
+      expect(wrapper.find('a').at(1).text()).to.equal('add')
+      expect(wrapper.find('a').at(2).text()).to.equal('list')
       expect(wrapper.find('a').at(3).text()).to.equal('Sign Out')
       await logOutUser()
     })
