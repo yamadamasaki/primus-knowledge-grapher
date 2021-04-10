@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Meteor } from 'meteor/meteor'
+import {Meteor} from 'meteor/meteor'
 import 'semantic-ui-css/semantic.css'
-import { Roles } from 'meteor/alanning:roles'
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
+import {Roles} from 'meteor/alanning:roles'
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import Landing from '../pages/Landing'
@@ -48,14 +48,14 @@ class App extends React.Component {
  * Checks for Meteor login before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
  */
-const ProtectedRoute = ({ component: Component, ...rest }) => (
+const ProtectedRoute = ({component: Component, ...rest}) => (
     <Route
         {...rest}
         render={(props) => {
           const isLogged = Meteor.userId() !== null
           return isLogged ?
               (<Component {...props} />) :
-              (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
+              (<Redirect to={{pathname: '/signin', state: {from: props.location}}}/>
               )
         }}
     />
@@ -66,7 +66,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
  * Checks for Meteor login and admin role before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
  */
-const AdminProtectedRoute = ({ component: Component, ...rest }) => (
+const AdminProtectedRoute = ({component: Component, ...rest}) => (
     <Route
         {...rest}
         render={(props) => {
@@ -74,7 +74,7 @@ const AdminProtectedRoute = ({ component: Component, ...rest }) => (
           const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin')
           return (isLogged && isAdmin) ?
               (<Component {...props} />) :
-              (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
+              (<Redirect to={{pathname: '/signin', state: {from: props.location}}}/>
               )
         }}
     />
