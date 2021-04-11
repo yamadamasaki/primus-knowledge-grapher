@@ -29,9 +29,9 @@ class NavBar extends React.Component {
                   </Dropdown>
                 </Menu.Item>
                 <Menu.Item>
-                  <Dropdown text='Program'>
+                  <Dropdown text={t('Program')}>
                     <Dropdown.Menu>
-                      <Dropdown.Item text='List Programs' as={NavLink} exact to="/programs"/>
+                      <Dropdown.Item text={t('list')} as={NavLink} exact to="/programs"/>
                     </Dropdown.Menu>
                   </Dropdown>
                 </Menu.Item>
