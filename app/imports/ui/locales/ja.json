@@ -12,5 +12,13 @@
   "Users": "ユーザ一覧",
 
   "Program": "プログラム",
-  "list": "一覧"
+  "list": "一覧",
+  "Programs": "プログラム",
+  "Add": "追加する",
+  "Save": "保存する",
+  "Cancel": "中断する",
+  "Create a Program": "新しくプログラムを作る",
+  "Title": "タイトル",
+  "Structure (as JSON)": "構成 (JSON)",
+  "Error": "エラー"
 }

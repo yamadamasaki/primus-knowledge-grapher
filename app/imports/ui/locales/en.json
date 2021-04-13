@@ -12,5 +12,13 @@
   "Users": "Users",
 
   "Program": "Program",
-  "list": "list"
+  "list": "list",
+  "Programs": "Programs",
+  "Add": "Add",
+  "Save": "Save",
+  "Cancel": "Cancel",
+  "Create a Program": "Create a Program",
+  "Title": "Title",
+  "Structure (as JSON)": "Structure (as JSON)",
+  "Error": "Error"
 }
