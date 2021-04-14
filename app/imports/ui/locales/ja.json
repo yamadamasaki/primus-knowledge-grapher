@@ -17,8 +17,11 @@
   "Add": "追加する",
   "Save": "保存する",
   "Cancel": "中断する",
-  "Create a Program": "新しくプログラムを作る",
+  "Create a Program": "新しいプログラムを作る",
   "Title": "タイトル",
   "Structure (as JSON)": "構成 (JSON)",
-  "Error": "エラー"
+  "Error": "エラー",
+  "Created At": "作成日",
+  "Updated At": "変更日",
+  "Owner": "作成者"
 }

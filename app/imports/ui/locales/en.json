@@ -20,5 +20,8 @@
   "Create a Program": "Create a Program",
   "Title": "Title",
   "Structure (as JSON)": "Structure (as JSON)",
-  "Error": "Error"
+  "Error": "Error",
+  "Created At": "Created At",
+  "Updated At": "Updated At",
+  "Owner": "Owner"
 }
