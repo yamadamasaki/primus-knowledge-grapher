@@ -43,13 +43,13 @@ class BaseCollection {
    * @param {Object} obj the object defining the new document.
    */
   define(obj) {
-    if (!isAccessibleField(this._accessibility, 'canCreate', '_', this.userId))
+    if (!isAccessibleField(this._accessibility, 'canCreate', '_', Meteor.userId()))
       Meteor.Error(`You are not allowed to create ${this._type} document.`)
     const now = new Date()
     const schema = this._schema._schema
     if (schema.createdAt && !obj.createdAt) obj.createdAt = now
     if (schema.updatedAt && !obj.updatedAt) obj.updatedAt = now
-    if (schema.owner && !obj.owner) obj.owner = this.userId
+    if (schema.owner && !obj.owner) obj.owner = Meteor.userId()
     this._schema.validate(obj)
     return this._collection.insert(obj)
   }
@@ -62,7 +62,7 @@ class BaseCollection {
    * -> 一般的な modifier を使いたい場合, upsert したい場合, 複数 update したい場合には, サブクラス側で自前で書くべし
    */
   update(selector, doc) {
-    if (!isAccessibleField(this._accessibility, 'canUpdate', '_', this.userId))
+    if (!isAccessibleField(this._accessibility, 'canUpdate', '_', Meteor.userId()))
       Meteor.Error(`You are not allowed to update ${this._type} document.`)
     const omitted = _.omit(doc, ['id', 'owner', 'createdAt', 'updatedAt'])
     if (this._schema._schema.updatedAt) omitted.updatedAt = new Date()
@@ -76,7 +76,7 @@ class BaseCollection {
    * @param { String | Object } name A document or docID in this collection.
    */
   remove(selector) {
-    if (!isAccessibleField(this._accessibility, 'canDelete', '_', this.userId))
+    if (!isAccessibleField(this._accessibility, 'canDelete', '_', Meteor.userId()))
       Meteor.Error(`You are not allowed to delete ${this._type} document.`)
     this._collection.remove(selector)
   }
@@ -185,13 +185,14 @@ class BaseCollection {
   publish() {
     if (Meteor.isServer) {
       const instance = this
-      const fields = accessibleFields(this._accessibility, 'canRead', Meteor.userId)
       Meteor.publish(this._channels.all, function() {
+        const fields = accessibleFields(instance._accessibility, 'canRead', this.userId)
         if (isAccessible(this.userId, (instance._accessibility._ || {}).canRead)) {
           return instance._collection.find({}, {fields})
         }
       })
       Meteor.publish(this._channels.allWithMeta, function() {
+        const fields = accessibleFields(instance._accessibility, 'canRead', this.userId)
         if (isAccessible(this.userId, (instance._accessibility._ || {}).canRead)) {
           return instance._collection.find({}, {fields})
         }

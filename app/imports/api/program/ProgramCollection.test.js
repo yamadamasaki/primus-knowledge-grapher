@@ -19,7 +19,6 @@ if (Meteor.isServer) {
       this.timeout(5000)
       fc.assert(
           fc.property(fc.string(), fc.jsonObject(), (title, structure) => {
-            console.log({title, structure})
             const docId = Programs.define({title, structure})
             expect(Programs.isDefined(docId)).to.be.true
             Programs.remove(docId)
