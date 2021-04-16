@@ -1,8 +1,11 @@
 import {Meteor} from 'meteor/meteor'
 import {ValidatedMethod} from 'meteor/mdg:validated-method'
-import {CallPromiseMixin} from 'meteor/didericis:callpromise-mixin'
 import {Programs} from './ProgramCollection'
-import ProgramForm from '../../ui/components/ProgramForm'
+import {check} from 'meteor/check'
+
+// 基本的なメソッド (define, update, delete) はそれぞれ,
+//     server には MongoCollection の insert, update, remove の返値をそのまま返す
+//     client には常に true を返す
 
 /**
  * Meteor method used to define new instances of the given collection name.
@@ -13,10 +16,17 @@ import ProgramForm from '../../ui/components/ProgramForm'
 export const programDefineMethod = new ValidatedMethod({
   name: 'programs.define',
   validate: Programs.getSchema().validator(),
-  run(obj) {
-    if (Meteor.isServer) {
-      return  Programs.define(obj)
-    }
-    return ''
-  },
+  run: obj => Meteor.isServer ? Programs.define(obj) : true,
+})
+
+export const programUpdateMethod = new ValidatedMethod({
+  name: 'programs.update',
+  validate: Programs.getSchema().validator(),
+  run: doc => Meteor.isServer ? Programs.update(doc._id, doc) : true,
+})
+
+export const programDeleteMethod = new ValidatedMethod({
+  name: 'programs.delete',
+  validate: args => check(args, String),
+  run: id => Meteor.isServer ? Programs.remove(id) : true,
 })
