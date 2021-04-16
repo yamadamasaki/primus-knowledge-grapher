@@ -1,10 +1,9 @@
 import React, {useMemo} from 'react'
 import {apply, date2string, identityObject, identityString, userId2string} from '../utils/utils'
 import {useTranslation} from 'react-i18next'
-import ReactDataGrid from 'react-data-grid'
 import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
-import {Loader} from 'semantic-ui-react'
+import {Icon, Loader, Table} from 'semantic-ui-react'
 
 const mapper = {
   _id: identityString,
@@ -29,16 +28,36 @@ const ProgramTable = () => {
     {name: t('Structure (as JSON)'), key: 'structureAsJson'},
   ], [])
 
+   const toRow = program => (
+      <Table.Row key={program._id}>
+        {
+          columns.map(column =>
+              <Table.Cell key={column.key}>
+                <div>{apply(mapper, program)[column.key]}</div>
+              </Table.Cell>
+          )
+        }
+      </Table.Row>
+  )
+
   return (
       programsLoading ?
           <Loader/> :
-          <ReactDataGrid
-              columns={columns}
-              rowGetter={i => apply(mapper, programs[i])}
-              rowsCount={programs.length}
-          />
+          <Table>
+            <Table.Header>
+              <Table.Row>
+              {
+                columns.map(column => <Table.HeaderCell key={column.key}>{column.name}</Table.HeaderCell>)
+              }
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {
+                programs.map(toRow)
+              }
+            </Table.Body>
+          </Table>
   )
-
 }
 
 export default ProgramTable
