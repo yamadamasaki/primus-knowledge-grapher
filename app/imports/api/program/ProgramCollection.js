@@ -3,6 +3,7 @@ import BaseCollection from '../base/BaseCollection'
 
 const schema = {
   // meta
+  _id: {type: String, optional: true},
   createdAt: {type: Date, optional: true},
   updatedAt: {type: Date, optional: true},
   owner: {type: String, optional: true},

@@ -13,7 +13,7 @@ const ProgramModal = ({modalOpen, setModalOpen, model}) => {
             onClose={() => setModalOpen(false)}
             open={modalOpen}
         >
-          <Modal.Header>{t('Create a Program')}</Modal.Header>
+          <Modal.Header>{t(model ? 'Edit' : 'Create')}</Modal.Header>
           <Modal.Content>
             <ProgramForm closer={setModalOpen} model={model}/>
           </Modal.Content>

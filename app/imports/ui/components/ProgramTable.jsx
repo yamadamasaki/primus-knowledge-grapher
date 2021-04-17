@@ -5,6 +5,7 @@ import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
 import {Container, Icon, Loader, Message, Table} from 'semantic-ui-react'
 import {programDeleteMethod} from '../../api/program/ProgramCollection.methods'
+import ProgramModal from './ProgramModal'
 
 const mapper = {
   _id: identityString,
@@ -18,6 +19,8 @@ const mapper = {
 
 const ProgramTable = () => {
   const {t} = useTranslation()
+  const [model, setModel] = useState()
+  const [modalOpen, setModalOpen] = useState(false)
 
   const programsLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
   const programs = useTracker(() => Programs.find().fetch())
@@ -26,60 +29,74 @@ const ProgramTable = () => {
   const dismissError = () => setError(null)
 
   const columns = useMemo(() => [
+    {name: t('Title'), key: 'title'},
+    {name: t('Structure (as JSON)'), key: 'structureAsJson'},
     {name: t('Created At'), key: 'createdAt'},
     {name: t('Updated At'), key: 'updatedAt'},
     {name: t('Owner'), key: 'owner'},
-    {name: t('Title'), key: 'title'},
-    {name: t('Structure (as JSON)'), key: 'structureAsJson'},
   ], [])
 
-  const onEdit = () => id => console.log('onEdit', {id})
+  const onEdit = () => doc => {
+    setModel(doc)
+    setModalOpen(true)
+  }
   const onRemove = () => id => programDeleteMethod.call(id, error => {
     if (error) setError(error.message)
   })
 
-  const toRow = program => (
+  const HeaderRow = () => (
+      <Table.Row>
+        {
+          columns.map(column => <Table.HeaderCell key={column.key}>{column.name}</Table.HeaderCell>)
+        }
+        <Table.HeaderCell width={1}>{t('Actions')}</Table.HeaderCell>
+      </Table.Row>
+  )
+
+  const ActionCell = ({program}) => (
+      <Table.Cell>
+        <div>
+          <Icon link name="edit" onClick={() => onEdit()(program)}/>
+          <Icon link name="remove" onClick={() => onRemove()(program._id)}/>
+        </div>
+      </Table.Cell>
+  )
+
+  const Row = ({program}) => (
       <Table.Row key={program._id}>
         {
-          columns.map(column =>
+          columns.map(column => (
               <Table.Cell key={column.key}>
                 <div>{apply(mapper, program)[column.key]}</div>
-              </Table.Cell>,
-          )
+              </Table.Cell>
+          ))
         }
-        <Table.Cell>
-          <div>
-            <Icon link name="edit" onClick={() => onEdit()(program._id)}/>
-            <Icon link name="remove" onClick={() => onRemove()(program._id)}/>
-          </div>
-        </Table.Cell>
+        <ActionCell program={program}/>
       </Table.Row>
+  )
+
+  const ShowError = () => (
+      error ?
+          <Message onDismiss={dismissError} header={t('Error')} content={error}/> :
+          <div/>
   )
 
   return (
       programsLoading ?
           <Loader/> :
           <Container>
-            <Table>
+            <ProgramModal modalOpen={modalOpen} setModalOpen={setModalOpen} model={model}/>
+            <Table striped>
               <Table.Header>
-                <Table.Row>
-                  {
-                    columns.map(column => <Table.HeaderCell key={column.key}>{column.name}</Table.HeaderCell>)
-                  }
-                  <Table.HeaderCell>{t('Actions')}</Table.HeaderCell>
-                </Table.Row>
+                <HeaderRow/>
               </Table.Header>
               <Table.Body>
                 {
-                  programs.map(toRow)
+                  programs.map(program => <Row key={program._id} program={program}/>)
                 }
               </Table.Body>
             </Table>
-            {
-              error ?
-                  <Message onDismiss={dismissError} header={t('Error')} content={error}/> :
-                  <div/>
-            }
+            <ShowError/>
           </Container>
   )
 }
