@@ -21,9 +21,11 @@
   "Edit": "Edit",
   "Title": "Title",
   "Structure (as JSON)": "Structure (as JSON)",
+  "Structure": "Structure",
   "Error": "Error",
   "Created At": "Created At",
   "Updated At": "Updated At",
   "Owner": "Owner",
-  "Actions": "Actions"
+  "Actions": "Actions",
+  "Scenario Schema": "Scenario Schema"
 }

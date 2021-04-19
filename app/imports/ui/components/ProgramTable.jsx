@@ -13,7 +13,8 @@ const mapper = {
   updatedAt: date2string,
   owner: userId2string,
   title: identityString,
-  structure: identityObject,
+  scenarioSchema: identityString,
+  structure: it => it.title,
   structureAsJson: identityString,
 }
 
@@ -30,7 +31,9 @@ const ProgramTable = () => {
 
   const columns = useMemo(() => [
     {name: t('Title'), key: 'title'},
-    {name: t('Structure (as JSON)'), key: 'structureAsJson'},
+    {name: t('Scenario Schema'), key: 'scenarioSchema'},
+    //{name: t('Structure (as JSON)'), key: 'structureAsJson'},
+    {name: t('Structure'), key: 'structure'},
     {name: t('Created At'), key: 'createdAt'},
     {name: t('Updated At'), key: 'updatedAt'},
     {name: t('Owner'), key: 'owner'},

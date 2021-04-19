@@ -21,9 +21,11 @@
   "Edit": "変更する",
   "Title": "タイトル",
   "Structure (as JSON)": "構成 (JSON)",
+  "Structure": "構成",
   "Error": "エラー",
   "Created At": "作成日",
   "Updated At": "変更日",
   "Owner": "作成者",
-  "Actions": "操作"
+  "Actions": "操作",
+  "Scenario Schema": "シナリオ"
 }

@@ -9,6 +9,7 @@ const schema = {
   owner: {type: String, optional: true},
   // ortho
   title: String,
+  scenarioSchema: {type: String, optional: true},
   structureAsJson: {type: String, optional: true},
   structure: {type: Object, blackbox: true, optional: true},
 }
@@ -25,6 +26,11 @@ const accessibility = {
   title: {
     canRead: ['members'],
     canUpdate: ['admins'],
+    canCreate: ['admins'],
+  },
+  scenarioSchema: {
+    canRead: ['members'],
+    canUpdate: [],
     canCreate: ['admins'],
   },
   structure: {
