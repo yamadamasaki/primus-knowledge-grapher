@@ -50,8 +50,8 @@ const sessionLevel1 = new SimpleSchema({
 const schema = new SimpleSchema({
   title: String,
   subtitle: {type: String, optional: true},
-  fromDate: {type: Date, optional: true},
-  toDate: {type: Date, optional: true},
+  fromDate: {type: String, optional: true},
+  toDate: {type: String, optional: true},
   organization: {type: String, optional: true},
   children: {type: Array, optional: true},
   'children.$': sessionLevel1,

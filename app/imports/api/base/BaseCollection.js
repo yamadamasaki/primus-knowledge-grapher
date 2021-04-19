@@ -126,7 +126,7 @@ class BaseCollection {
    * @param { Object } options MongoDB options.
    * @returns {Mongo.Cursor}
    */
-  findOne(selector, options) {
+  findOne(selector, options= {}) {
     const theSelector = (typeof selector === 'undefined') ? {} : selector
     return this._collection.findOne(theSelector, options)
   }

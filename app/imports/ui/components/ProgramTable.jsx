@@ -1,11 +1,12 @@
 import React, {useMemo, useState} from 'react'
-import {apply, date2string, identityObject, identityString, userId2string} from '../utils/utils'
+import {apply, date2string, identityString, userId2string} from '../utils/utils'
 import {useTranslation} from 'react-i18next'
 import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
 import {Container, Icon, Loader, Message, Table} from 'semantic-ui-react'
 import {programDeleteMethod} from '../../api/program/ProgramCollection.methods'
 import ProgramModal from './ProgramModal'
+import {Link} from 'react-router-dom'
 
 const mapper = {
   _id: identityString,
@@ -14,7 +15,7 @@ const mapper = {
   owner: userId2string,
   title: identityString,
   scenarioSchema: identityString,
-  structure: it => it.title,
+  structure: it => it.title || '...',
   structureAsJson: identityString,
 }
 
@@ -70,7 +71,15 @@ const ProgramTable = () => {
         {
           columns.map(column => (
               <Table.Cell key={column.key}>
-                <div>{apply(mapper, program)[column.key]}</div>
+                {apply(mapper, program)[column.key]}
+                {column.key === 'scenarioSchema' ?
+                    (
+                        <React.Fragment>
+                          <Link to={`/scenario/show/${program._id}`}><Icon link name="eye"/></Link>
+                          <Link to={`/scenario/edit/${program._id}`}><Icon link name="edit"/></Link>
+                        </React.Fragment>
+                    ) :
+                    <div/>}
               </Table.Cell>
           ))
         }

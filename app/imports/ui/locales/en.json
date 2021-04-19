@@ -23,9 +23,12 @@
   "Structure (as JSON)": "Structure (as JSON)",
   "Structure": "Structure",
   "Error": "Error",
+  "Success": "Success",
   "Created At": "Created At",
   "Updated At": "Updated At",
   "Owner": "Owner",
   "Actions": "Actions",
-  "Scenario Schema": "Scenario Schema"
+  "Scenario Schema": "Scenario Schema",
+  "Scenarios": "Scenarios",
+  "Return to Programs List": "Return to Programs List"
 }
