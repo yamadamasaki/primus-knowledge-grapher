@@ -2,13 +2,13 @@ import React, {useState} from 'react'
 import {Container, Header, Loader, Message} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import {AutoForm} from 'uniforms-semantic'
-import {ScenarioSchemata} from '../../api/scenarioSchema/index'
+import {ScenarioSchemata} from '../../api/scenarioSchema'
 import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
 import {programUpdateMethod} from '../../api/program/ProgramCollection.methods'
 import {Link} from 'react-router-dom'
 
-const ScenarioForm = ({match}) => {
+const ScenarioFormPage = ({match}) => {
   const {programId} = match.params
 
   const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
@@ -61,5 +61,5 @@ const ScenarioForm = ({match}) => {
   )
 }
 
-export default ScenarioForm
+export default ScenarioFormPage
 

@@ -17,7 +17,7 @@ import Signup from '../pages/Signup'
 import Signout from '../pages/Signout'
 import Users from '../pages/Users'
 import ProgramPage from '../pages/ProgramPage'
-import ScenarioForm from '../components/ScenarioForm'
+import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
@@ -34,7 +34,7 @@ class App extends React.Component {
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/programs" component={ProgramPage}/>
-              <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioForm}/>
+              <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
               <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
