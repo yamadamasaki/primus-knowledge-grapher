@@ -38,8 +38,10 @@ const ScenarioFormPage = ({match}) => {
     program.structure = obj
     program.structureAsJson = ''
     programUpdateMethod.call(program, error => {
-      if (error) {setError(error.message); setSuccess(null)}
-      else setSuccess(<div>{t('Success')}</div>)
+      if (error) {
+        setError(error.message)
+        setSuccess(null)
+      } else setSuccess(<div>{t('Success')}</div>)
     })
   }
 
@@ -48,8 +50,9 @@ const ScenarioFormPage = ({match}) => {
           <Loader/> :
           (
               <Container>
-                <Header as="h2">{t('Scenarios')}
-                  <Header.Subheader>{`${program.title}`}</Header.Subheader>
+                <Header as="h2">
+                  {t('Scenarios')}
+                  <Header.Subheader>{`${program.title}/${t('strict form')}`}</Header.Subheader>
                 </Header>
                 <AutoForm schema={schema} onSubmit={submit} model={structure}/>
                 <ShowError/>

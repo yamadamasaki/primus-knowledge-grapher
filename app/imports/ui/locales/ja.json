@@ -34,5 +34,7 @@
   "You are Removing the Program": "プログラムを削除しようとしています",
   "Are You Sure?": "実行しても構いませんか?",
   "Dismiss": "止める",
-  "Yes": "はい"
+  "Yes": "はい",
+  "compact form": "スキーマ無し短形式",
+  "strict form": "スキーマ付き厳格形式"
 }
