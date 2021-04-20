@@ -6,17 +6,36 @@ import {Programs} from '../../api/program/ProgramCollection'
 import {programDefineMethod, programUpdateMethod} from '../../api/program/ProgramCollection.methods'
 import {ScenarioSchemata} from '../../api/scenarioSchema'
 
-const scenarioSchemaNames = Object.entries(ScenarioSchemata).map(([key, _]) => key)
+const scenarioSchemaNames = Object.entries(ScenarioSchemata).map(([key,]) => key)
+
+const validateJson = (obj, setError) => {
+  const json = obj.structureAsJson
+  const schema = obj.scenarioSchema && ScenarioSchemata[obj.scenarioSchema]
+  if (json && schema) {
+    const validationContext = schema.newContext()
+    if (validationContext) {
+      validationContext.validate(JSON.parse(json))
+      if (!validationContext.isValid()) {
+        setError(JSON.stringify(validationContext.validationErrors()))
+        return false
+      }
+    }
+  }
+  return true
+}
 
 const ProgramForm = ({closer, model}) => {
   const {t} = useTranslation()
 
   const [error, setError] = useState(null)
-  const submit = obj => {
-    return obj._id ?
-        programUpdateMethod.call(obj, error => error ? setError(error.message) : closer(false)) :
-        programDefineMethod.call(obj, error => error ? setError(error.message) : closer(false))
-  }
+  const submit = obj => (
+      validateJson(obj, setError) &&
+      (
+        obj._id ?
+            programUpdateMethod.call(obj, error => error ? setError(error.message) : closer(false)) :
+            programDefineMethod.call(obj, error => error ? setError(error.message) : closer(false))
+      )
+  )
   const dismissError = () => setError(null)
 
   const ShowError = () => (
