@@ -30,5 +30,9 @@
   "Actions": "操作",
   "Scenario Schema": "スキーマ",
   "Scenarios": "シナリオ",
-  "Return to Programs List": "プログラム一覧に戻る"
+  "Return to Programs List": "プログラム一覧に戻る",
+  "You are Removing the Program": "プログラムを削除しようとしています",
+  "Are You Sure?": "実行しても構いませんか?",
+  "Dismiss": "止める",
+  "Yes": "はい"
 }

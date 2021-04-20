@@ -3,7 +3,7 @@ import {apply, date2string, identityString, userId2string} from '../utils/utils'
 import {useTranslation} from 'react-i18next'
 import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
-import {Container, Icon, Loader, Message, Table} from 'semantic-ui-react'
+import {Button, Container, Header, Icon, Loader, Message, Modal, Table} from 'semantic-ui-react'
 import {programDeleteMethod} from '../../api/program/ProgramCollection.methods'
 import ProgramModal from './ProgramModal'
 import {Link} from 'react-router-dom'
@@ -23,6 +23,7 @@ const ProgramTable = () => {
   const {t} = useTranslation()
   const [model, setModel] = useState()
   const [modalOpen, setModalOpen] = useState(false)
+  const [idToBeRemoved, setIdToBeRemoved] = useState(null)
 
   const programsLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
   const programs = useTracker(() => Programs.find().fetch())
@@ -33,7 +34,6 @@ const ProgramTable = () => {
   const columns = useMemo(() => [
     {name: t('Title'), key: 'title'},
     {name: t('Scenario Schema'), key: 'scenarioSchema'},
-    //{name: t('Structure (as JSON)'), key: 'structureAsJson'},
     {name: t('Structure'), key: 'structure'},
     {name: t('Created At'), key: 'createdAt'},
     {name: t('Updated At'), key: 'updatedAt'},
@@ -44,9 +44,30 @@ const ProgramTable = () => {
     setModel(doc)
     setModalOpen(true)
   }
-  const onRemove = () => id => programDeleteMethod.call(id, error => {
-    if (error) setError(error.message)
-  })
+  const onRemove = () => id => {
+    setIdToBeRemoved(id)
+  }
+  const remove = () => {
+    programDeleteMethod.call(idToBeRemoved, error => {
+      if (error) setError(error.message)
+    })
+    setIdToBeRemoved(null)
+  }
+
+  const ConfirmToRemove = () => (
+      <Modal basic open={!!idToBeRemoved} size="small">
+        <Header icon><Icon name="warning sign"/>{t('You are Removing the Program')}</Header>
+        <Modal.Content>{t('Are You Sure?')}</Modal.Content>
+        <Modal.Actions>
+          <Button color="green" inverted onClick={() => setIdToBeRemoved(null)}>
+            <Icon name="remove"/> {t('Dismiss')}
+          </Button>
+          <Button basic color="red" inverted onClick={remove}>
+            <Icon name="checkmark"/> {t('Yes')}
+          </Button>
+        </Modal.Actions>
+      </Modal>
+  )
 
   const HeaderRow = () => (
       <Table.Row>
@@ -72,7 +93,7 @@ const ProgramTable = () => {
           columns.map(column => (
               <Table.Cell key={column.key}>
                 {apply(mapper, program)[column.key]}
-                {column.key === 'scenarioSchema' ?
+                {column.key === 'scenarioSchema' && program.scenarioSchema ?
                     (
                         <React.Fragment>
                           <Link to={`/scenario/show/${program._id}`}><Icon link name="eye"/></Link>
@@ -98,6 +119,7 @@ const ProgramTable = () => {
           <Loader/> :
           <Container>
             <ProgramModal modalOpen={modalOpen} setModalOpen={setModalOpen} model={model}/>
+            <ConfirmToRemove open={idToBeRemoved}/>
             <Table striped>
               <Table.Header>
                 <HeaderRow/>

@@ -30,9 +30,8 @@ const ScenarioFormPage = ({match}) => {
   const dismissSuccess = () => setSuccess(null)
   const ShowSuccess = () => (
       success ?
-          <Message color="green">{t('Success')}</Message> :
+          <Message color="green" onDismiss={dismissSuccess}>{t('Success')}</Message> :
           <div/>
-
   )
 
   const submit = obj => {

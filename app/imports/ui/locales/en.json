@@ -30,5 +30,9 @@
   "Actions": "Actions",
   "Scenario Schema": "Scenario Schema",
   "Scenarios": "Scenarios",
-  "Return to Programs List": "Return to Programs List"
+  "Return to Programs List": "Return to Programs List",
+  "You are Removing the Program": "You are Removing the Program",
+  "Are You Sure?": "Are You Sure?",
+  "Dismiss": "Dismiss",
+  "Yes": "Yes"
 }
