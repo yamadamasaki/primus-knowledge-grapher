@@ -1,9 +1,7 @@
-import React, {useMemo, useState} from 'react'
+import React, {Fragment, useMemo, useState} from 'react'
 import {apply, date2string, identityString, userId2string} from '../utils/utils'
 import {useTranslation} from 'react-i18next'
-import {Programs} from '../../api/program/ProgramCollection'
-import {useTracker} from 'meteor/react-meteor-data'
-import {Button, Container, Header, Icon, Loader, Message, Modal, Table} from 'semantic-ui-react'
+import {Button, Header, Icon, Message, Modal, Table} from 'semantic-ui-react'
 import {programDeleteMethod} from '../../api/program/ProgramCollection.methods'
 import ProgramModal from './ProgramModal'
 import {Link} from 'react-router-dom'
@@ -19,14 +17,11 @@ const mapper = {
   structureAsJson: identityString,
 }
 
-const ProgramTable = () => {
+const ProgramTable = ({programs}) => {
   const {t} = useTranslation()
   const [model, setModel] = useState()
   const [modalOpen, setModalOpen] = useState(false)
   const [idToBeRemoved, setIdToBeRemoved] = useState(null)
-
-  const programsLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
-  const programs = useTracker(() => Programs.find().fetch())
 
   const [error, setError] = useState(null)
   const dismissError = () => setError(null)
@@ -115,23 +110,21 @@ const ProgramTable = () => {
   )
 
   return (
-      programsLoading ?
-          <Loader/> :
-          <Container>
-            <ProgramModal modalOpen={modalOpen} setModalOpen={setModalOpen} model={model}/>
-            <ConfirmToRemove open={idToBeRemoved}/>
-            <Table striped>
-              <Table.Header>
-                <HeaderRow/>
-              </Table.Header>
-              <Table.Body>
-                {
-                  programs.map(program => <Row key={program._id} program={program}/>)
-                }
-              </Table.Body>
-            </Table>
-            <ShowError/>
-          </Container>
+      <Fragment>
+        <ProgramModal modalOpen={modalOpen} setModalOpen={setModalOpen} model={model}/>
+        <ConfirmToRemove open={idToBeRemoved}/>
+        <Table striped>
+          <Table.Header>
+            <HeaderRow/>
+          </Table.Header>
+          <Table.Body>
+            {
+              programs.map(program => <Row key={program._id} program={program}/>)
+            }
+          </Table.Body>
+        </Table>
+        <ShowError/>
+      </Fragment>
   )
 }
 
