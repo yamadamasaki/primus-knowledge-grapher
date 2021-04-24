@@ -19,6 +19,7 @@ import Users from '../pages/Users'
 import ProgramPage from '../pages/ProgramPage'
 import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
+import SimpleTextSection from '../sections/SimpleTextSection'
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -36,6 +37,7 @@ class App extends React.Component {
               <ProtectedRoute path="/programs" component={ProgramPage}/>
               <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
               <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
+              <ProtectedRoute path="/simpleText" component={SimpleTextSection}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <AdminProtectedRoute path="/users" component={Users}/>
