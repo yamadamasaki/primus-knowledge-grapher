@@ -25,6 +25,24 @@ class StuffCollection extends BaseCollection {
   }
 
   /**
+   * Defines a new Stuff item.
+   * @param name the name of the item.
+   * @param quantity how many.
+   * @param owner the owner of the item.
+   * @param condition the condition of the item.
+   * @return {String} the docID of the new document.
+   */
+  define({ name, quantity, owner, condition }) {
+    const docID = this._collection.insert({
+      name,
+      quantity,
+      owner,
+      condition,
+    });
+    return docID;
+  }
+
+  /**
    * A stricter form of remove that throws an error if the document or docID could not be found in this collection.
    * @param { String | Object } name A document or docID in this collection.
    * @returns true
