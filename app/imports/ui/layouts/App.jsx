@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {createContext, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Meteor} from 'meteor/meteor'
 import 'semantic-ui-css/semantic.css'
@@ -21,32 +21,37 @@ import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
 import SimpleTextSection from '../sections/SimpleTextSection'
 
-/** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
-const App = () => (
-        <Router>
-          <div>
-            <NavBar/>
-            <Switch>
-              <Route exact path="/" component={Landing}/>
-              <Route path="/signin" component={Signin}/>
-              <Route path="/signup" component={Meteor.settings.public.selfRegistration ? Signup : NotFound}/>
-              <ProtectedRoute path="/list" component={ListStuff}/>
-              <ProtectedRoute path="/add" component={AddStuff}/>
-              <ProtectedRoute path="/programs" component={ProgramPage}/>
-              <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
-              <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
-              <ProtectedRoute path="/simpleText" component={SimpleTextSection}/>
-              <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-              <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
-              <AdminProtectedRoute path="/users" component={Users}/>
-              <ProtectedRoute path="/signout" component={Signout}/>
-              <Route component={NotFound}/>
-            </Switch>
-            <Footer/>
-          </div>
-        </Router>
-    )
+export const SideBarContext = createContext({})
 
+/** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
+const App = () => {
+  const [sideBarOpen, setSideBarOpen] = useState(false)
+
+  return (
+      <Router>
+        <SideBarContext.Provider value={{sideBarOpen, setSideBarOpen}}>
+          <NavBar/>
+          <Switch>
+            <Route exact path="/" component={Landing}/>
+            <Route path="/signin" component={Signin}/>
+            <Route path="/signup" component={Meteor.settings.public.selfRegistration ? Signup : NotFound}/>
+            <ProtectedRoute path="/list" component={ListStuff}/>
+            <ProtectedRoute path="/add" component={AddStuff}/>
+            <ProtectedRoute path="/programs" component={ProgramPage}/>
+            <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
+            <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
+            <ProtectedRoute path="/simpleText" component={SimpleTextSection}/>
+            <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
+            <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
+            <AdminProtectedRoute path="/users" component={Users}/>
+            <ProtectedRoute path="/signout" component={Signout}/>
+            <Route component={NotFound}/>
+          </Switch>
+          <Footer/>
+        </SideBarContext.Provider>
+      </Router>
+  )
+}
 /**
  * ProtectedRoute (see React Router v4 sample)
  * Checks for Meteor login before routing to the requested page, otherwise goes to signin page.
