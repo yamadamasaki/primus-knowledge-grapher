@@ -7,9 +7,10 @@ import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
 import {programUpdateMethod} from '../../api/program/ProgramCollection.methods'
 import {Link} from 'react-router-dom'
+import {useParams} from 'react-router'
 
-const ScenarioFormPage = ({match}) => {
-  const {programId} = match.params
+const ScenarioFormPage = () => {
+  const {programId} = useParams()
 
   const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
   const program = useTracker(() => Programs.findOne({_id: programId}))

@@ -7,6 +7,7 @@ import ReactJson from 'react-json-view'
 import {ScenarioSchemata} from '../../api/scenarioSchema'
 import {programUpdateMethod} from '../../api/program/ProgramCollection.methods'
 import {Link} from 'react-router-dom'
+import {useParams} from 'react-router'
 
 const validateJson = (obj, schema, setError) => {
   if (obj && schema) {
@@ -22,8 +23,8 @@ const validateJson = (obj, schema, setError) => {
   return true
 }
 
-const ScenarioPage = ({match}) => {
-  const {programId} = match.params
+const ScenarioPage = () => {
+  const {programId} = useParams()
 
   const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
   const program = useTracker(() => Programs.findOne({_id: programId}))
