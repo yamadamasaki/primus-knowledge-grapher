@@ -11,7 +11,7 @@ const mapper = {
   createdAt: date2string,
   updatedAt: date2string,
   owner: userId2string,
-  title: identityString,
+  title: (it, obj) => <Link to={`/programs/${obj._id}`}>{it}</Link>,
   scenarioSchema: identityString,
   structure: it => it.title || '...',
   structureAsJson: identityString,

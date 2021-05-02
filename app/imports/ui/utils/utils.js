@@ -9,7 +9,7 @@ export const userId2string = it => (Meteor.users.findOne(it) || {}).username || 
 export const apply = (mapper, obj) => (
     obj ? (
         Object.fromEntries(
-            Object.entries(obj).map(([key, value]) => [key, mapper[key](value)]),
+            Object.entries(obj).map(([key, value]) => [key, mapper[key](value, obj)]),
         )
     ) : {}
 )

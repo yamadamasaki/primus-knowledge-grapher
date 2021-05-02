@@ -20,6 +20,7 @@ import ProgramPage from '../pages/ProgramPage'
 import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
 import SimpleTextSection from '../sections/SimpleTextSection'
+import ProgramHomePage from '../pages/ProgramHomePage'
 
 export const SideBarContext = createContext({})
 
@@ -37,7 +38,8 @@ const App = () => {
             <Route path="/signup" component={Meteor.settings.public.selfRegistration ? Signup : NotFound}/>
             <ProtectedRoute path="/list" component={ListStuff}/>
             <ProtectedRoute path="/add" component={AddStuff}/>
-            <ProtectedRoute path="/programs" component={ProgramPage}/>
+            <ProtectedRoute exact path="/programs" component={ProgramPage}/>
+            <ProtectedRoute path="/programs/:programId" component={ProgramHomePage}/>
             <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
             <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
             <ProtectedRoute path="/simpleText" component={SimpleTextSection}/>
