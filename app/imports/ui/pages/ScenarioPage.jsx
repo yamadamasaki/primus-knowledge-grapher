@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Button, Container, Header, Loader, Message} from 'semantic-ui-react'
+import {Button, Container, Header, Icon, Loader, Message, Popup} from 'semantic-ui-react'
 import {Programs} from '../../api/program/ProgramCollection'
 import {useTranslation} from 'react-i18next'
 import {useTracker} from 'meteor/react-meteor-data'
@@ -84,7 +84,10 @@ const ScenarioPage = () => {
                 <ShowError/>
                 <ShowSuccess/>
                 <Button onClick={onSave}>{t('Save')}</Button>
-                <Link to="/programs" style={{float: 'right'}}>{t('Return to Programs List')}</Link>
+                <Popup trigger={<Link to="/programs" style={{float: 'right'}}><Icon link name="step backward"/></Link>}>
+                  {t('Return to Programs List')}
+                </Popup>
+
               </Container>
           )
   )

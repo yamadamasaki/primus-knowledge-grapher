@@ -36,5 +36,9 @@
   "Dismiss": "Dismiss",
   "Yes": "Yes",
   "compact form": "compact form",
-  "strict form": "strict form"
+  "strict form": "strict form",
+  "Edit Program": "Edit Program",
+  "Remove Program": "Remove Program",
+  "View scenario in compact format": "View scenario in compact format",
+  "Edit scenario in strict format": "Edit scenario in strict format"
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Container, Header, Loader, Message} from 'semantic-ui-react'
+import {Container, Header, Icon, Loader, Message, Popup} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import {AutoForm} from 'uniforms-semantic'
 import {ScenarioSchemata} from '../../api/scenarioSchema'
@@ -58,7 +58,10 @@ const ScenarioFormPage = () => {
                 <AutoForm schema={schema} onSubmit={submit} model={structure}/>
                 <ShowError/>
                 <ShowSuccess/>
-                <Link to="/programs" style={{float: 'right'}}>{t('Return to Programs List')}</Link>
+                <Popup trigger={<Link to="/programs" style={{float: 'right'}}><Icon link name="step backward"/></Link>}>
+                  {t('Return to Programs List')}
+                </Popup>
+
               </Container>
           )
   )

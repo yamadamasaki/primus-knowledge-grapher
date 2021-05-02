@@ -1,7 +1,7 @@
 import React, {Fragment, useMemo, useState} from 'react'
 import {apply, date2string, identityString, userId2string} from '../utils/utils'
 import {useTranslation} from 'react-i18next'
-import {Button, Header, Icon, Message, Modal, Table} from 'semantic-ui-react'
+import {Button, Header, Icon, Message, Modal, Popup, Table} from 'semantic-ui-react'
 import {programDeleteMethod} from '../../api/program/ProgramCollection.methods'
 import ProgramModal from './ProgramModal'
 import {Link} from 'react-router-dom'
@@ -76,8 +76,12 @@ const ProgramTable = ({programs}) => {
   const ActionCell = ({program}) => (
       <Table.Cell>
         <div>
-          <Icon link name="edit" onClick={() => onEdit()(program)}/>
-          <Icon link name="remove" onClick={() => onRemove()(program._id)}/>
+          <Popup trigger={<Icon link name="edit" onClick={() => onEdit()(program)}/>}>
+            {t('Edit Program')}
+          </Popup>
+          <Popup trigger={<Icon link name="remove" onClick={() => onRemove()(program._id)}/>}>
+            {t('Remove Program')}
+          </Popup>
         </div>
       </Table.Cell>
   )
@@ -88,11 +92,15 @@ const ProgramTable = ({programs}) => {
           columns.map(column => (
               <Table.Cell key={column.key}>
                 {apply(mapper, program)[column.key]}
-                {column.key === 'scenarioSchema' && program.scenarioSchema ?
+                {column.key === 'structure' && program.scenarioSchema ?
                     (
                         <React.Fragment>
-                          <Link to={`/scenario/show/${program._id}`}><Icon link name="eye"/></Link>
-                          <Link to={`/scenario/edit/${program._id}`}><Icon link name="edit"/></Link>
+                          <Popup trigger={<Link to={`/scenario/show/${program._id}`}><Icon link name="eye"/></Link>}>
+                            {t('View scenario in compact format')}
+                          </Popup>
+                          <Popup trigger={<Link to={`/scenario/edit/${program._id}`}><Icon link name="edit"/></Link>}>
+                            {t('Edit scenario in strict format')}
+                          </Popup>
                         </React.Fragment>
                     ) :
                     <div/>}
