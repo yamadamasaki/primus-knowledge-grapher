@@ -13,8 +13,8 @@
 // Cypress.Commands.add("login", (email, password) => { ... })
 Cypress.Commands.add("login", (email, password) => {
   cy.visit('/')
-  cy.contains('Login').click()
-  cy.contains('Sign In').click()
+  cy.contains('ログイン').click()
+  cy.contains('サインイン').click()
   cy.get('input[name="email"]').type(email)
   cy.get('input[name="password"]').type(password)
   cy.get('button').click()
