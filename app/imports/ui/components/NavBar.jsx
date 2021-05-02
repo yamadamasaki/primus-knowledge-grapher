@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Meteor} from 'meteor/meteor'
 import {useTracker} from 'meteor/react-meteor-data'
 import {NavLink} from 'react-router-dom'
-import {Dropdown, Header, Menu} from 'semantic-ui-react'
+import {Dropdown, Header, Icon, Menu} from 'semantic-ui-react'
 import {Roles} from 'meteor/alanning:roles'
 import {useTranslation} from 'react-i18next'
+import {SideBarContext} from '../layouts/App'
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = () => {
@@ -13,9 +14,15 @@ const NavBar = () => {
   const currentUser = user ? user.username : ''
   const {applicationName, selfRegistration} = Meteor.settings.public
   const menuStyle = {marginBottom: '10px'}
+  const {sideBarOpen, setSideBarOpen} = useContext(SideBarContext)
 
   return (
       <Menu style={menuStyle} attached="top" borderless inverted>
+        {currentUser && (
+            <Menu.Item onClick={() => setSideBarOpen(!sideBarOpen)}>
+              <Icon name="bars"/>
+            </Menu.Item>
+        )}
         <Menu.Item as={NavLink} activeClassName="" exact to="/">
           <Header inverted as="h1">{applicationName}</Header>
         </Menu.Item>
