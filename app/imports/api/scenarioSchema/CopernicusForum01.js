@@ -6,6 +6,7 @@ const session = {
   componentName: {
     type: String,
     allowedValues: ['CFPrepSession', 'CFSyncSession', 'CFAsyncSession', 'CFFollowupSession'],
+    optional: true,
   },
   nodeLabels: {type: Array, optional: true},
   'nodeLabels.$': {type: String, optional: true},

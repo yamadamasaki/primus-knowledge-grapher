@@ -1,0 +1,567 @@
+{
+  "indexComponent": "/imports/ui/copernicusForum/CFHomePage",
+  "title": "2020.11.10 テンプレート",
+  "subtitle": "コペルニクス・フォーラム例題",
+  "fromDate": "2020年10月1日",
+  "toDate": "2021年1月31日",
+  "organization": "ナレッジグラファ株式会社",
+  "children": [
+    {
+      "name": "Season1: 事業について",
+      "id": "1",
+      "children": [
+        {
+          "name": "事前準備",
+          "id": "1-1",
+          "componentName": "CFPrepSession"
+        },
+        {
+          "name": "同期セッション",
+          "id": "1-2",
+          "componentName": "CFSyncSession"
+        },
+        {
+          "name": "非同期セッション",
+          "id": "1-3",
+          "componentName": "CFAsyncSession",
+          "nodeLabels": [
+            "論点",
+            "意見",
+            "根拠"
+          ],
+          "edgeLabels": [
+            "賛成",
+            "中立",
+            "反対",
+            "問題提起",
+            "別の視点",
+            "質問",
+            "答え"
+          ],
+          "type": "abstraction"
+        },
+        {
+          "name": "フォローアップ同期セッション",
+          "id": "1-4",
+          "componentName": "CFFollowupSession"
+        }
+      ]
+    },
+    {
+      "name": "Season2: 塗り替えたい既成概念",
+      "id": "2",
+      "children": [
+        {
+          "name": "Episode1: 核となる問題",
+          "id": "2-1",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "2-1-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "2-1-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "2-1-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "abstraction"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "2-1-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        },
+        {
+          "name": "Episode2: 対立する要素",
+          "id": "2-2",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "2-2-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "2-2-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "2-2-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "association"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "2-2-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Season3: トレードオフ・マップ",
+      "id": "3",
+      "children": [
+        {
+          "name": "事前準備",
+          "id": "3-1",
+          "componentName": "CFPrepSession"
+        },
+        {
+          "name": "同期セッション",
+          "id": "3-2",
+          "componentName": "CFSyncSession"
+        },
+        {
+          "name": "非同期セッション",
+          "id": "3-3",
+          "componentName": "CFAsyncSession",
+          "nodeLabels": [
+            "論点",
+            "意見",
+            "根拠"
+          ],
+          "edgeLabels": [
+            "賛成",
+            "中立",
+            "反対",
+            "問題提起",
+            "別の視点",
+            "質問",
+            "答え"
+          ],
+          "type": "association"
+        },
+        {
+          "name": "フォローアップ同期セッション",
+          "id": "3-4",
+          "componentName": "CFFollowupSession"
+        }
+      ]
+    },
+    {
+      "name": "Season4: アブダクション",
+      "id": "4",
+      "children": [
+        {
+          "name": "Episode1: 行きづまりと新しい意味",
+          "id": "4-1",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "4-1-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "4-1-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "4-1-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "abstraction"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "4-1-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        },
+        {
+          "name": "Episode2: 背景を変える",
+          "id": "4-2",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "4-2-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "4-2-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "4-2-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "association"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "4-2-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        },
+        {
+          "name": "Episode3: ドラフト・コンセプト",
+          "id": "4-3",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "4-3-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "4-3-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "4-3-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "abstraction"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "4-3-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Season5: ビジョン・ステートメント",
+      "id": "5",
+      "children": [
+        {
+          "name": "Episode1: 概念, 役割, 仕組み",
+          "id": "5-1",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "5-1-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "5-1-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "5-1-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "abstraction"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "5-1-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        },
+        {
+          "name": "Episode2: ビジョン・ステートメント",
+          "id": "5-2",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "5-2-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "5-2-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "5-2-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "abstraction"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "5-2-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Season6: 中間発表と QC",
+      "id": "6",
+      "children": [
+        {
+          "name": "事前準備",
+          "id": "6-1",
+          "componentName": "CFPrepSession"
+        },
+        {
+          "name": "同期セッション",
+          "id": "6-2",
+          "componentName": "CFSyncSession"
+        },
+        {
+          "name": "非同期セッション",
+          "id": "6-3",
+          "componentName": "CFAsyncSession",
+          "nodeLabels": [
+            "論点",
+            "意見",
+            "根拠"
+          ],
+          "edgeLabels": [
+            "賛成",
+            "中立",
+            "反対",
+            "問題提起",
+            "別の視点",
+            "質問",
+            "答え"
+          ],
+          "type": "abstraction"
+        },
+        {
+          "name": "フォローアップ同期セッション",
+          "id": "6-4",
+          "componentName": "CFFollowupSession"
+        }
+      ]
+    },
+    {
+      "name": "Season7: マーケット・ペネトレーション",
+      "id": "7",
+      "children": [
+        {
+          "name": "Episode1: 三つの商材区分",
+          "id": "7-1",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "7-1-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "7-1-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "7-1-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "association"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "7-1-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        },
+        {
+          "name": "Episode2: 顧客との長い信頼関係",
+          "id": "7-2",
+          "children": [
+            {
+              "name": "事前準備",
+              "id": "7-2-1",
+              "componentName": "CFPrepSession"
+            },
+            {
+              "name": "同期セッション",
+              "id": "7-2-2",
+              "componentName": "CFSyncSession"
+            },
+            {
+              "name": "非同期セッション",
+              "id": "7-2-3",
+              "componentName": "CFAsyncSession",
+              "nodeLabels": [
+                "論点",
+                "意見",
+                "根拠"
+              ],
+              "edgeLabels": [
+                "賛成",
+                "中立",
+                "反対",
+                "問題提起",
+                "別の視点",
+                "質問",
+                "答え"
+              ],
+              "type": "abstraction"
+            },
+            {
+              "name": "フォローアップ同期セッション",
+              "id": "7-2-4",
+              "componentName": "CFFollowupSession"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Season8: QC と最終発表",
+      "id": "8",
+      "children": [
+        {
+          "name": "事前準備",
+          "id": "8-1",
+          "componentName": "CFPrepSession"
+        },
+        {
+          "name": "同期セッション",
+          "id": "8-2",
+          "componentName": "CFSyncSession"
+        },
+        {
+          "name": "非同期セッション",
+          "id": "8-3",
+          "componentName": "CFAsyncSession",
+          "nodeLabels": [
+            "論点",
+            "意見",
+            "根拠"
+          ],
+          "edgeLabels": [
+            "賛成",
+            "中立",
+            "反対",
+            "問題提起",
+            "別の視点",
+            "質問",
+            "答え"
+          ],
+          "type": "association"
+        },
+        {
+          "name": "フォローアップ同期セッション",
+          "id": "8-4",
+          "componentName": "CFFollowupSession"
+        }
+      ]
+    }
+  ]
+}

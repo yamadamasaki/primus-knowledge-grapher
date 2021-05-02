@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-grapher.com/schemata/CopernicusForum01",
+  "description": "Copernicus Forum KnowledgeGrapher Schema",
+  "title": "root",
+
+  "type": "object",
+  "required": ["title"],
+  "properties": {
+    "indexComponent": {
+      "type": "string",
+      "enum": ["/imports/ui/copernicusForum/CFHomePage"]
+    },
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "fromDate": {
+      "type": "string"
+    },
+    "toDate": {
+      "type": "string"
+    },
+    "organization": {
+      "type": "string"
+    },
+    "children": {
+      "$ref": "#/$defs/session"
+    }
+  },
+
+  "$defs": {
+    "session": {
+      "type": "object",
+      "required": ["name", "id", "componentName"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "children": {
+          "$ref": "#/$defs/session"
+        },
+        "componentName": {
+          "type": "string",
+          "enum": ["CFPrepSession", "CFSyncSession", "CFAsyncSession", "CFFollowupSession"]
+        },
+        "nodeLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "edgeLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": ["association", "abstraction"]
+        }
+      }
+    }
+  }
+}
