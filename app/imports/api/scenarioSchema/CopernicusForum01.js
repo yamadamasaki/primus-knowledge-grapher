@@ -48,6 +48,7 @@ const sessionLevel1 = new SimpleSchema({
 })
 
 const schema = new SimpleSchema({
+  indexComponent: {type: String, allowedValues:['/imports/ui/copernicusForum/CFHomePage']},
   title: String,
   subtitle: {type: String, optional: true},
   fromDate: {type: String, optional: true},
