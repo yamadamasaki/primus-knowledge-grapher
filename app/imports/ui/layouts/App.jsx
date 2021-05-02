@@ -22,9 +22,7 @@ import ScenarioPage from '../pages/ScenarioPage'
 import SimpleTextSection from '../sections/SimpleTextSection'
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
-class App extends React.Component {
-  render() {
-    return (
+const App = () => (
         <Router>
           <div>
             <NavBar/>
@@ -48,8 +46,6 @@ class App extends React.Component {
           </div>
         </Router>
     )
-  }
-}
 
 /**
  * ProtectedRoute (see React Router v4 sample)
