@@ -1,36 +1,35 @@
 import React, {useContext} from 'react'
 import {SideBarContext} from '../layouts/App'
-import {Icon, Menu, Sidebar} from 'semantic-ui-react'
+import {List, Sidebar} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
-const ProgramIndexMenu = ({program, children}) => {
+const children2items = (children, programId) => (
+    (children || []).map(item => {
+      const children = item.children ? <List.List>{children2items(item.children, programId)}</List.List> : undefined
+      const content = <div>{item.name} {children}</div>
+      return (
+          <List.Item key={item.id}>
+            {
+              item.componentName ?
+                  <Link to={`/sections/${programId}/${item.id}/${item.componentName}`}>{content}</Link> :
+                  <div>{content}</div>
+            }
+          </List.Item>
+      )
+    })
+)
+
+const ProgramIndexMenu = ({program, children: childNodes}) => {
+  const children = (program.structure || {}).children
   const {sideBarOpen} = useContext(SideBarContext)
 
   return (
       <Sidebar.Pushable>
-        <Sidebar
-            as={Menu}
-            animation='overlay'
-            icon='labeled'
-            inverted
-            vertical
-            visible={sideBarOpen}
-            width='thin'
-        >
-          <Menu.Item as='a'>
-            <Icon name='home' />
-            Home
-          </Menu.Item>
-          <Menu.Item as='a'>
-            <Icon name='gamepad' />
-            Games
-          </Menu.Item>
-          <Menu.Item as='a'>
-            <Icon name='camera' />
-            Channels
-          </Menu.Item>
+        <Sidebar animation="push" visible={sideBarOpen}>
+          <List bulleted>{children2items(children, program._id)}</List>
         </Sidebar>
         <Sidebar.Pusher>
-          {children}
+          {childNodes}
         </Sidebar.Pusher>
       </Sidebar.Pushable>
   )

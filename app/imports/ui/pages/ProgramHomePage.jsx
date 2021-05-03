@@ -12,7 +12,7 @@ const DelegatedProgramHomePage = ({program}) => {
   }, [])
 
   return (
-      <ProgramIndexMenu>
+      <ProgramIndexMenu program={program}>
         {component.isLoaded ? React.createElement(component.component.default, {program}) : <Loader/>}
       </ProgramIndexMenu>
   )
@@ -27,7 +27,6 @@ const ProgramHomePage = () => {
       programLoading ?
           <Loader/> :
           <Container><DelegatedProgramHomePage program={program}/></Container>
-
   )
 }
 
