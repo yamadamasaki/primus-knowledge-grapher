@@ -3,3 +3,6 @@
 .DS_Store
 node_modules
 settings.production.json
+e2e-test/cypress/screenshots
+/e2e-test/cypress/fixtures/profile.json
+/e2e-test/cypress/fixtures/users.json
