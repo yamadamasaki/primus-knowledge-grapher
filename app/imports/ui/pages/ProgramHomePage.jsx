@@ -4,6 +4,7 @@ import ProgramIndexMenu from '../components/ProgramIndexMenu'
 import {Programs} from '../../api/program/ProgramCollection'
 import {useTracker} from 'meteor/react-meteor-data'
 import {useParams} from 'react-router'
+import {Helmet} from 'react-helmet'
 
 const DelegatedProgramHomePage = ({program}) => {
   const [component, setComponent] = useState({isLoaded: false, component: undefined})
@@ -24,9 +25,14 @@ const ProgramHomePage = () => {
   const program = useTracker(() => Programs.findOne(programId))
 
   return (
-      programLoading ?
-          <Loader/> :
-          <Container><DelegatedProgramHomePage program={program}/></Container>
+      <>
+        <Helmet><title>Program Home</title></Helmet>
+        {
+          programLoading ?
+              <Loader/> :
+              <Container><DelegatedProgramHomePage program={program}/></Container>
+        }
+      </>
   )
 }
 

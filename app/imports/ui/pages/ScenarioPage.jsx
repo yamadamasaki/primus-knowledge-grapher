@@ -8,6 +8,7 @@ import {ScenarioSchemata} from '../../api/scenarioSchema'
 import {programUpdateMethod} from '../../api/program/ProgramCollection.methods'
 import {Link} from 'react-router-dom'
 import {useParams} from 'react-router'
+import {Helmet} from 'react-helmet'
 
 const validateJson = (obj, schema, setError) => {
   if (obj && schema) {
@@ -72,24 +73,33 @@ const ScenarioPage = () => {
   }
 
   return (
-      programLoading ?
-          <Loader/> :
-          (
-              <Container>
-                <Header as="h2">
-                  {t('Scenarios')}
-                  <Header.Subheader>{`${program.title}/${t('compact form')}`}</Header.Subheader>
-                </Header>
-                <ReactJson src={source} onEdit={onUpdate} onAdd={onUpdate} onDelete={onUpdate}/>
-                <ShowError/>
-                <ShowSuccess/>
-                <Button onClick={onSave}>{t('Save')}</Button>
-                <Popup trigger={<Link to="/programs" style={{float: 'right'}}><Icon link name="step backward"/></Link>}>
-                  {t('Return to Programs List')}
-                </Popup>
+      <>
+        <Helmet><title>Scenario View</title></Helmet>
+        {
+          programLoading ?
+              <Loader/> :
+              (
+                  <Container>
+                    <Header as="h2">
+                      {t('Scenarios')}
+                      <Header.Subheader>{`${program.title}/${t('compact form')}`}</Header.Subheader>
+                    </Header>
+                    <ReactJson src={source} onEdit={onUpdate} onAdd={onUpdate} onDelete={onUpdate}/>
+                    <ShowError/>
+                    <ShowSuccess/>
+                    <Button onClick={onSave}>{t('Save')}</Button>
+                    <Popup trigger={
+                      <Link to="/programs" style={{float: 'right'}}>
+                        <Icon link name="step backward"/>
+                      </Link>
+                    }>
+                      {t('Return to Programs List')}
+                    </Popup>
 
-              </Container>
-          )
+                  </Container>
+              )
+        }
+      </>
   )
 }
 

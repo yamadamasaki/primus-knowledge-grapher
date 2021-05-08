@@ -8,6 +8,7 @@ import {useTracker} from 'meteor/react-meteor-data'
 import {programUpdateMethod} from '../../api/program/ProgramCollection.methods'
 import {Link} from 'react-router-dom'
 import {useParams} from 'react-router'
+import {Helmet} from 'react-helmet'
 
 const ScenarioFormPage = () => {
   const {programId} = useParams()
@@ -47,23 +48,32 @@ const ScenarioFormPage = () => {
   }
 
   return (
-      programLoading ?
-          <Loader/> :
-          (
-              <Container>
-                <Header as="h2">
-                  {t('Scenarios')}
-                  <Header.Subheader>{`${program.title}/${t('strict form')}`}</Header.Subheader>
-                </Header>
-                <AutoForm schema={schema} onSubmit={submit} model={structure}/>
-                <ShowError/>
-                <ShowSuccess/>
-                <Popup trigger={<Link to="/programs" style={{float: 'right'}}><Icon link name="step backward"/></Link>}>
-                  {t('Return to Programs List')}
-                </Popup>
+      <>
+        <Helmet><title>Scenario Form</title></Helmet>
+        {
+          programLoading ?
+              <Loader/> :
+              (
+                  <Container>
+                    <Header as="h2">
+                      {t('Scenarios')}
+                      <Header.Subheader>{`${program.title}/${t('strict form')}`}</Header.Subheader>
+                    </Header>
+                    <AutoForm schema={schema} onSubmit={submit} model={structure}/>
+                    <ShowError/>
+                    <ShowSuccess/>
+                    <Popup trigger={
+                      <Link to="/programs" style={{float: 'right'}}>
+                        <Icon link name="step backward"/>
+                      </Link>
+                    }>
+                      {t('Return to Programs List')}
+                    </Popup>
 
-              </Container>
-          )
+                  </Container>
+              )
+        }
+      </>
   )
 }
 
