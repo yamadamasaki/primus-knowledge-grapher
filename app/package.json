@@ -17,6 +17,7 @@
     "react-addons-pure-render-mixin": "^15.6.3",
     "react-dom": "^16.14.0",
     "react-draft-wysiwyg": "^1.14.6",
+    "react-helmet": "^6.1.0",
     "react-i18next": "^11.8.12",
     "react-json-view": "^1.21.3",
     "react-router": "^5.2.0",
