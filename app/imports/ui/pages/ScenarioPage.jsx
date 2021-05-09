@@ -62,7 +62,7 @@ const ScenarioPage = () => {
     setError(null)
     if (validateJson(source, schema, setError)) {
       program.structure = source
-      program.structureAsJson = ''
+      program.structureAsJson = undefined
       programUpdateMethod.call(program, error => {
         if (error) {
           setError(error.message)

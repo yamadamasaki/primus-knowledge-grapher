@@ -38,7 +38,7 @@ const ScenarioFormPage = () => {
 
   const submit = obj => {
     program.structure = obj
-    program.structureAsJson = ''
+    program.structureAsJson = undefined
     programUpdateMethod.call(program, error => {
       if (error) {
         setError(error.message)

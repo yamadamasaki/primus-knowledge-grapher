@@ -14,11 +14,13 @@ const validateJson = (obj, setError) => {
   if (json && schema) {
     const validationContext = schema.newContext()
     if (validationContext) {
-      validationContext.validate(JSON.parse(json))
+      const structure = JSON.parse(json)
+      validationContext.validate(structure)
       if (!validationContext.isValid()) {
         setError(JSON.stringify(validationContext.validationErrors()))
         return false
       }
+      obj.structure = structure
     }
   }
   return true
