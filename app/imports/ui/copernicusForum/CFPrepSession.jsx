@@ -5,12 +5,12 @@ const sessionName = '準備セッション'
 const sessionComponentName = 'CFPrepSession'
 
 const CFPrepSession = () => {
-  const {programId, sectionId} = useParams()
+  const {programId, sessionId} = useParams()
   return (
       <>
         <h1>CFPrepSession</h1>
         <div>{sessionName}, {sessionComponentName}</div>
-        <div>{programId}, {sectionId}</div>
+        <div>{programId}, {sessionId}</div>
       </>
   )
 }
@@ -20,12 +20,12 @@ export default CFPrepSession
 /*
 const CFPrepSession = ({match}) => {
   const {params} = match
-  const {programId, sectionId} = params
+  const {programId, sessionId} = params
 
   const sections = [
-    {name: 'ねらい', programId, sectionId, subsection: 'prep-guidance', componentName: 'KGTextDiagramSubsession'},
-    {name: '課題', programId, sectionId, subsection: 'prep-questionnaire', componentName: 'KGAssignmentSubsession'},
-    {name: 'アサイン', programId, sectionId, subsection: 'prep-questionnaire', componentName: 'KGTeamsSubsession'},
+    {name: 'ねらい', programId, sessionId, subsession: 'prep-guidance', componentName: 'KGTextDiagramSubsession'},
+    {name: '課題', programId, sessionId, subsession: 'prep-questionnaire', componentName: 'KGAssignmentSubsession'},
+    {name: 'アサイン', programId, sessionId, subsession: 'prep-questionnaire', componentName: 'KGTeamsSubsession'},
   ]
 
   const spec = {
@@ -65,11 +65,11 @@ const CFPrepSession = ({match}) => {
 
   return (
       <React.Fragment>
-        <Helmet><title>Prep Session ({sectionId})</title></Helmet>
-        <Components.KGBreadCrumbs programId={programId} sectionId={sectionId}/>
+        <Helmet><title>Prep Session ({sessionId})</title></Helmet>
+        <Components.KGBreadCrumbs programId={programId} sessionId={sessionId}/>
         <Components.KGSessionHeader sessionName={sessionName}/>
 
-        <Components.KGSessionStart programId={programId} sectionId={sectionId} spec={spec}
+        <Components.KGSessionStart programId={programId} sessionId={sessionId} spec={spec}
                                    isStartable={{groups: ['admins']}}>
           <React.Fragment>
             <Components.KGSectionMenu sections={sections}/>
@@ -77,8 +77,8 @@ const CFPrepSession = ({match}) => {
             <Components.KGChatButton match={{
               params: {
                 programId,
-                sectionId,
-                subsection: 'prep-chat',
+                sessionId,
+                subsession: 'prep-chat',
                 isChattable: {groups: ['members']},
                 isReadable: {groups: ['members']},
               },

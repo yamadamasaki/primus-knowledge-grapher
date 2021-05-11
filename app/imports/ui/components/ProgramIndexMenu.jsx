@@ -11,7 +11,7 @@ const children2items = (children, programId) => (
           <List.Item key={item.id}>
             {
               item.componentName ?
-                  <Link to={`/sections/${programId}/${item.id}/${item.componentName}`}>{content}</Link> :
+                  <Link to={`/sessions/${programId}/${item.componentName}/${item.id}`}>{content}</Link> :
                   <div>{content}</div>
             }
           </List.Item>
