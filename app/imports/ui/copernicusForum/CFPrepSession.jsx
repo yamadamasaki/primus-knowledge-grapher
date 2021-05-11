@@ -1,16 +1,52 @@
 import React from 'react'
 import {useParams} from 'react-router'
+import {useTranslation} from 'react-i18next'
+import {Helmet} from 'react-helmet'
+import {Programs} from '../../api/program/ProgramCollection'
+import {useTracker} from 'meteor/react-meteor-data'
+import {Loader, Message} from 'semantic-ui-react'
+import KGBreadCrumbs from '../components/KGBreadCrumbs'
+import ProgramIndexMenu from '../components/ProgramIndexMenu'
 
 const sessionName = '準備セッション'
 const sessionComponentName = 'CFPrepSession'
 
 const CFPrepSession = () => {
-  const {programId, sessionId} = useParams()
+  const params = useParams()
+  const {programId, sessionId} = params
+  const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
+  const program = useTracker(() => Programs.findOne(programId))
+
+  const {t} = useTranslation()
+
+  const dismissError = () => history.goBack()
+  const ShowError = () => (
+      error ?
+          <Message onDismiss={dismissError} header={t('Error')}
+                   content={t('Unregistered Component', {componentName})}/> :
+          <div/>
+  )
+
   return (
       <>
-        <h1>CFPrepSession</h1>
-        <div>{sessionName}, {sessionComponentName}</div>
-        <div>{programId}, {sessionId}</div>
+        {
+          programLoading ? <Loader/> :
+              program ? (
+                  <>
+                    <Helmet>Prep Session {sessionId}</Helmet>
+                    <KGBreadCrumbs
+                        {...params}
+                        program={program} sessionName={sessionName} sessionComponent={sessionComponentName}/>
+                    <ProgramIndexMenu program={program}>
+                      <div style={{height: '100vh'}}/>
+                      {/*KGSessionHeader*/}
+                      {/*KGSessionStart*/}
+                      {/*    KGSectionMenu*/}
+                      {/*    KGChatButton*/}
+                    </ProgramIndexMenu>
+                  </>
+              ) : <ShowError/>
+        }
       </>
   )
 }

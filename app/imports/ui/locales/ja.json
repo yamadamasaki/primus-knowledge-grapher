@@ -41,5 +41,8 @@
   "Remove Program": "プログラムを削除する",
   "View scenario in compact format": "シナリオをスキーマ無し短形式で見る/編集する",
   "Edit scenario in strict format": "シナリオをスキーマ付き厳格形式で見る/編集する",
-  "Unregistered Component": "コンポネントが登録されていません: '{{componentName}}'. システム管理者に連絡して下さい."
+  "Unregistered Component": "コンポネントが登録されていません: '{{componentName}}'. システム管理者に連絡して下さい.",
+  "guidance": "ねらい",
+  "questionnaire": "課題",
+  "assignment": "アサイン"
 }
