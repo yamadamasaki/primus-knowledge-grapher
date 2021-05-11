@@ -40,5 +40,6 @@
   "Edit Program": "Edit Program",
   "Remove Program": "Remove Program",
   "View scenario in compact format": "View scenario in compact format",
-  "Edit scenario in strict format": "Edit scenario in strict format"
+  "Edit scenario in strict format": "Edit scenario in strict format",
+  "Unregistered Component": "Unregistered Component: '{{componentName}}'. Please Consult your Admin."
 }

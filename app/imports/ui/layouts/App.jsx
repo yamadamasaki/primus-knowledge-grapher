@@ -21,6 +21,7 @@ import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
 import SimpleTextSection from '../sections/SimpleTextSection'
 import ProgramHomePage from '../pages/ProgramHomePage'
+import SessionPage from '../pages/SessionPage'
 
 export const SideBarContext = createContext({})
 
@@ -42,6 +43,8 @@ const App = () => {
             <ProtectedRoute path="/programs/:programId" component={ProgramHomePage}/>
             <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
             <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
+            <ProtectedRoute path="/sessions/:programId/:componentName/:sectionId" component={SessionPage}/>
+            <ProtectedRoute path="/sessions/:programId/:componentName/:sectionId/:subsectionName" component={SessionPage}/>
             <ProtectedRoute path="/simpleText" component={SimpleTextSection}/>
             <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
             <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
