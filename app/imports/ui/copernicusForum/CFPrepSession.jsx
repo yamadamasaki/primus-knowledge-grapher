@@ -7,6 +7,7 @@ import {useTracker} from 'meteor/react-meteor-data'
 import {Loader, Message} from 'semantic-ui-react'
 import KGBreadCrumbs from '../components/KGBreadCrumbs'
 import ProgramIndexMenu from '../components/ProgramIndexMenu'
+import KGSessionHeader from '../components/KGSessionHeader'
 
 const sessionName = '準備セッション'
 const sessionComponentName = 'CFPrepSession'
@@ -34,15 +35,16 @@ const CFPrepSession = () => {
               program ? (
                   <>
                     <Helmet>Prep Session {sessionId}</Helmet>
-                    <KGBreadCrumbs
-                        {...params}
-                        program={program} sessionName={sessionName} sessionComponent={sessionComponentName}/>
                     <ProgramIndexMenu program={program}>
-                      <div style={{height: '100vh'}}/>
-                      {/*KGSessionHeader*/}
-                      {/*KGSessionStart*/}
-                      {/*    KGSectionMenu*/}
-                      {/*    KGChatButton*/}
+                      <div style={{height: '100vh'}}>
+                        <KGBreadCrumbs
+                            {...params}
+                            program={program} sessionName={sessionName} sessionComponent={sessionComponentName}/>
+                        <KGSessionHeader sessionName={sessionName}/>
+                        {/*KGSessionStart*/}
+                        {/*    KGSectionMenu*/}
+                        {/*    KGChatButton*/}
+                      </div>
                     </ProgramIndexMenu>
                   </>
               ) : <ShowError/>
