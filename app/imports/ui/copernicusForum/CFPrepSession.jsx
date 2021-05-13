@@ -73,31 +73,31 @@ const CFPrepSession = ({match}) => {
     'prep-guidance': {
       sectionName: 'ねらい',
       diagramComponentName: 'CFFrameworkDiagramSection',
-      isTextEditable: {groups: ['admins']},
-      isTextReadable: {groups: ['members']},
-      isDiagramSavable: {groups: ['admins']},
-      isDiagramReadable: {groups: ['members']},
+      isTextEditable: {groups: ['admin']},
+      isTextReadable: {groups: ['member']},
+      isDiagramSavable: {groups: ['admin']},
+      isDiagramReadable: {groups: ['member']},
     },
     'prep-questionnaire': {
       sectionName: '課題',
       diagramComponentName: 'CFFrameworkDiagramSection',
-      isTeamDefinable: {groups: ['admins']},
-      isTeamAnswerable: {groups: ['members']}, // Not Implemented Yet
+      isTeamDefinable: {groups: ['admin']},
+      isTeamAnswerable: {groups: ['member']}, // Not Implemented Yet
       delegatedComponentName: 'KGAnswerSubsession',      // 以下は問い掛け部分の permission
       // isText... があれば showText: true, isDiagram... があれば showDiagram: true
-      isTextEditable: {groups: ['admins']},
-      isTextReadable: {groups: ['members']},
-      isDiagramSavable: {groups: ['admins']},
-      isDiagramReadable: {groups: ['members']},
+      isTextEditable: {groups: ['admin']},
+      isTextReadable: {groups: ['member']},
+      isDiagramSavable: {groups: ['admin']},
+      isDiagramReadable: {groups: ['member']},
       // 課題成果物の permission はその先で teamId で決める
     },
     'prep-questionnaire-answer': {
       sectionName: '課題',
       diagramComponentName: 'CFFrameworkDiagramSection',
-      isTextEditable: {groups: ['admins']},
-      isTextReadable: {groups: ['members']},
-      isDiagramSavable: {groups: ['admins']},
-      isDiagramReadable: {groups: ['members']},
+      isTextEditable: {groups: ['admin']},
+      isTextReadable: {groups: ['member']},
+      isDiagramSavable: {groups: ['admin']},
+      isDiagramReadable: {groups: ['member']},
     },
   }
 
@@ -108,7 +108,7 @@ const CFPrepSession = ({match}) => {
         <Components.KGSessionHeader sessionName={sessionName}/>
 
         <Components.KGSessionStart programId={programId} sessionId={sessionId} spec={spec}
-                                   isStartable={{groups: ['admins']}}>
+                                   isStartable={{groups: ['admin']}}>
           <React.Fragment>
             <Components.KGSectionMenu sections={sections}/>
 
@@ -117,8 +117,8 @@ const CFPrepSession = ({match}) => {
                 programId,
                 sessionId,
                 subsession: 'prep-chat',
-                isChattable: {groups: ['members']},
-                isReadable: {groups: ['members']},
+                isChattable: {groups: ['member']},
+                isReadable: {groups: ['member']},
               },
             }}/>
           </React.Fragment>

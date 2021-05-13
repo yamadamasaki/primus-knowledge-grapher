@@ -18,30 +18,30 @@ const channels = {}
 
 const accessibility = {
   _: {
-    canRead: ['members'],
-    canUpdate: ['admins'],
-    canCreate: ['admins'],
-    canDelete: ['admins'],
+    canRead: ['member'],
+    canUpdate: ['admin'],
+    canCreate: ['admin'],
+    canDelete: ['admin'],
   },
   title: {
-    canRead: ['members'],
-    canUpdate: ['admins'],
-    canCreate: ['admins'],
+    canRead: ['member'],
+    canUpdate: ['admin'],
+    canCreate: ['admin'],
   },
   scenarioSchema: {
-    canRead: ['members'],
+    canRead: ['member'],
     canUpdate: [],
-    canCreate: ['admins'],
+    canCreate: ['admin'],
   },
   structure: {
-    canRead: ['members'],
-    canUpdate: ['admins'],
-    canCreate: ['admins'],
+    canRead: ['member'],
+    canUpdate: ['admin'],
+    canCreate: ['admin'],
   },
   structureAsJson: {
-    canRead: ['members'],
-    canUpdate: ['admins'],
-    canCreate: ['admins'],
+    canRead: ['member'],
+    canUpdate: ['admin'],
+    canCreate: ['admin'],
   },
 }
 

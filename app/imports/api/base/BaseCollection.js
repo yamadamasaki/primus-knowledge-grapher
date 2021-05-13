@@ -1,11 +1,12 @@
 import {Meteor} from 'meteor/meteor'
 import {Mongo} from 'meteor/mongo'
 import {_} from 'meteor/underscore'
+import {isAccessible} from './UserId'
 
 const baseAccessibility = {
-  createdAt: {canRead: ['members']},
-  updatedAt: {canRead: ['members']},
-  owner: {canRead: ['members']},
+  createdAt: {canRead: ['member']},
+  updatedAt: {canRead: ['member']},
+  owner: {canRead: ['member']},
 }
 
 class BaseCollection {
@@ -212,18 +213,6 @@ class BaseCollection {
   }
 
   getChannels() { return this._channels}
-}
-
-const isAccessible = (userId, roles) => {
-  if (!roles || roles.length === 0) return false
-  if (!userId) return !!roles.includes('guest')
-
-  if (roles.includes('members')) return true
-
-  const user = Meteor.users.findOne(userId)
-  if (user.isAdmin && roles.includes('admins')) return true
-
-  return Roles.userIsInRole(userId, roles)
 }
 
 const accessibleFields = (accessibility, mode, userId) =>
