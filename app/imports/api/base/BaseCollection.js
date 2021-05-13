@@ -9,6 +9,8 @@ const baseAccessibility = {
   owner: {canRead: ['member']},
 }
 
+const wholeDocument = '_'
+
 class BaseCollection {
   /**
    * Superclass constructor for all meteor-application-template-react-production entities.
@@ -44,15 +46,19 @@ class BaseCollection {
    * @param {Object} obj the object defining the new document.
    */
   define(obj) {
-    if (!isAccessibleField(this._accessibility, 'canCreate', '_', Meteor.userId()))
+    const userId = Meteor.userId()
+    const mode = 'canCreate'
+
+    if (!isAccessibleField(this._accessibility, mode, wholeDocument, userId))
       Meteor.Error(`You are not allowed to create ${this._type} document.`)
+    const omitted = _.omit(obj, inaccessibleFields(this._accessibility, mode, obj, userId))
     const now = new Date()
     const schema = this._schema._schema
-    if (schema.createdAt && !obj.createdAt) obj.createdAt = now
-    if (schema.updatedAt && !obj.updatedAt) obj.updatedAt = now
-    if (schema.owner && !obj.owner) obj.owner = Meteor.userId()
-    this._schema.validate(obj)
-    return this._collection.insert(obj)
+    if (schema.createdAt && !omitted.createdAt) omitted.createdAt = now
+    if (schema.updatedAt && !omitted.updatedAt) omitted.updatedAt = now
+    if (schema.owner && !omitted.owner) omitted.owner = userId
+    this._schema.validate(omitted)
+    return this._collection.insert(omitted)
   }
 
   /**
@@ -63,9 +69,15 @@ class BaseCollection {
    * -> 一般的な modifier を使いたい場合, upsert したい場合, 複数 update したい場合には, サブクラス側で自前で書くべし
    */
   update(selector, doc) {
-    if (!isAccessibleField(this._accessibility, 'canUpdate', '_', Meteor.userId()))
+    const userId = Meteor.userId()
+    const mode = 'canUpdate'
+
+    if (!isAccessibleField(this._accessibility, mode, wholeDocument, userId))
       Meteor.Error(`You are not allowed to update ${this._type} document.`)
-    const omitted = _.omit(doc, ['id', 'owner', 'createdAt', 'updatedAt'])
+    const omitted = _.omit(doc, [
+      'id', 'owner', 'createdAt', 'updatedAt',
+      ...inaccessibleFields(this._accessibility, mode, doc, userId),
+    ])
     if (this._schema._schema.updatedAt) omitted.updatedAt = new Date()
     const modifier = {$set: omitted}
     this._schema.validate(modifier, {modifier: true})
@@ -77,7 +89,7 @@ class BaseCollection {
    * @param { String | Object } name A document or docID in this collection.
    */
   remove(selector) {
-    if (!isAccessibleField(this._accessibility, 'canDelete', '_', Meteor.userId()))
+    if (!isAccessibleField(this._accessibility, 'canDelete', wholeDocument, Meteor.userId()))
       Meteor.Error(`You are not allowed to delete ${this._type} document.`)
     this._collection.remove(selector)
   }
@@ -127,7 +139,7 @@ class BaseCollection {
    * @param { Object } options MongoDB options.
    * @returns {Mongo.Cursor}
    */
-  findOne(selector, options= {}) {
+  findOne(selector, options = {}) {
     const theSelector = (typeof selector === 'undefined') ? {} : selector
     return this._collection.findOne(theSelector, options)
   }
@@ -174,9 +186,9 @@ class BaseCollection {
       return false
     }
     return (
-        !!this._collection.findOne(name)
-        || !!this._collection.findOne({name})
-        || !!this._collection.findOne({_id: name}))
+        !!this._collection.findOne(name) ||
+        !!this._collection.findOne({name}) ||
+        !!this._collection.findOne({_id: name}))
   }
 
   /**
@@ -186,15 +198,16 @@ class BaseCollection {
   publish() {
     if (Meteor.isServer) {
       const instance = this
+      const mode = 'canRead'
       Meteor.publish(this._channels.all, function() {
-        const fields = accessibleFields(instance._accessibility, 'canRead', this.userId)
-        if (isAccessible(this.userId, (instance._accessibility._ || {}).canRead)) {
+        const fields = accessibleFields(instance._accessibility, mode, this.userId)
+        if (isAccessible(this.userId, (instance._accessibility._ || {})[mode])) {
           return instance._collection.find({}, {fields})
         }
       })
       Meteor.publish(this._channels.allWithMeta, function() {
-        const fields = accessibleFields(instance._accessibility, 'canRead', this.userId)
-        if (isAccessible(this.userId, (instance._accessibility._ || {}).canRead)) {
+        const fields = accessibleFields(instance._accessibility, mode, this.userId)
+        if (isAccessible(this.userId, (instance._accessibility._ || {})[mode])) {
           return instance._collection.find({}, {fields})
         }
       })
@@ -212,22 +225,29 @@ class BaseCollection {
     return null
   }
 
-  getChannels() { return this._channels}
+  getChannels() {
+    return this._channels
+  }
 }
 
 const accessibleFields = (accessibility, mode, userId) =>
     Object.fromEntries(
         Object.entries(accessibility).
-            filter(entry => entry[0] !== '_').
-            filter(entry => isAccessible(userId, entry[1][mode])).
-            map(entry => [entry[0], 1]),
+            filter(([key, _]) => key !== '_').
+            filter(([_, value]) => isAccessible(userId, value[mode])).
+            map(([key, _]) => [key, 1]),
     )
 
 const isAccessibleField = (accessibility, mode, field, userId) => {
-  const entry = Object.entries(accessibility).find(entry => entry[0] === field)
-  if (!entry || entry.length < 2) return false
-  return isAccessible(userId, entry[1][mode])
+  const target = accessibility[field]
+  return target ? isAccessible(userId, target[mode]) : false
 }
+
+const inaccessibleFields = (accessibility, mode, obj, userId) => (
+    Object.entries(obj).
+        map(([key, _]) => key).
+        filter(field => !isAccessible(userId, accessibility[field][mode]))
+)
 
 /**
  * The BaseCollection used by all meteor-application-template-react-production entities.
