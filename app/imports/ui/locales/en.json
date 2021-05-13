@@ -44,5 +44,6 @@
   "Unregistered Component": "Unregistered Component: '{{componentName}}'. Please Consult your Admin.",
   "guidance": "guidance",
   "questionnaire": "questionnaire",
-  "assignment": "assignment"
+  "assignment": "assignment",
+  "Start the Session": "Start the Session"
 }

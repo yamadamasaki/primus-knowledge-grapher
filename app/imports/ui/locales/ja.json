@@ -44,5 +44,6 @@
   "Unregistered Component": "コンポネントが登録されていません: '{{componentName}}'. システム管理者に連絡して下さい.",
   "guidance": "ねらい",
   "questionnaire": "課題",
-  "assignment": "アサイン"
+  "assignment": "アサイン",
+  "Start the Session": "セッションを始める"
 }

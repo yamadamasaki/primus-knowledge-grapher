@@ -8,6 +8,7 @@ import {Loader, Message} from 'semantic-ui-react'
 import KGBreadCrumbs from '../components/KGBreadCrumbs'
 import ProgramIndexMenu from '../components/ProgramIndexMenu'
 import KGSessionHeader from '../components/KGSessionHeader'
+import KGSessionStart from '../components/KGSessionStart'
 
 const sessionName = '準備セッション'
 const sessionComponentName = 'CFPrepSession'
@@ -19,6 +20,65 @@ const CFPrepSession = () => {
   const program = useTracker(() => Programs.findOne(programId))
 
   const {t} = useTranslation()
+
+  const sections = [
+    {
+      name: t('guidance'),
+      programId,
+      sessionId,
+      subsession: 'prep-guidance',
+      componentName: 'KGTextAndDiagramSubsession',
+    },
+    {
+      name: t('questionnaire'),
+      programId,
+      sessionId,
+      subsession: 'prep-questionnaire',
+      componentName: 'KGAssignmentSubsession',
+    },
+    {
+      name: t('assignment'),
+      programId,
+      sessionId,
+      subsession: 'prep-questionnaire',
+      componentName: 'KGTeamsSubsession',
+    },
+  ]
+
+  const specs = {
+    sessionName,
+    sessionComponentName,
+    sections,
+    'prep-guidance': {
+      sectionName: 'ねらい',
+      diagramComponentName: 'CFFrameworkDiagramSection',
+      isTextEditable: {groups: ['admin']},
+      isTextReadable: {groups: ['member']},
+      isDiagramSavable: {groups: ['admin']},
+      isDiagramReadable: {groups: ['member']},
+    },
+    'prep-questionnaire': {
+      sectionName: '課題',
+      diagramComponentName: 'CFFrameworkDiagramSection',
+      isTeamDefinable: {groups: ['admin']},
+      isTeamAnswerable: {groups: ['member']}, // Not Implemented Yet
+      delegatedComponentName: 'KGAnswerSubsession',      // 以下は問い掛け部分の permission
+      // isText... があれば showText: true, isDiagram... があれば showDiagram: true
+      isTextEditable: {groups: ['admin']},
+      isTextReadable: {groups: ['member']},
+      isDiagramSavable: {groups: ['admin']},
+      isDiagramReadable: {groups: ['member']},
+      // 課題成果物の permission はその先で teamId で決める
+    },
+    'prep-questionnaire-answer': {
+      sectionName: '課題',
+      diagramComponentName: 'CFFrameworkDiagramSection',
+      isTextEditable: {groups: ['admin']},
+      isTextReadable: {groups: ['member']},
+      isDiagramSavable: {groups: ['admin']},
+      isDiagramReadable: {groups: ['member']},
+    },
+  }
 
   const dismissError = () => history.goBack()
   const ShowError = () => (
@@ -41,9 +101,11 @@ const CFPrepSession = () => {
                             {...params}
                             program={program} sessionName={sessionName} sessionComponent={sessionComponentName}/>
                         <KGSessionHeader sessionName={sessionName}/>
-                        {/*KGSessionStart*/}
+                        <KGSessionStart {...params} specs={specs} isStartable={{groups: ['admin']}}>
+                          KGSessionStart
                         {/*    KGSectionMenu*/}
                         {/*    KGChatButton*/}
+                        </KGSessionStart>
                       </div>
                     </ProgramIndexMenu>
                   </>
