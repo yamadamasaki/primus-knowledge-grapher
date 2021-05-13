@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor'
 import {Mongo} from 'meteor/mongo'
 import {_} from 'meteor/underscore'
-import {isAccessible} from './UserId'
+import {isAccessible} from '../user/UserId'
 
 const baseAccessibility = {
   createdAt: {canRead: ['member']},
