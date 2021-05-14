@@ -13,3 +13,14 @@ export const apply = (mapper, obj) => (
         )
     ) : {}
 )
+
+export const sessionInfoFromProgramTree = (children, sessionId) =>
+    children.map(it => (
+        it.id === sessionId
+            ? it
+            : (
+                it.children
+                    ? sessionInfoFromProgramTree(it.children, sessionId)
+                    : null
+            )
+    )).find(it => it)

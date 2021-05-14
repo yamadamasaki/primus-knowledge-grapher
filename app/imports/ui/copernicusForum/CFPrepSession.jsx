@@ -10,15 +10,17 @@ import ProgramIndexMenu from '../components/ProgramIndexMenu'
 import KGSessionHeader from '../components/KGSessionHeader'
 import KGSessionStart from '../components/KGSessionStart'
 import KGSectionMenu from '../components/KGSectionMenu'
-
-const sessionName = '準備セッション'
-const sessionComponentName = 'CFPrepSession'
+import {sessionInfoFromProgramTree} from '../utils/utils'
 
 const CFPrepSession = () => {
   const params = useParams()
   const {programId, sessionId} = params
   const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
   const program = useTracker(() => Programs.findOne(programId))
+
+  const sessionInfo = program && sessionInfoFromProgramTree(program.structure.children, sessionId)
+  const sessionName = sessionInfo && sessionInfo.name
+  const sessionComponentName = sessionInfo && sessionInfo.componentName
 
   const {t} = useTranslation()
 
@@ -51,7 +53,7 @@ const CFPrepSession = () => {
     sessionComponentName,
     subsessions,
     'prep-guidance': {
-      subsessionName: 'ねらい',
+      subsessionName: t('guidance'),
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTextEditable: {groups: ['admin']},
       isTextReadable: {groups: ['member']},
@@ -59,7 +61,7 @@ const CFPrepSession = () => {
       isDiagramReadable: {groups: ['member']},
     },
     'prep-questionnaire': {
-      subsessionName: '課題',
+      subsessionName: t('questionnaire'),
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTeamDefinable: {groups: ['admin']},
       isTeamAnswerable: {groups: ['member']}, // Not Implemented Yet
@@ -72,7 +74,7 @@ const CFPrepSession = () => {
       // 課題成果物の permission はその先で teamId で決める
     },
     'prep-questionnaire-answer': {
-      subsessionName: '課題',
+      subsessionName: t('assignment'),
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTextEditable: {groups: ['admin']},
       isTextReadable: {groups: ['member']},
