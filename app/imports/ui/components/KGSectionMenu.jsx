@@ -8,14 +8,14 @@ const boxStyle = {
   padding: '5px',
 }
 
-const KGSectionMenu = ({sectionNames, sections}) => (
+const KGSectionMenu = ({sectionNames, subsessions}) => (
     <div>
       {
-        sections ? (
+        subsessions ? (
             <div style={boxStyle}>
               <ol>
                 {
-                  sections.map((section, index) => {
+                  subsessions.map((section, index) => {
                     const {name, programId, sessionId, subsession, componentName} = section
                     return (
                         <li key={index}>

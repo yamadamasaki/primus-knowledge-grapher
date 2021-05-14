@@ -22,7 +22,7 @@ const CFPrepSession = () => {
 
   const {t} = useTranslation()
 
-  const sections = [
+  const subsessions = [
     {
       name: t('guidance'),
       programId,
@@ -49,9 +49,9 @@ const CFPrepSession = () => {
   const specs = {
     sessionName,
     sessionComponentName,
-    sections,
+    subsessions,
     'prep-guidance': {
-      sectionName: 'ねらい',
+      subsessionName: 'ねらい',
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTextEditable: {groups: ['admin']},
       isTextReadable: {groups: ['member']},
@@ -59,7 +59,7 @@ const CFPrepSession = () => {
       isDiagramReadable: {groups: ['member']},
     },
     'prep-questionnaire': {
-      sectionName: '課題',
+      subsessionName: '課題',
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTeamDefinable: {groups: ['admin']},
       isTeamAnswerable: {groups: ['member']}, // Not Implemented Yet
@@ -72,7 +72,7 @@ const CFPrepSession = () => {
       // 課題成果物の permission はその先で teamId で決める
     },
     'prep-questionnaire-answer': {
-      sectionName: '課題',
+      subsessionName: '課題',
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTextEditable: {groups: ['admin']},
       isTextReadable: {groups: ['member']},
@@ -103,7 +103,7 @@ const CFPrepSession = () => {
                             program={program} sessionName={sessionName} sessionComponent={sessionComponentName}/>
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSessionStart {...params} specs={specs} isStartable={{groups: ['admin']}}>
-                          <KGSectionMenu sections={sections}/>
+                          <KGSectionMenu subsessions={subsessions}/>
                           {/*
                               <Components.KGChatButton match={{
                                 params: {
