@@ -29,7 +29,7 @@ const toolbar = {
   }
 }
 
-const SimpleTextSection = () =>{
+const KGDraftTextSection = () =>{
   const [editorState, onEditorStateChange] = useState(EditorState.createEmpty())
 
   return (
@@ -50,4 +50,4 @@ const SimpleTextSection = () =>{
   )
 }
 
-export default SimpleTextSection
+export default KGDraftTextSection

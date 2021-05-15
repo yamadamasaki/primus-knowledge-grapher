@@ -19,7 +19,7 @@ import Users from '../pages/Users'
 import ProgramPage from '../pages/ProgramPage'
 import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
-import SimpleTextSection from '../sections/SimpleTextSection'
+import KGDraftTextSection from '../sections/KGDraftTextSection'
 import ProgramHomePage from '../pages/ProgramHomePage'
 import SessionPage from '../pages/SessionPage'
 
@@ -45,7 +45,7 @@ const App = () => {
             <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
             <ProtectedRoute exact path="/sessions/:programId/:componentName/:sessionId" component={SessionPage}/>
             <ProtectedRoute path="/sessions/:programId/:componentName/:sessionId/:subsessionName" component={SessionPage}/>
-            <ProtectedRoute path="/simpleText" component={SimpleTextSection}/>
+            <ProtectedRoute path="/simpleText" component={KGDraftTextSection}/>
             <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
             <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
             <AdminProtectedRoute path="/users" component={Users}/>
