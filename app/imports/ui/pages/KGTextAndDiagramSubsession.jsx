@@ -8,8 +8,9 @@ import {Helmet} from 'react-helmet'
 import KGBreadCrumbs from '../components/KGBreadCrumbs'
 import KGSessionHeader from '../components/KGSessionHeader'
 import KGSectionMenu from '../components/KGSectionMenu'
-import KGSectionHeader from './KGSectionHeader'
+import KGSectionHeader from '../components/KGSectionHeader'
 import {Programs} from '../../api/program/ProgramCollection'
+import KGDraftTextSection from '../sections/KGDraftTextSection'
 
 const KGTextAndDiagramSubsession = () => {
   const params = useParams()
@@ -45,6 +46,7 @@ const KGTextAndDiagramSubsession = () => {
                     <KGSessionHeader sessionName={sessionName}/>
                     <KGSectionMenu subsessions={subsessions}/>
                     <KGSectionHeader sectionName={subsessionName}/>
+                    <KGDraftTextSection {...params}/>
                     {/*
                     <Components.KGChatButton match={{
                       params: {
@@ -55,8 +57,7 @@ const KGTextAndDiagramSubsession = () => {
                         isReadable: {groups: ['members']},
                       },
                     }}/>
-*/}
-                    <div>KGTextAndDiagramSubsession</div>
+                    */}
                   </>
               ) : <ShowError/>
         }
