@@ -2,11 +2,13 @@ import {Meteor} from 'meteor/meteor'
 import {Stuffs} from '../../api/stuff/StuffCollection'
 import {Programs} from '../../api/program/ProgramCollection'
 import {SessionSpecs} from '../../api/sessionSpec/SessionSpecCollection'
+import {DraftTexts} from '../../api/draftText/DraftTextCollection'
 
 /** Publish all the collections you need. */
 Stuffs.publish()
 Programs.publish()
 SessionSpecs.publish()
+DraftTexts.publish()
 
 /** Need this for the alanning:roles package */
 Meteor.publish(null, function() {
