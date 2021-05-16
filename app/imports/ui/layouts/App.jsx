@@ -22,6 +22,7 @@ import ScenarioPage from '../pages/ScenarioPage'
 import KGDraftTextSection from '../sections/KGDraftTextSection'
 import ProgramHomePage from '../pages/ProgramHomePage'
 import SessionPage from '../pages/SessionPage'
+import SubsessionPage from '../pages/SubsessionPage'
 
 export const SideBarContext = createContext({})
 
@@ -43,7 +44,7 @@ const App = () => {
             <ProtectedRoute path="/programs/:programId" component={ProgramHomePage}/>
             <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
             <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
-            <ProtectedRoute exact path="/sessions/:programId/:componentName/:sessionId" component={SessionPage}/>
+            <ProtectedRoute exact path="/sessions/:programId/:componentName/:sessionId" component={SubsessionPage}/>
             <ProtectedRoute path="/sessions/:programId/:componentName/:sessionId/:subsessionName" component={SessionPage}/>
             <ProtectedRoute path="/simpleText" component={KGDraftTextSection}/>
             <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
