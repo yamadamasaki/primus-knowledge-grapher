@@ -4,6 +4,7 @@ import {_} from 'meteor/underscore'
 import {isAccessible} from '../user/UserId'
 
 const baseAccessibility = {
+  _id: {canRead: ['member']},
   createdAt: {canRead: ['member']},
   updatedAt: {canRead: ['member']},
   owner: {canRead: ['member']},
