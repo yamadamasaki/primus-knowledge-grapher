@@ -53,7 +53,7 @@ const KGDraftTextSection = ({documentLoading, document, selector}) => {
     }
   }
 
-  const update = () => {
+  const save = () => {
     const currentContent = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
     !document || !document._id ?
         draftTextDefineMethod.call({...selector, draftText: currentContent}, onError) :
@@ -71,7 +71,7 @@ const KGDraftTextSection = ({documentLoading, document, selector}) => {
                 onEditorStateChange={setEditorState}
                 toolbar={toolbar}
             />
-            <Button onClick={update}>{t('Save')}</Button>
+            <Button onClick={save}>{t('Save')}</Button>
             <ShowError/>
             <ShowSuccess/>
           </>
