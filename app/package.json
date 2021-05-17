@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.13.10",
+    "@syncfusion/ej2-react-diagrams": "^19.1.63",
     "bcrypt": "^5.0.1",
     "classnames": "^2.3.1",
     "core-js": "^3.10.1",
