@@ -63,7 +63,6 @@ const KGDraftTextSection = ({documentLoading, document, selector}) => {
   return (
       documentLoading ? <Loader/> : (
           <>
-            <Header as="h2">SimpleTextSection</Header>
             <Editor
                 editorState={editorState}
                 toolbarClassName="toolbarClassName"

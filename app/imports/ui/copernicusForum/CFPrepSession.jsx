@@ -98,7 +98,7 @@ const CFPrepSession = () => {
           programLoading ? <Loader/> :
               program ? (
                   <>
-                    <Helmet>Prep Session {sessionId}</Helmet>
+                    <Helmet><title>{`準備セッション ${sessionId}`}</title></Helmet>
                     <ProgramIndexMenu program={program}>
                       <div style={{height: '100vh'}}>
                         <KGBreadCrumbs

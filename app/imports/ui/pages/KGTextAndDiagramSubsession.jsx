@@ -11,6 +11,7 @@ import KGSectionMenu from '../components/KGSectionMenu'
 import KGSectionHeader from '../components/KGSectionHeader'
 import {Programs} from '../../api/program/ProgramCollection'
 import KGDraftTextSection from '../sections/KGDraftTextSection'
+import ProgramIndexMenu from '../components/ProgramIndexMenu'
 
 const KGTextAndDiagramSubsession = () => {
   const params = useParams()
@@ -40,14 +41,16 @@ const KGTextAndDiagramSubsession = () => {
           sessionSpecLoading || programLoading ? <Loader/> :
               mySpec ? (
                   <>
-                    <Helmet>{sessionName} - {mySpec.subsessionName}</Helmet>
-                    <KGBreadCrumbs {...params} program={program} sessionName={sessionName}
-                                   sessionComponent={sessionComponentName}/>
-                    <KGSessionHeader sessionName={sessionName}/>
-                    <KGSectionMenu subsessions={subsessions}/>
-                    <KGSectionHeader sectionName={subsessionName}/>
-                    <KGDraftTextSection {...params}/>
-                    {/*
+                    <Helmet><title>{`${sessionName} - ${mySpec.subsessionName}`}</title></Helmet>
+                    <ProgramIndexMenu program={program}>
+                      <div style={{height: '100vh'}}>
+                        <KGBreadCrumbs {...params} program={program} sessionName={sessionName}
+                                       sessionComponent={sessionComponentName}/>
+                        <KGSessionHeader sessionName={sessionName}/>
+                        <KGSectionMenu subsessions={subsessions}/>
+                        <KGSectionHeader sectionName={subsessionName}/>
+                        <KGDraftTextSection {...params}/>
+                        {/*
                     <Components.KGChatButton match={{
                       params: {
                         programId,
@@ -58,6 +61,8 @@ const KGTextAndDiagramSubsession = () => {
                       },
                     }}/>
                     */}
+                      </div>
+                    </ProgramIndexMenu>
                   </>
               ) : <ShowError/>
         }
