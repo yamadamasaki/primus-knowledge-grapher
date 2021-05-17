@@ -24,23 +24,24 @@ const CFPrepSession = () => {
 
   const {t} = useTranslation()
 
+  // TODO: 保存されるデータを i18n してしまっても大丈夫か?
   const subsessions = [
     {
-      name: t('guidance'),
+      name: 'ねらい',
       programId,
       sessionId,
       subsession: 'prep-guidance',
       componentName: 'KGTextAndDiagramSubsession',
     },
     {
-      name: t('questionnaire'),
+      name: '課題',
       programId,
       sessionId,
       subsession: 'prep-questionnaire',
       componentName: 'KGAssignmentSubsession',
     },
     {
-      name: t('assignment'),
+      name: 'アサイン',
       programId,
       sessionId,
       subsession: 'prep-questionnaire',
@@ -53,7 +54,7 @@ const CFPrepSession = () => {
     sessionComponentName,
     subsessions,
     'prep-guidance': {
-      subsessionName: t('guidance'),
+      subsessionName: 'ねらい',
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTextEditable: {groups: ['admin']},
       isTextReadable: {groups: ['member']},
@@ -61,7 +62,7 @@ const CFPrepSession = () => {
       isDiagramReadable: {groups: ['member']},
     },
     'prep-questionnaire': {
-      subsessionName: t('questionnaire'),
+      subsessionName: '課題',
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTeamDefinable: {groups: ['admin']},
       isTeamAnswerable: {groups: ['member']}, // Not Implemented Yet
@@ -74,7 +75,7 @@ const CFPrepSession = () => {
       // 課題成果物の permission はその先で teamId で決める
     },
     'prep-questionnaire-answer': {
-      subsessionName: t('assignment'),
+      subsessionName: 'アサイン',
       diagramComponentName: 'CFFrameworkDiagramSection',
       isTextEditable: {groups: ['admin']},
       isTextReadable: {groups: ['member']},
