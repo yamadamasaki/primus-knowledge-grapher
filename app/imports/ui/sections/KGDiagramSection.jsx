@@ -83,6 +83,13 @@ const interval = [
 
 const gridlines = {lineColor: '#e0e0e0', lineIntervals: interval}
 
+const sectionStyle = {
+  padding: '1rem 2rem',
+  borderLeft: '6px double orange',
+  borderRight: '6px double orange',
+  margin: '1rem 0rem'
+}
+
 let diagramInstance
 
 export default class extends React.PureComponent {
@@ -99,29 +106,31 @@ export default class extends React.PureComponent {
 
   render() {
     return (
-        <div className="control-pane">
-          <div className="control-section">
-            <div style={{width: '100%'}}>
-              <div className="sb-mobile-palette-bar">
-                <div id="palette-icon" style={{float: 'right', role: 'button'}}
-                     className="e-ddb-icons1 e-toggle-palette"/>
-              </div>
-              <div id="palette-space" className="sb-mobile-palette">
-                <SymbolPaletteComponent
-                    id="symbolpalette"
-                    expandMode="Multiple" palettes={palettes}
-                    width={'100%'} height={'700px'} symbolHeight={60} symbolWidth={60}
-                    getNodeDefaults={getNodeDefaultsForPalette}
-                    symbolMargin={{left: 15, right: 15, top: 15, bottom: 15}} getSymbolInfo={() => ({fit: true})}/>
-              </div>
-              <div id="diagram-space" className="sb-mobile-diagram">
-                <DiagramComponent
-                    id="diagram"
-                    ref={diagram => (diagramInstance = diagram)} width={'100%'} height={'700px'}
-                    snapSettings={{horizontalGridlines: gridlines, verticalGridlines: gridlines}}
-                    getNodeDefaults={getNodeDefaultsForDiagram}
-                    getConnectorDefaults={getConnectorDefaults}
-                    dragEnter={dragEnter}/>
+        <div style={sectionStyle}>
+          <div className="control-pane">
+            <div className="control-section">
+              <div style={{width: '100%'}}>
+                <div className="sb-mobile-palette-bar">
+                  <div id="palette-icon" style={{float: 'right', role: 'button'}}
+                       className="e-ddb-icons1 e-toggle-palette"/>
+                </div>
+                <div id="palette-space" className="sb-mobile-palette">
+                  <SymbolPaletteComponent
+                      id="symbolpalette"
+                      expandMode="Multiple" palettes={palettes}
+                      width={'100%'} height={'700px'} symbolHeight={60} symbolWidth={60}
+                      getNodeDefaults={getNodeDefaultsForPalette}
+                      symbolMargin={{left: 15, right: 15, top: 15, bottom: 15}} getSymbolInfo={() => ({fit: true})}/>
+                </div>
+                <div id="diagram-space" className="sb-mobile-diagram">
+                  <DiagramComponent
+                      id="diagram"
+                      ref={diagram => (diagramInstance = diagram)} width={'100%'} height={'700px'}
+                      snapSettings={{horizontalGridlines: gridlines, verticalGridlines: gridlines}}
+                      getNodeDefaults={getNodeDefaultsForDiagram}
+                      getConnectorDefaults={getConnectorDefaults}
+                      dragEnter={dragEnter}/>
+                </div>
               </div>
             </div>
           </div>

@@ -60,9 +60,16 @@ const KGDraftTextSection = ({documentLoading, document, selector}) => {
         draftTextUpdateMethod.call({_id: document._id, ...selector, draftText: currentContent}, onError)
   }
 
+  const sectionStyle = {
+    padding: '1rem 2rem',
+    borderLeft: '6px double blue',
+    borderRight: '6px double blue',
+    margin: '1rem 0rem'
+  }
+
   return (
       documentLoading ? <Loader/> : (
-          <>
+          <div style={sectionStyle}>
             <Editor
                 editorState={editorState}
                 toolbarClassName="toolbarClassName"
@@ -74,7 +81,7 @@ const KGDraftTextSection = ({documentLoading, document, selector}) => {
             <Button onClick={save}>{t('Save')}</Button>
             <ShowError/>
             <ShowSuccess/>
-          </>
+          </div>
       )
   )
 }
