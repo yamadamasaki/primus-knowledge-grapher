@@ -1,6 +1,7 @@
 import './KGDiagramSection.css'
 import * as React from 'react'
-import {DiagramComponent, SymbolPaletteComponent} from '@syncfusion/ej2-react-diagrams'
+import {DiagramComponent, SymbolPaletteComponent, OverviewComponent} from '@syncfusion/ej2-react-diagrams'
+import {UndoRedo, DiagramContextMenu, PrintAndExport, Inject} from '@syncfusion/ej2-react-diagrams/dist/es6/ej2-react-diagrams.es2015.js'
 import {Node} from '@syncfusion/ej2-diagrams'
 
 /**
@@ -129,7 +130,23 @@ export default class extends React.PureComponent {
                       snapSettings={{horizontalGridlines: gridlines, verticalGridlines: gridlines}}
                       getNodeDefaults={getNodeDefaultsForDiagram}
                       getConnectorDefaults={getConnectorDefaults}
-                      dragEnter={dragEnter}/>
+                      dragEnter={dragEnter}>
+                    <Inject services={[UndoRedo, DiagramContextMenu, PrintAndExport]}/>
+                  </DiagramComponent>
+                </div>
+                <div className="col-lg-4" style={{
+                  width: "20%",
+                  padding: "0px",
+                  right: "30px",
+                  bottom: "20px",
+                  border: "#eeeeee",
+                  borderStyle: "solid",
+                  boxShadow: "0px 2px 2px rgba(0,0,0,0.3)",
+                  background: "#f7f7f7",
+                  position: "absolute"
+                }}>
+                  <OverviewComponent id="overview" style={{top: '30px'}} sourceID="diagram"
+                                    width={'100%'} height={'300px'}/>
                 </div>
               </div>
             </div>
