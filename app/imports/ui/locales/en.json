@@ -42,5 +42,7 @@
   "View scenario in compact format": "View scenario in compact format",
   "Edit scenario in strict format": "Edit scenario in strict format",
   "Unregistered Component": "Unregistered Component: '{{componentName}}'. Please Consult your Admin.",
-  "Start the Session": "Start the Session"
+  "Start the Session": "Start the Session",
+  "Print": "Print",
+  "Export": "Export"
 }

@@ -44,7 +44,7 @@ const KGTextAndDiagramSubsession = () => {
                   <>
                     <Helmet><title>{`${sessionName} - ${mySpec.subsessionName}`}</title></Helmet>
                     <ProgramIndexMenu program={program}>
-                      <div style={{height: '100vh'}}>
+                      <div style={{/*height: '100vh'*/}}>
                         <KGBreadCrumbs {...params} program={program} sessionName={sessionName}
                                        sessionComponent={sessionComponentName}/>
                         <KGSessionHeader sessionName={sessionName}/>

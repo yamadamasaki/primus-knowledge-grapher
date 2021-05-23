@@ -42,5 +42,7 @@
   "View scenario in compact format": "シナリオをスキーマ無し短形式で見る/編集する",
   "Edit scenario in strict format": "シナリオをスキーマ付き厳格形式で見る/編集する",
   "Unregistered Component": "コンポネントが登録されていません: '{{componentName}}'. システム管理者に連絡して下さい.",
-  "Start the Session": "セッションを始める"
+  "Start the Session": "セッションを始める",
+  "Print": "印刷する",
+  "Export": "書き出す"
 }
