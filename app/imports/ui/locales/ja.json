@@ -44,5 +44,7 @@
   "Unregistered Component": "コンポネントが登録されていません: '{{componentName}}'. システム管理者に連絡して下さい.",
   "Start the Session": "セッションを始める",
   "Print": "印刷する",
-  "Export": "書き出す"
+  "Export": "書き出す",
+  "Symbols": "図像",
+  "Node Attributes": "ノード属性"
 }

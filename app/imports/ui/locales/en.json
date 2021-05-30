@@ -44,5 +44,7 @@
   "Unregistered Component": "Unregistered Component: '{{componentName}}'. Please Consult your Admin.",
   "Start the Session": "Start the Session",
   "Print": "Print",
-  "Export": "Export"
+  "Export": "Export",
+  "Symbols": "Symbols",
+  "Node Attributes": "Node Attributes"
 }

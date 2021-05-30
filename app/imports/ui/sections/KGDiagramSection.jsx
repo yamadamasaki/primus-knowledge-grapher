@@ -1,7 +1,7 @@
 import './KGDiagramSection.css'
 import * as React from 'react'
-import {useEffect, useRef} from 'react'
-import {DiagramComponent} from '@syncfusion/ej2-react-diagrams'
+import {useEffect, useRef, useState} from 'react'
+import {DiagramComponent, SymbolPaletteComponent} from '@syncfusion/ej2-react-diagrams'
 import {
   DiagramContextMenu,
   Inject,
@@ -37,35 +37,87 @@ export default () => {
   const diagram = useRef()
   const {t} = useTranslation()
 
+  const nodesSettingMenuItemId = 'nodes-setting'
+  const connectorsSettingMenuItemId = 'connectors-setting'
+
+  const [nodeModalOpen, setNodeModalOpen] = useState(false)
+  const [selectedNodes, setSelectedNodes] = useState()
+
   const contextMenuSettings = {
     items: [
-      {text: 'Save', id: 'save', target: '.e-elementcontent', iconCss: 'e-save'},
-      {text: 'Load', id: 'load', target: '.e-elementcontent', iconCss: 'e-load'},
-      {text: 'Clear', id: 'clear', target: '.e-elementcontent', iconCss: 'e-clear'},
+      {separator: true},
+      {text: 'Node setting...', id: nodesSettingMenuItemId, target: 'e-diagram-content'},
+      {text: 'Connector setting...', id: connectorsSettingMenuItemId, target: 'e-diagram-content'},
     ],
     show: true,
     showCustomMenuOnly: false,
   }
 
+  const menuClicked = event => {
+    const item = event.item.id
+    switch (item) {
+      case nodesSettingMenuItemId:
+        //setSelectedNodes(JSON.parse(JSON.stringify(diagram.current.selectedItems.nodes)))
+        setSelectedNodes(diagram.current.selectedItems.nodes)
+        setNodeModalOpen(true)
+        break
+      case connectorsSettingMenuItemId:
+      default:
+    }
+  }
+  const menuWillOpen = event => {
+    const nNodeSelected = diagram.current.selectedItems.nodes.length
+    const nEdgeSelected = diagram.current.selectedItems.connectors.length
+    if (nNodeSelected === 0) event.hiddenItems.push(nodesSettingMenuItemId)
+    if (nEdgeSelected === 0) event.hiddenItems.push(connectorsSettingMenuItemId)
+  }
+
+  const symbols = [
+    {id: 'Node', shape: {type: 'Basic', shape: 'Rectangle'}},
+    {
+      id: 'Link',
+      type: 'Orthogonal',
+      sourcePoint: {x: 0, y: 0}, targetPoint: {x: 40, y: 40},
+      targetDecorator: {shape: 'Arrow', style: {strokeColor: '#757575', fill: '#757575'}},
+      style: {strokeWidth: 1, strokeColor: '#757575'},
+    },
+    {id: 'Text', shape: {type: 'Text', content: 'Text'}},
+    //{id: 'Image', shape: {type: "Image", source: "/images/meteor-logo.png"}}, // DOES NOT WORK
+    {id: 'Image', shape: {type: 'Image', source: 'https://www.w3schools.com/images/w3schools_green.jpg'}},
+  ]
+
+  const palettes = [
+    {id: 'palette', symbols, title: t('Symbols')},
+  ]
+
   return (
       <div style={sectionStyle}>
+        <div>
+          <SymbolPaletteComponent
+              id="symbol-palette"
+              palettes={palettes}
+              width={'100%'} height={'100px'} symbolHeight={40} symbolWidth={40}
+              symbolMargin={{left: 5, right: 5, top: 5, bottom: 5}} getSymbolInfo={() => ({fit: true})}/>
+        </div>
         <div style={{width: '100%'}}>
           <DiagramComponent
               id="diagram"
               ref={diagram} width={'100%'} height={'700px'}
               snapSettings={{horizontalGridlines: gridlines, verticalGridlines: gridlines}}
-              getNodeDefaults={getNodeDefaultsForDiagram}
-              getConnectorDefaults={getConnectorDefaults}
-              contextMenuSettings={contextMenuSettings}>
+              contextMenuSettings={contextMenuSettings}
+              contextMenuClick={menuClicked} contextMenuOpen={menuWillOpen}>
             <Inject services={[UndoRedo, DiagramContextMenu, PrintAndExport]}/>
           </DiagramComponent>
         </div>
+        <SyncFusionDiagramNodeSettingModal
+            modalOpen={nodeModalOpen} setModalOpen={setNodeModalOpen}
+            nodes={selectedNodes} setNodes={setSelectedNodes}
+        />
         <Button onClick={() => diagram.current.exportDiagram({})}>{t('Export')}</Button>
         <Button onClick={() => diagram.current.print({})}>{t('Print')}</Button>
       </div>
   )
 }
-
 
 const getNodeDefaultsForDiagram = node => {
   const obj = {}
