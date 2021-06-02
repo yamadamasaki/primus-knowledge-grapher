@@ -1,4 +1,4 @@
-import './KGDiagramSection.css'
+import './SyncFusionGeneralDiagram.css'
 import * as React from 'react'
 import {useEffect, useRef, useState} from 'react'
 import {DiagramComponent, SymbolPaletteComponent} from '@syncfusion/ej2-react-diagrams'
@@ -11,20 +11,12 @@ import {
 import {Node} from '@syncfusion/ej2-diagrams'
 import {Button} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
-import SyncFusionDiagramNodeSettingModal from '../components/SyncFusionDiagramNodeSettingModal'
+import SyncFusionDiagramNodeSettingModal from './SyncFusionDiagramNodeSettingModal'
 
 const interval = [
   1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75,
 ]
 const gridlines = {lineColor: '#e0e0e0', lineIntervals: interval}
-
-const sectionStyle = {
-  padding: '1rem 2rem',
-  borderLeft: '6px double orange',
-  borderRight: '6px double orange',
-  margin: '1rem 0rem',
-  height: '1000px',
-}
 
 export default () => {
   const renderComplete = () => {
@@ -91,7 +83,7 @@ export default () => {
   ]
 
   return (
-      <div style={sectionStyle}>
+      <div>
         <div>
           <SymbolPaletteComponent
               id="symbol-palette"

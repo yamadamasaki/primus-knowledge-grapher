@@ -11,7 +11,7 @@ import KGSectionMenu from '../components/KGSectionMenu'
 import KGSectionHeader from '../components/KGSectionHeader'
 import {Programs} from '../../api/program/ProgramCollection'
 import KGDraftTextSection from '../sections/KGDraftTextSection'
-import KGDiagramSection from '../sections/KGDiagramSection.jsx'
+import KGGeneralDiagramSection from '../sections/KGGeneralDiagramSection'
 import ProgramIndexMenu from '../components/ProgramIndexMenu'
 
 const KGTextAndDiagramSubsession = () => {
@@ -51,7 +51,7 @@ const KGTextAndDiagramSubsession = () => {
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
                         <KGDraftTextSection {...params}/>
-                        <KGDiagramSection/>
+                        <KGGeneralDiagramSection/>
                         {/*
                     <Components.KGChatButton match={{
                       params: {
