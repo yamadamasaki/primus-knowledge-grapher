@@ -16,6 +16,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-addons-pure-render-mixin": "^15.6.3",
+    "react-color": "^2.19.3",
     "react-control-panel": "^0.8.3",
     "react-dom": "^16.14.0",
     "react-draft-wysiwyg": "^1.14.6",

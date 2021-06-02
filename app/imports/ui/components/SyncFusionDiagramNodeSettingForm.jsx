@@ -1,62 +1,55 @@
-import React from 'react'
+import React, {useState} from 'react'
+import {Container, Form, Tab} from 'semantic-ui-react'
+import {useTranslation} from 'react-i18next'
+import KGColorPicker from './KGColorPicker'
 
-const reactControlPanel = require('react-control-panel')
-const ControlPanel = reactControlPanel.default
-const {
-  Range: CPRange,
-  Interval: CPInterval,
-  Text: CPText,
-  Checkbox: CPCheckbox,
-  Color: CPColor,
-  Button: CPButton,
-  Select: CPSelect,
-  Multibox: CPMultibox,
-} = reactControlPanel
+const NodeStyleForm = ({nodes}) => {
+  console.log(nodes[0])
+  const [bgColor, setBgColor] = useState(nodes[0].backgroundColor)
+  const [borderColor, setBorderColor] = useState(nodes[0].borderColor)
 
-const initialState = {
-  'range slider': 20,
-  'stepped slider': 0.6,
-  interval: [25, 50],
-  text: 'my setting',
-  checkbox: true,
-  'color rgb': 'rgb(100, 200, 100)',
-  'color hex': '#30b2ba',
-  selection: 'option 1',
-  'multiple checkboxes': [true, true],
+  const {t} = useTranslation()
+
+  nodes.forEach(node => {
+    node.backgroundColor = bgColor
+  })
+
+  return (
+      <Form>
+        <Form.Group inline>
+          <label>{t('Border Width')}</label>
+          <Form.Field></Form.Field>
+        </Form.Group>
+        <Form.Group inline>
+          <label>{t('Border Color')}</label>
+          <Form.Field><KGColorPicker color={borderColor} setColor={setBorderColor}/></Form.Field>
+        </Form.Group>
+        <Form.Group inline>
+          <label>{t('Background Color')}</label>
+          <Form.Field><KGColorPicker color={bgColor} setColor={setBgColor}/></Form.Field>
+        </Form.Group>
+      </Form>
+  )
 }
 
-const DemoPanel = () => (
-    <ControlPanel
-        theme="dark"
-        title="Demo Panel"
-        initialState={initialState}
-        onChange={console.log}
-        width={500}
-        style={{marginRight: 30}}
-    >
-      <CPRange label="range slider" min={0} max={100}/>
-      <CPRange label="stepped slider" min={0} max={1}/>
-      <CPInterval label="interval" min={0} max={100}/>
-      <CPText label="text"/>
-      <CPCheckbox label="checkbox"/>
-      <CPColor label="color rgb" format="rgb"/>
-      <CPColor label="color hex" format="hex"/>
-      <CPButton label="gimme an alert" action={() => alert('clicked')}/>
-      <CPSelect label="selection" options={{'option 1': 1, 'option 2': 2}}/>
-      <CPMultibox
-          label="multiple checkboxes"
-          colors={['rgb(100,120,230)', 'rgb(210,100,190)']}
-          names={['box1', 'box2']}
-      />
-    </ControlPanel>
-)
-
 const SyncFusionDiagramNodeSettingForm = ({nodes, setNodes}) => {
+  const {t} = useTranslation()
+
+  const panes = [
+    { menuItem: t('Node Style'), render: () => <Tab.Pane><NodeStyleForm nodes={nodes}/></Tab.Pane> },
+    { menuItem: t('Shape'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+    { menuItem: t('Shape Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+    { menuItem: t('Text Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+    { menuItem: t('Annotation'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
+    { menuItem: t('Shadow'), render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+  ]
+
   return (
       <>
         <h1>SyncFusionDiagramNodeSettingForm</h1>
+        <Tab panes={panes} />
         <ul>
-          <DemoPanel/>
+          {nodes.map((item, index) => (<li key={index}>{item.id}</li>))}
         </ul>
       </>
   )

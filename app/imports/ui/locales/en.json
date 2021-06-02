@@ -46,5 +46,14 @@
   "Print": "Print",
   "Export": "Export",
   "Symbols": "Symbols",
-  "Node Attributes": "Node Attributes"
+  "Node Attributes": "Node Attributes",
+  "Node Style": "Node Style",
+  "Shape": "Shape",
+  "Shape Style": "Shape Style",
+  "Text Style": "Text Style",
+  "Annotation": "Annotation",
+  "Shadow": "Shadow",
+  "Background Color": "Background Color",
+  "Border Width": "Border Width",
+  "Border Color": "Border Color"
 }

@@ -46,5 +46,14 @@
   "Print": "印刷する",
   "Export": "書き出す",
   "Symbols": "図像",
-  "Node Attributes": "ノード属性"
+  "Node Attributes": "ノード属性",
+  "Node Style": "ノード・スタイル",
+  "Shape": "かたち",
+  "Shape Style": "かたちスタイル",
+  "Text Style": "テキスト・スタイル",
+  "Annotation": "アノテーション",
+  "Shadow": "影",
+  "Background Color": "背景色",
+  "Border Width": "境界幅",
+  "Border Color": "境界色"
 }
