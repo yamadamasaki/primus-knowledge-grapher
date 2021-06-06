@@ -10,6 +10,7 @@ import {
 } from '@syncfusion/ej2-react-diagrams/dist/es6/ej2-react-diagrams.es2015.js'
 import {Button, Segment, Sidebar, Tab} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
+import NodeStyleTabPane from './SyncFusionDiagram/NodeStyleTabPane'
 
 const interval = [
   1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75,
@@ -108,14 +109,17 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
 const SidebarWrapper = () => {
   const [visible, setVisible] = useState(false)
   const [selectedNodes, setSelectedNodes] = useState([])
+  console.log({selectedNodes})
 
   const {t} = useTranslation()
 
   const sidebarPanes = [
+    {menuItem: t('Node Style'), render: () => <Tab.Pane><NodeStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
     {menuItem: t('Shape'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
     {menuItem: t('Shape Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
     {menuItem: t('Text Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
     {menuItem: t('Annotation'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+    {menuItem: t('Shadow'), render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>},
   ]
 
   return (
