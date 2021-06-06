@@ -1,6 +1,6 @@
 import './SyncFusionGeneralDiagram.css'
 import * as React from 'react'
-import {useEffect, useRef, useState} from 'react'
+import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {DiagramComponent, SymbolPaletteComponent} from '@syncfusion/ej2-react-diagrams'
 import {
   DiagramContextMenu,
@@ -8,17 +8,17 @@ import {
   PrintAndExport,
   UndoRedo,
 } from '@syncfusion/ej2-react-diagrams/dist/es6/ej2-react-diagrams.es2015.js'
-import {Node} from '@syncfusion/ej2-diagrams'
-import {Button} from 'semantic-ui-react'
+import {Button, Segment, Sidebar, Tab} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
-import SyncFusionDiagramNodeSettingModal from './SyncFusionDiagramNodeSettingModal'
 
 const interval = [
   1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75,
 ]
 const gridlines = {lineColor: '#e0e0e0', lineIntervals: interval}
 
-export default () => {
+const SelectedNodesContext = createContext({})
+
+const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
   const renderComplete = () => {
   }//diagram.current.fitToPage()
 
@@ -32,8 +32,7 @@ export default () => {
   const nodesSettingMenuItemId = 'nodes-setting'
   const connectorsSettingMenuItemId = 'connectors-setting'
 
-  const [nodeModalOpen, setNodeModalOpen] = useState(false)
-  const [selectedNodes, setSelectedNodes] = useState()
+  const {selectedNodes, setSelectedNodes} = useContext(SelectedNodesContext)
 
   const contextMenuSettings = {
     items: [
@@ -49,9 +48,8 @@ export default () => {
     const item = event.item.id
     switch (item) {
       case nodesSettingMenuItemId:
-        //setSelectedNodes(JSON.parse(JSON.stringify(diagram.current.selectedItems.nodes)))
         setSelectedNodes(diagram.current.selectedItems.nodes)
-        setNodeModalOpen(true)
+        setSidebarVisible(true)
         break
       case connectorsSettingMenuItemId:
       default:
@@ -88,68 +86,56 @@ export default () => {
           <SymbolPaletteComponent
               id="symbol-palette"
               palettes={palettes}
-              width={'100%'} height={'100px'} symbolHeight={40} symbolWidth={40}
+              symbolHeight={40} symbolWidth={40}
               symbolMargin={{left: 5, right: 5, top: 5, bottom: 5}} getSymbolInfo={() => ({fit: true})}/>
         </div>
         <div style={{width: '100%'}}>
           <DiagramComponent
               id="diagram"
-              ref={diagram} width={'100%'} height={'700px'}
+              ref={diagram} width={'100%'} height={'800px'}
               snapSettings={{horizontalGridlines: gridlines, verticalGridlines: gridlines}}
               contextMenuSettings={contextMenuSettings}
               contextMenuClick={menuClicked} contextMenuOpen={menuWillOpen}>
             <Inject services={[UndoRedo, DiagramContextMenu, PrintAndExport]}/>
           </DiagramComponent>
         </div>
-        <SyncFusionDiagramNodeSettingModal
-            modalOpen={nodeModalOpen} setModalOpen={setNodeModalOpen}
-            nodes={selectedNodes} setNodes={setSelectedNodes}
-        />
         <Button onClick={() => diagram.current.exportDiagram({})}>{t('Export')}</Button>
         <Button onClick={() => diagram.current.print({})}>{t('Print')}</Button>
       </div>
   )
 }
 
-const getNodeDefaultsForDiagram = node => {
-  const obj = {}
-  if (obj.width === undefined) {
-    obj.width = 145
-  } else {
-    const ratio = 100 / obj.width
-    obj.width = 100
-    obj.height *= ratio
-  }
-  obj.style = {fill: '#357BD2', strokeColor: 'white'}
-  obj.annotations = [{style: {color: 'white', fill: 'transparent'}}]
-  obj.ports = getPorts(node)
-  return obj
+const SidebarWrapper = () => {
+  const [visible, setVisible] = useState(false)
+  const [selectedNodes, setSelectedNodes] = useState([])
+
+  const {t} = useTranslation()
+
+  const sidebarPanes = [
+    {menuItem: t('Shape'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+    {menuItem: t('Shape Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+    {menuItem: t('Text Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+    {menuItem: t('Annotation'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+  ]
+
+  return (
+      <SelectedNodesContext.Provider value={{selectedNodes, setSelectedNodes}}>
+        <Sidebar.Pushable as={Segment}>
+          <Sidebar
+              as={Tab}
+              animation="push"
+              direction="bottom"
+              icon="labeled"
+              onHide={() => setVisible(false)}
+              visible={visible}
+              width="thin"
+              panes={sidebarPanes}/>
+          <Sidebar.Pusher>
+            <SyncFusionGeneralDiagram sidebarVisible={visible} setSidebarVisible={setVisible}/>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+      </SelectedNodesContext.Provider>
+  )
 }
 
-const getConnectorDefaults = obj => {
-  if (obj.id.indexOf('connector') !== -1) {
-    obj.type = 'Orthogonal'
-    obj.targetDecorator = {shape: 'Arrow', width: 10, height: 10}
-  }
-}
-
-const dragEnter = args => {
-  const obj = args.element
-  if (obj instanceof Node) {
-    const oWidth = obj.width
-    const oHeight = obj.height
-    const ratio = 100 / obj.width
-    obj.width = 100
-    obj.height *= ratio
-    obj.offsetX += (obj.width - oWidth) / 2
-    obj.offsetY += (obj.height - oHeight) / 2
-    obj.style = {fill: '#357BD2', strokeColor: 'white'}
-  }
-}
-
-const getPorts = () => ([
-  {id: 'port1', shape: 'Circle', offset: {x: 0, y: 0.5}},
-  {id: 'port2', shape: 'Circle', offset: {x: 0.5, y: 1}},
-  {id: 'port3', shape: 'Circle', offset: {x: 1, y: 0.5}},
-  {id: 'port4', shape: 'Circle', offset: {x: 0.5, y: 0}},
-])
+export default SidebarWrapper
