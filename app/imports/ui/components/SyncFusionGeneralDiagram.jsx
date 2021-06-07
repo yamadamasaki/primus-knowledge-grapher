@@ -11,6 +11,9 @@ import {
 import {Button, Segment, Sidebar, Tab} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import NodeStyleTabPane from './SyncFusionDiagram/NodeStyleTabPane'
+import ShapeTabPane from './SyncFusionDiagram/ShapeTabPane'
+import ShapeStyleTabPane from './SyncFusionDiagram/ShapeStyleTabPane'
+import TextStyleTabPane from './SyncFusionDiagram/TextStyleTabPane'
 
 const interval = [
   1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75,
@@ -115,11 +118,12 @@ const SidebarWrapper = () => {
 
   const sidebarPanes = [
     {menuItem: t('Node Style'), render: () => <Tab.Pane><NodeStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
-    {menuItem: t('Shape'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
-    {menuItem: t('Shape Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
-    {menuItem: t('Text Style'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+    {menuItem: t('Shape'), render: () => <Tab.Pane><ShapeTabPane nodes={selectedNodes}/></Tab.Pane>},
+    {menuItem: t('Shape Style'), render: () => <Tab.Pane><ShapeStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
+    {menuItem: t('Text Style'), render: () => <Tab.Pane><TextStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
     {menuItem: t('Annotation'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
-    {menuItem: t('Shadow'), render: () => <Tab.Pane>Tab 3 Content</Tab.Pane>},
+    {menuItem: t('Shadow'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
+    {menuItem: t('Gradient'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
   ]
 
   return (
