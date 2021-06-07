@@ -92,5 +92,6 @@
   "sans-serif": "sans-serif",
   "serif": "serif",
   "monospace": "monospace",
-  "Not Yet Implemented": "Not Yet Implemented"
+  "Not Yet Implemented": "Not Yet Implemented",
+  "label": "label"
 }

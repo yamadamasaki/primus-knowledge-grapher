@@ -2,6 +2,7 @@ import './SyncFusionGeneralDiagram.css'
 import * as React from 'react'
 import {createContext, useContext, useEffect, useRef, useState} from 'react'
 import {DiagramComponent, SymbolPaletteComponent} from '@syncfusion/ej2-react-diagrams'
+import {AnnotationConstraints} from '@syncfusion/ej2-diagrams/src/diagram/enum/enum'
 import {
   DiagramContextMenu,
   Inject,
@@ -10,7 +11,6 @@ import {
 } from '@syncfusion/ej2-react-diagrams/dist/es6/ej2-react-diagrams.es2015.js'
 import {Button, Segment, Sidebar, Tab} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
-import NodeStyleTabPane from './SyncFusionDiagram/NodeStyleTabPane'
 import ShapeTabPane from './SyncFusionDiagram/ShapeTabPane'
 import ShapeStyleTabPane from './SyncFusionDiagram/ShapeStyleTabPane'
 import TextStyleTabPane from './SyncFusionDiagram/TextStyleTabPane'
@@ -67,13 +67,18 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
   }
 
   const symbols = [
-    {id: 'Node', shape: {type: 'Basic', shape: 'Rectangle'}},
+    {
+      id: 'Node',
+      shape: {type: 'Basic', shape: 'Rectangle'},
+      annotations: [{content: t('label'), constraints: AnnotationConstraints.Interaction}]
+    },
     {
       id: 'Link',
       type: 'Orthogonal',
       sourcePoint: {x: 0, y: 0}, targetPoint: {x: 40, y: 40},
       targetDecorator: {shape: 'Arrow', style: {strokeColor: '#757575', fill: '#757575'}},
       style: {strokeWidth: 1, strokeColor: '#757575'},
+      annotations: [{content: t('label'), constraints: AnnotationConstraints.Interaction}],
     },
     {id: 'Text', shape: {type: 'Text', content: 'Text'}},
     //{id: 'Image', shape: {type: "Image", source: "/images/meteor-logo.png"}}, // DOES NOT WORK
@@ -112,16 +117,14 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
 const SidebarWrapper = () => {
   const [visible, setVisible] = useState(false)
   const [selectedNodes, setSelectedNodes] = useState([])
-  console.log({selectedNodes})
 
   const {t} = useTranslation()
 
   const sidebarPanes = [
-    {menuItem: t('Node Style'), render: () => <Tab.Pane><NodeStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
     {menuItem: t('Shape'), render: () => <Tab.Pane><ShapeTabPane nodes={selectedNodes}/></Tab.Pane>},
     {menuItem: t('Shape Style'), render: () => <Tab.Pane><ShapeStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
     {menuItem: t('Text Style'), render: () => <Tab.Pane><TextStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
-    {menuItem: t('Annotation'), render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>},
+    {menuItem: t('Annotation'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
     {menuItem: t('Shadow'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
     {menuItem: t('Gradient'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
   ]

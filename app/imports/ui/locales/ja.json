@@ -71,7 +71,7 @@
   "Decagon": "十角形",
   "RightTriangle":  "右三角形",
   "Cylinder": "円筒形",
-  "Diamond": "ダイアモンド",
+  "Diamond": "菱形",
   "Polygon": "多角形",
   "Corner Radius": "角丸",
   "Fill Color": "面色",
@@ -92,5 +92,6 @@
   "sans-serif": "ゴチック体",
   "serif": "明朝体",
   "monospace": "等幅",
-  "Not Yet Implemented": "未実装"
+  "Not Yet Implemented": "未実装",
+  "label": "ラベル"
 }
