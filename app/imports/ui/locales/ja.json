@@ -93,5 +93,7 @@
   "serif": "明朝体",
   "monospace": "等幅",
   "Not Yet Implemented": "未実装",
-  "label": "ラベル"
+  "label": "ラベル",
+  "Node settings": "ノード設定",
+  "Connector settings": "コネクタ設定"
 }

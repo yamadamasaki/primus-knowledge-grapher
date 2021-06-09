@@ -93,5 +93,7 @@
   "serif": "serif",
   "monospace": "monospace",
   "Not Yet Implemented": "Not Yet Implemented",
-  "label": "label"
+  "label": "label",
+  "Node settings": "Node settings",
+  "Connector settings": "Connector settings"
 }

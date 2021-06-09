@@ -3,17 +3,17 @@ import {useTranslation} from 'react-i18next'
 import {Dropdown, Grid} from 'semantic-ui-react'
 import {Slider} from 'react-semantic-ui-range'
 
-const ShapeTabPane = ({nodes}) => {
-  if (!nodes || !nodes[0]) return <div/>
+const ShapeTabPane = ({symbols}) => {
+  if (!symbols || !symbols[0]) return <div/>
 
-  const [cornerRadius, setCornerRadius] = useState(nodes[0].shape.cornerRadius)
-  const [shape, setShape] = useState(nodes[0].shape.shape)
+  const [cornerRadius, setCornerRadius] = useState(symbols[0].shape.cornerRadius)
+  const [shape, setShape] = useState(symbols[0].shape.shape)
 
   const {t} = useTranslation()
 
-  nodes.forEach(node => {
-    node.shape.cornerRadius = cornerRadius
-    node.shape.shape = shape
+  symbols.forEach(symbol => {
+    symbol.shape.cornerRadius = cornerRadius
+    symbol.shape.shape = shape
   })
 
   const sliderDefaults = {min: 0, max: 32, step: 0.1}

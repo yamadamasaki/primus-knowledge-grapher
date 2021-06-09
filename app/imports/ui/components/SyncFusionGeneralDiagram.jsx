@@ -15,12 +15,15 @@ import ShapeTabPane from './SyncFusionDiagram/ShapeTabPane'
 import ShapeStyleTabPane from './SyncFusionDiagram/ShapeStyleTabPane'
 import TextStyleTabPane from './SyncFusionDiagram/TextStyleTabPane'
 
+const NODES = 'nodes'
+const CONNECTORS = 'connectors'
+
 const interval = [
   1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75,
 ]
 const gridlines = {lineColor: '#e0e0e0', lineIntervals: interval}
 
-const SelectedNodesContext = createContext({})
+const SelectedSymbolsContext = createContext({})
 
 const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
   const renderComplete = () => {
@@ -36,13 +39,13 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
   const nodesSettingMenuItemId = 'nodes-setting'
   const connectorsSettingMenuItemId = 'connectors-setting'
 
-  const {selectedNodes, setSelectedNodes} = useContext(SelectedNodesContext)
+  const {selectedSymbols, setSelectedSymbols, settingMode, setSettingMode} = useContext(SelectedSymbolsContext)
 
   const contextMenuSettings = {
     items: [
       {separator: true},
-      {text: 'Node setting...', id: nodesSettingMenuItemId, target: 'e-diagram-content'},
-      {text: 'Connector setting...', id: connectorsSettingMenuItemId, target: 'e-diagram-content'},
+      {text: `${t('Node settings')}...`, id: nodesSettingMenuItemId, target: 'e-diagram-content'},
+      {text: `${t('Connector settings')}...`, id: connectorsSettingMenuItemId, target: 'e-diagram-content'},
     ],
     show: true,
     showCustomMenuOnly: false,
@@ -52,25 +55,33 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
     const item = event.item.id
     switch (item) {
       case nodesSettingMenuItemId:
-        setSelectedNodes(diagram.current.selectedItems.nodes)
+        setSelectedSymbols(diagram.current.selectedItems.nodes)
+        setSettingMode(NODES)
         setSidebarVisible(true)
         break
       case connectorsSettingMenuItemId:
+        setSelectedSymbols(diagram.current.selectedItems.connectors)
+        setSettingMode(CONNECTORS)
+        setSidebarVisible(true)
+        break
       default:
+        setSelectedSymbols([])
+        setSettingMode()
+        break
     }
   }
   const menuWillOpen = event => {
     const nNodeSelected = diagram.current.selectedItems.nodes.length
     const nEdgeSelected = diagram.current.selectedItems.connectors.length
-    if (nNodeSelected === 0) event.hiddenItems.push(nodesSettingMenuItemId)
-    if (nEdgeSelected === 0) event.hiddenItems.push(connectorsSettingMenuItemId)
+    if (nNodeSelected === 0 || nEdgeSelected !== 0) event.hiddenItems.push(nodesSettingMenuItemId)
+    if (nEdgeSelected === 0 || nNodeSelected !== 0) event.hiddenItems.push(connectorsSettingMenuItemId)
   }
 
   const symbols = [
     {
       id: 'Node',
       shape: {type: 'Basic', shape: 'Rectangle'},
-      annotations: [{content: t('label'), constraints: AnnotationConstraints.Interaction}]
+      annotations: [{content: t('label'), constraints: AnnotationConstraints.Interaction}],
     },
     {
       id: 'Link',
@@ -116,21 +127,26 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
 
 const SidebarWrapper = () => {
   const [visible, setVisible] = useState(false)
-  const [selectedNodes, setSelectedNodes] = useState([])
+  const [selectedSymbols, setSelectedSymbols] = useState([])
+  const [settingMode, setSettingMode] = useState() // setSettingMode: NODES, CONNECTORS, undefined
 
   const {t} = useTranslation()
 
-  const sidebarPanes = [
-    {menuItem: t('Shape'), render: () => <Tab.Pane><ShapeTabPane nodes={selectedNodes}/></Tab.Pane>},
-    {menuItem: t('Shape Style'), render: () => <Tab.Pane><ShapeStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
-    {menuItem: t('Text Style'), render: () => <Tab.Pane><TextStyleTabPane nodes={selectedNodes}/></Tab.Pane>},
-    {menuItem: t('Annotation'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
-    {menuItem: t('Shadow'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
-    {menuItem: t('Gradient'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
-  ]
+  const sidebarPanes = ({
+    [NODES]: [
+      {menuItem: t('Shape'), render: () => <Tab.Pane><ShapeTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {menuItem: t('Shape Style'), render: () => <Tab.Pane><ShapeStyleTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {menuItem: t('Text Style'), render: () => <Tab.Pane><TextStyleTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {menuItem: t('Annotation'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
+      {menuItem: t('Shadow'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
+      {menuItem: t('Gradient'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
+    ],
+    [CONNECTORS]: [],
+    undefined: [],
+  })[settingMode]
 
   return (
-      <SelectedNodesContext.Provider value={{selectedNodes, setSelectedNodes}}>
+      <SelectedSymbolsContext.Provider value={{selectedSymbols, setSelectedSymbols, settingMode, setSettingMode}}>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
               as={Tab}
@@ -145,7 +161,7 @@ const SidebarWrapper = () => {
             <SyncFusionGeneralDiagram sidebarVisible={visible} setSidebarVisible={setVisible}/>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-      </SelectedNodesContext.Provider>
+      </SelectedSymbolsContext.Provider>
   )
 }
 

@@ -4,23 +4,23 @@ import {Grid, Input} from 'semantic-ui-react'
 import {Slider} from 'react-semantic-ui-range'
 import KGColorPicker from '../KGColorPicker'
 
-const ShapeStyleTabPane = ({nodes}) => {
-  if (!nodes || !nodes[0]) return <div/>
+const ShapeStyleTabPane = ({symbols}) => {
+  if (!symbols || !symbols[0]) return <div/>
 
-  const [fillColor, setFillColor] = useState(nodes[0].style.fill)
-  const [opacity, setOpacity] = useState(nodes[0].style.opacity)
-  const [strokeColor, setStrokeColor] = useState(nodes[0].style.strokeColor)
-  const [strokeWidth, setStrokeWidth] = useState(nodes[0].style.strokeWidth)
-  const [strokeDashArray, setStrokeDashArray] = useState(nodes[0].style.strokeDashArray)
+  const [fillColor, setFillColor] = useState(symbols[0].style.fill)
+  const [opacity, setOpacity] = useState(symbols[0].style.opacity)
+  const [strokeColor, setStrokeColor] = useState(symbols[0].style.strokeColor)
+  const [strokeWidth, setStrokeWidth] = useState(symbols[0].style.strokeWidth)
+  const [strokeDashArray, setStrokeDashArray] = useState(symbols[0].style.strokeDashArray)
 
   const {t} = useTranslation()
 
-  nodes.forEach(node => {
-    node.style.fill = fillColor
-    node.style.opacity = opacity
-    node.style.strokeColor = strokeColor
-    node.style.strokeWidth = strokeWidth
-    node.style.strokeDashArray = strokeDashArray
+  symbols.forEach(symbol => {
+    symbol.style.fill = fillColor
+    symbol.style.opacity = opacity
+    symbol.style.strokeColor = strokeColor
+    symbol.style.strokeWidth = strokeWidth
+    symbol.style.strokeDashArray = strokeDashArray
   })
 
   return (

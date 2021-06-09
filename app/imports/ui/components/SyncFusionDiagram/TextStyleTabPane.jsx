@@ -4,25 +4,25 @@ import {Checkbox, Dropdown, Grid} from 'semantic-ui-react'
 import {Slider} from 'react-semantic-ui-range'
 import KGColorPicker from '../KGColorPicker'
 
-const TextStyleTabPane = ({nodes}) => {
-  if (!nodes || !nodes[0]) return <div/>
+const TextStyleTabPane = ({symbols}) => {
+  if (!symbols || !symbols[0]) return <div/>
 
-  const [color, setColor] = useState(nodes[0].style.color)
-  const [bold, setBold] = useState(!!nodes[0].style.bold)
-  const [italic, setItalic] = useState(!!nodes[0].style.italic)
-  const [fontFamily, setFontFamily] = useState(nodes[0].style.fontFamily)
-  const [fontSize, setFontSize] = useState(nodes[0].style.fontSize)
-  const [textAlign, setTextAlign] = useState(nodes[0].style.textAlign)
+  const [color, setColor] = useState(symbols[0].style.color)
+  const [bold, setBold] = useState(!!symbols[0].style.bold)
+  const [italic, setItalic] = useState(!!symbols[0].style.italic)
+  const [fontFamily, setFontFamily] = useState(symbols[0].style.fontFamily)
+  const [fontSize, setFontSize] = useState(symbols[0].style.fontSize)
+  const [textAlign, setTextAlign] = useState(symbols[0].style.textAlign)
 
   const {t} = useTranslation()
 
-  nodes.forEach(node => {
-    node.style.color = color
-    node.style.bold = bold
-    node.style.italic = italic
-    node.style.fontFamily = fontFamily
-    node.style.fontSize = fontSize
-    node.style.textAlign = textAlign
+  symbols.forEach(symbol => {
+    symbol.style.color = color
+    symbol.style.bold = bold
+    symbol.style.italic = italic
+    symbol.style.fontFamily = fontFamily
+    symbol.style.fontSize = fontSize
+    symbol.style.textAlign = textAlign
   })
 
   const alignOptions = [
