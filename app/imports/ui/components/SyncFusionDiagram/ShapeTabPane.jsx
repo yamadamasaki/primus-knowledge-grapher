@@ -9,12 +9,17 @@ const ShapeTabPane = ({symbols}) => {
   const [cornerRadius, setCornerRadius] = useState(symbols[0].shape.cornerRadius)
   const [shape, setShape] = useState(symbols[0].shape.shape)
 
+  const setters = {
+    cornerRadius: setCornerRadius,
+    shape: setShape,
+  }
+
   const {t} = useTranslation()
 
-  symbols.forEach(symbol => {
-    symbol.shape.cornerRadius = cornerRadius
-    symbol.shape.shape = shape
-  })
+  const onValueChange = name => value => {
+    setters[name](value)
+    symbols.forEach(symbol => symbol.shape[name] = value)
+  }
 
   const sliderDefaults = {min: 0, max: 32, step: 0.1}
   const shapes = [
@@ -41,14 +46,14 @@ const ShapeTabPane = ({symbols}) => {
         <Grid.Row>
           <Grid.Column width={4}><label>{t('Corner Radius')}</label></Grid.Column>
           <Grid.Column width={8}>
-            <Slider settings={{start: cornerRadius, onChange: setCornerRadius, ...sliderDefaults}}/>
+            <Slider settings={{start: cornerRadius, onChange: onValueChange('cornerRadius'), ...sliderDefaults}}/>
           </Grid.Column>
           <Grid.Column width={4}>{cornerRadius}</Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={4}><label>{t('Shape')}</label></Grid.Column>
           <Grid.Column width={8}>
-            <Dropdown options={shapes} onChange={(_, data) => {setShape(data.value)}}/>
+            <Dropdown options={shapes} onChange={(_, data) => onValueChange('shape')(data.value)}/>
           </Grid.Column>
           <Grid.Column width={4}>{t(shape)}</Grid.Column>
         </Grid.Row>

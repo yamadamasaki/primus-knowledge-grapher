@@ -14,16 +14,21 @@ const TextStyleTabPane = ({symbols}) => {
   const [fontSize, setFontSize] = useState(symbols[0].style.fontSize)
   const [textAlign, setTextAlign] = useState(symbols[0].style.textAlign)
 
+  const setters = {
+    color: setColor,
+    bold: setBold,
+    italic: setItalic,
+    fontFamily: setFontFamily,
+    fontSize: setFontSize,
+    textAlign: setTextAlign,
+  }
+
   const {t} = useTranslation()
 
-  symbols.forEach(symbol => {
-    symbol.style.color = color
-    symbol.style.bold = bold
-    symbol.style.italic = italic
-    symbol.style.fontFamily = fontFamily
-    symbol.style.fontSize = fontSize
-    symbol.style.textAlign = textAlign
-  })
+  const onValueChange = name => value => {
+    setters[name](value)
+    symbols.forEach(symbol => symbol.style[name] = value)
+  }
 
   const alignOptions = [
     {key: 'Left', text: t('Left'), value: 'Left'},
@@ -43,36 +48,36 @@ const TextStyleTabPane = ({symbols}) => {
         <Grid.Row>
           <Grid.Column width={4}><label>{t('Color')}</label></Grid.Column>
           <Grid.Column width={8}>
-            <KGColorPicker color={color} setColor={setColor}/>
+            <KGColorPicker color={color} setColor={onValueChange('color')}/>
           </Grid.Column>
           <Grid.Column width={4}>{color}</Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={8}>
-            <Checkbox label={t('Bold')} checked={bold} onChange={(_, data) => setBold(data.checked)}/>
+            <Checkbox label={t('Bold')} checked={bold} onChange={(_, data) => onValueChange('bold')(data.checked)}/>
           </Grid.Column>
           <Grid.Column width={8}>
-            <Checkbox label={t('Italic')} checked={italic} onChange={(_, data) => setItalic(data.checked)}/>
+            <Checkbox label={t('Italic')} checked={italic} onChange={(_, data) => onValueChange('italic')(data.checked)}/>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={4}><label>{t('Font Family')}</label></Grid.Column>
           <Grid.Column width={8}>
-            <Dropdown options={fontFamilies} onChange={(_, data) => {setFontFamily(data.value)}}/>
+            <Dropdown options={fontFamilies} onChange={(_, data) => onValueChange('fontFamily')(data.value)}/>
           </Grid.Column>
           <Grid.Column width={4}>{fontFamily}</Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={4}><label>{t('Font Size')}</label></Grid.Column>
           <Grid.Column width={8}>
-            <Slider settings={{start: fontSize, onChange: setFontSize, min: 1, max: 64, step: 1}}/>
+            <Slider settings={{start: fontSize, onChange: onValueChange('fontSize'), min: 1, max: 64, step: 1}}/>
           </Grid.Column>
           <Grid.Column width={4}>{fontSize}</Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={4}><label>{t('Text Align')}</label></Grid.Column>
           <Grid.Column width={8}>
-            <Dropdown options={alignOptions} onChange={(_, data) => {setTextAlign(data.value)}}/>
+            <Dropdown options={alignOptions} onChange={(_, data) => onValueChange('textAlign')(data.value)}/>
           </Grid.Column>
           <Grid.Column width={4}>{t(textAlign)}</Grid.Column>
         </Grid.Row>
