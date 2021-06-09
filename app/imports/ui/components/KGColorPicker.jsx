@@ -3,12 +3,13 @@ import {SketchPicker} from 'react-color'
 
 const KGColorPicker = ({color, setColor}) => {
   const [showPicker, setShowPicker] = useState(false)
+  const [state, setState] = useState(color)
 
   const colorStyle = {
     width: '36px',
     height: '14px',
     borderRadius: '2px',
-    background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`,
+    background: state.hex,
   }
   const swatchStyle = {
     padding: '5px',
@@ -39,7 +40,7 @@ const KGColorPicker = ({color, setColor}) => {
           showPicker ? (
               <div style={popoverStyle}>
                 <div style={coverStyle} onClick={() => setShowPicker(false)}/>
-                <SketchPicker color={color} onChange={color => setColor(color.hex)}/>
+                <SketchPicker color={state} onChange={state => {setState(state); setColor(state.hex)}}/>
               </div>
           ) : null
         }
