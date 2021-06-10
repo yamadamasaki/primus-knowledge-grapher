@@ -14,6 +14,9 @@ import {useTranslation} from 'react-i18next'
 import ShapeTabPane from './SyncFusionDiagram/ShapeTabPane'
 import ShapeStyleTabPane from './SyncFusionDiagram/ShapeStyleTabPane'
 import TextStyleTabPane from './SyncFusionDiagram/TextStyleTabPane'
+import ConnectorTabPane from './SyncFusionDiagram/ConnectorTabPane'
+import ConnectorStyleTabPane from './SyncFusionDiagram/ConnectorStyleTabPane'
+import ConnectorEndsTabPane from './SyncFusionDiagram/ConnectorEndsTabPane'
 
 const NODES = 'nodes'
 const CONNECTORS = 'connectors'
@@ -141,7 +144,12 @@ const SidebarWrapper = () => {
       {menuItem: t('Shadow'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
       {menuItem: t('Gradient'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
     ],
-    [CONNECTORS]: [],
+    [CONNECTORS]: [
+      {menuItem: t('Connector'), render: () => <Tab.Pane><ConnectorTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {menuItem: t('Connector Style'), render: () => <Tab.Pane><ConnectorStyleTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {menuItem: t('Connector Ends'), render: () => <Tab.Pane><ConnectorEndsTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {menuItem: t('Annotation'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
+    ],
     undefined: [],
   })[settingMode]
 
