@@ -51,7 +51,7 @@ const KGTextAndDiagramSubsession = () => {
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
                         <KGDraftTextSection {...params}/>
-                        <KGGeneralDiagramSection/>
+                        <KGGeneralDiagramSection {...params}/>
                         {/*
                     <Components.KGChatButton match={{
                       params: {

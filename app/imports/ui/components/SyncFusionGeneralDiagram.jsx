@@ -28,15 +28,16 @@ const gridlines = {lineColor: '#e0e0e0', lineIntervals: interval}
 
 const SelectedSymbolsContext = createContext({})
 
-const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
+const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible, diagram, save}) => {
   const renderComplete = () => {
+    if (diagramComponent && diagramComponent.current && diagram) diagramComponent.current.loadDiagram(diagram)
   }//diagram.current.fitToPage()
 
   useEffect(() => {
     setTimeout(() => renderComplete(), 0)
-  })
+  }, [diagram])
 
-  const diagram = useRef()
+  const diagramComponent = useRef()
   const {t} = useTranslation()
 
   const nodesSettingMenuItemId = 'nodes-setting'
@@ -58,12 +59,12 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
     const item = event.item.id
     switch (item) {
       case nodesSettingMenuItemId:
-        setSelectedSymbols(diagram.current.selectedItems.nodes)
+        setSelectedSymbols(diagramComponent.current.selectedItems.nodes)
         setSettingMode(NODES)
         setSidebarVisible(true)
         break
       case connectorsSettingMenuItemId:
-        setSelectedSymbols(diagram.current.selectedItems.connectors)
+        setSelectedSymbols(diagramComponent.current.selectedItems.connectors)
         setSettingMode(CONNECTORS)
         setSidebarVisible(true)
         break
@@ -74,8 +75,8 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
     }
   }
   const menuWillOpen = event => {
-    const nNodeSelected = diagram.current.selectedItems.nodes.length
-    const nEdgeSelected = diagram.current.selectedItems.connectors.length
+    const nNodeSelected = diagramComponent.current.selectedItems.nodes.length
+    const nEdgeSelected = diagramComponent.current.selectedItems.connectors.length
     if (nNodeSelected === 0 || nEdgeSelected !== 0) event.hiddenItems.push(nodesSettingMenuItemId)
     if (nEdgeSelected === 0 || nNodeSelected !== 0) event.hiddenItems.push(connectorsSettingMenuItemId)
   }
@@ -115,20 +116,21 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible}) => {
         <div style={{width: '100%'}}>
           <DiagramComponent
               id="diagram"
-              ref={diagram} width={'100%'} height={'800px'}
+              ref={diagramComponent} width={'100%'} height={'800px'}
               snapSettings={{horizontalGridlines: gridlines, verticalGridlines: gridlines}}
               contextMenuSettings={contextMenuSettings}
               contextMenuClick={menuClicked} contextMenuOpen={menuWillOpen}>
             <Inject services={[UndoRedo, DiagramContextMenu, PrintAndExport]}/>
           </DiagramComponent>
         </div>
-        <Button onClick={() => diagram.current.exportDiagram({})}>{t('Export')}</Button>
-        <Button onClick={() => diagram.current.print({})}>{t('Print')}</Button>
+        <Button onClick={() => save(diagramComponent.current.saveDiagram())}>{t('Save')}</Button>
+        <Button onClick={() => diagramComponent.current.exportDiagram({})}>{t('Export')}</Button>
+        <Button onClick={() => diagramComponent.current.print({})}>{t('Print')}</Button>
       </div>
   )
 }
 
-const SidebarWrapper = () => {
+const SidebarWrapper = (params) => {
   const [visible, setVisible] = useState(false)
   const [selectedSymbols, setSelectedSymbols] = useState([])
   const [settingMode, setSettingMode] = useState() // setSettingMode: NODES, CONNECTORS, undefined
@@ -146,8 +148,14 @@ const SidebarWrapper = () => {
     ],
     [CONNECTORS]: [
       {menuItem: t('Connector'), render: () => <Tab.Pane><ConnectorTabPane symbols={selectedSymbols}/></Tab.Pane>},
-      {menuItem: t('Connector Style'), render: () => <Tab.Pane><ConnectorStyleTabPane symbols={selectedSymbols}/></Tab.Pane>},
-      {menuItem: t('Connector Ends'), render: () => <Tab.Pane><ConnectorEndsTabPane symbols={selectedSymbols}/></Tab.Pane>},
+      {
+        menuItem: t('Connector Style'),
+        render: () => <Tab.Pane><ConnectorStyleTabPane symbols={selectedSymbols}/></Tab.Pane>,
+      },
+      {
+        menuItem: t('Connector Ends'),
+        render: () => <Tab.Pane><ConnectorEndsTabPane symbols={selectedSymbols}/></Tab.Pane>,
+      },
       {menuItem: t('Annotation'), render: () => <Tab.Pane>{t('Not Yet Implemented')}</Tab.Pane>},
     ],
     undefined: [],
@@ -166,7 +174,7 @@ const SidebarWrapper = () => {
               width="thin"
               panes={sidebarPanes}/>
           <Sidebar.Pusher>
-            <SyncFusionGeneralDiagram sidebarVisible={visible} setSidebarVisible={setVisible}/>
+            <SyncFusionGeneralDiagram sidebarVisible={visible} setSidebarVisible={setVisible} {...params}/>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </SelectedSymbolsContext.Provider>
