@@ -1,4 +1,4 @@
-import {DraftTexts} from '../draftText/DraftTextCollection'
+import {DraftTexts} from './DraftTextCollection'
 import {ValidatedMethod} from 'meteor/mdg:validated-method'
 import {Meteor} from 'meteor/meteor'
 import {check} from 'meteor/check'
