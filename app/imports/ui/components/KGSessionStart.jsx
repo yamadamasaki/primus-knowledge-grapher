@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next'
 import KGIfIHave from './KGIfIHave'
 import {sessionSpecDefineMethod} from '../../api/sessionSpec/SessionSpecCollections.methods'
 
-const KGSessionStart = ({programId, sessionId, specs, isStartable, children}) => {
+const KGSessionStart = ({programId, sessionId, specs, canStart, children}) => {
   const specLoading = useTracker(() => !SessionSpecs.subscribe(SessionSpecs.getChannels().allWithMeta).ready())
   const sessionSpec = useTracker(() => SessionSpecs.findOne({programId, sessionId}))
 
@@ -29,7 +29,7 @@ const KGSessionStart = ({programId, sessionId, specs, isStartable, children}) =>
           (
               sessionSpec ? children :
                   <div>
-                    <KGIfIHave permission={isStartable}>
+                    <KGIfIHave permission={canStart}>
                       <Button onClick={startSession}>{t('Start the Session')}</Button>
                     </KGIfIHave>
                     <ShowError/>

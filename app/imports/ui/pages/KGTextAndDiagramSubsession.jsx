@@ -58,8 +58,8 @@ const KGTextAndDiagramSubsession = () => {
                         programId,
                         sectionId,
                         subsection: `${subsection}-chat`,
-                        isChattable: {groups: ['members']},
-                        isReadable: {groups: ['members']},
+                        canWrite: {groups: ['members']},
+                        canRead: {groups: ['members']},
                       },
                     }}/>
                     */}

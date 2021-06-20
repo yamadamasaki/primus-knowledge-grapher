@@ -38,14 +38,14 @@ const CFPrepSession = () => {
       programId,
       sessionId,
       subsession: 'prep-questionnaire',
-      componentName: 'KGAssignmentSubsession',
+      componentName: 'KGAssignmentSubsession', // Not Yet Implemented
     },
     {
       name: 'アサイン',
       programId,
       sessionId,
       subsession: 'prep-questionnaire',
-      componentName: 'KGTeamsSubsession',
+      componentName: 'KGTeamsSubsession', // Not Yet Implemented
     },
   ]
 
@@ -55,32 +55,28 @@ const CFPrepSession = () => {
     subsessions,
     'prep-guidance': {
       subsessionName: 'ねらい',
-      diagramComponentName: 'CFFrameworkDiagramSection',
-      isTextEditable: {groups: ['admin']},
-      isTextReadable: {groups: ['member']},
-      isDiagramSavable: {groups: ['admin']},
-      isDiagramReadable: {groups: ['member']},
+      canWriteText: {groups: ['admin']},
+      canReadText: {groups: ['member']},
+      canWriteDiagram: {groups: ['admin']},
+      canReadDiagram: {groups: ['member']},
     },
     'prep-questionnaire': {
       subsessionName: '課題',
-      diagramComponentName: 'CFFrameworkDiagramSection',
-      isTeamDefinable: {groups: ['admin']},
-      isTeamAnswerable: {groups: ['member']}, // Not Implemented Yet
-      delegatedComponentName: 'KGAnswerSubsession',      // 以下は問い掛け部分の permission
+      canQuestion: {groups: ['admin']},
+      canAnswer: {groups: ['member']}, // Not Implemented Yet
       // isText... があれば showText: true, isDiagram... があれば showDiagram: true
-      isTextEditable: {groups: ['admin']},
-      isTextReadable: {groups: ['member']},
-      isDiagramSavable: {groups: ['admin']},
-      isDiagramReadable: {groups: ['member']},
+      canWriteText: {groups: ['admin']},
+      canReadText: {groups: ['member']},
+      canWriteDiagram: {groups: ['admin']},
+      canReadDiagram: {groups: ['member']},
       // 課題成果物の permission はその先で teamId で決める
     },
     'prep-questionnaire-answer': {
       subsessionName: 'アサイン',
-      diagramComponentName: 'CFFrameworkDiagramSection',
-      isTextEditable: {groups: ['admin']},
-      isTextReadable: {groups: ['member']},
-      isDiagramSavable: {groups: ['admin']},
-      isDiagramReadable: {groups: ['member']},
+      canWriteText: {groups: ['admin']},
+      canReadText: {groups: ['member']},
+      canWriteDiagram: {groups: ['admin']},
+      canReadDiagram: {groups: ['member']},
     },
   }
 
@@ -105,7 +101,7 @@ const CFPrepSession = () => {
                             {...params}
                             program={program} sessionName={sessionName} sessionComponent={sessionComponentName}/>
                         <KGSessionHeader sessionName={sessionName}/>
-                        <KGSessionStart {...params} specs={specs} isStartable={{groups: ['admin']}}>
+                        <KGSessionStart {...params} specs={specs} canStart={{groups: ['admin']}}>
                           <KGSectionMenu subsessions={subsessions}/>
                           {/*
                               <Components.KGChatButton match={{
@@ -113,8 +109,8 @@ const CFPrepSession = () => {
                                   programId,
                                   sessionId,
                                   subsession: 'prep-chat',
-                                  isChattable: {groups: ['member']},
-                                  isReadable: {groups: ['member']},
+                                  canWrite: {groups: ['member']},
+                                  canRead: {groups: ['member']},
                                 },
                               }}/>
                             */}
