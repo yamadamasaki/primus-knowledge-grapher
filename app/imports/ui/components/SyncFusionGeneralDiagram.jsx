@@ -17,6 +17,7 @@ import TextStyleTabPane from './SyncFusionDiagram/TextStyleTabPane'
 import ConnectorTabPane from './SyncFusionDiagram/ConnectorTabPane'
 import ConnectorStyleTabPane from './SyncFusionDiagram/ConnectorStyleTabPane'
 import ConnectorEndsTabPane from './SyncFusionDiagram/ConnectorEndsTabPane'
+import {KGIfIDontHave, KGIfIHave} from './KGIfIHave'
 
 const NODES = 'nodes'
 const CONNECTORS = 'connectors'
@@ -28,7 +29,7 @@ const gridlines = {lineColor: '#e0e0e0', lineIntervals: interval}
 
 const SelectedSymbolsContext = createContext({})
 
-const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible, diagram, save}) => {
+const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible, diagram, canWrite, save}) => {
   const renderComplete = () => {
     if (diagramComponent && diagramComponent.current && diagram) diagramComponent.current.loadDiagram(diagram)
   }//diagram.current.fitToPage()
@@ -123,9 +124,15 @@ const SyncFusionGeneralDiagram = ({sidebarVisible, setSidebarVisible, diagram, s
             <Inject services={[UndoRedo, DiagramContextMenu, PrintAndExport]}/>
           </DiagramComponent>
         </div>
-        <Button onClick={() => save(diagramComponent.current.saveDiagram())}>{t('Save')}</Button>
-        <Button onClick={() => diagramComponent.current.exportDiagram({})}>{t('Export')}</Button>
-        <Button onClick={() => diagramComponent.current.print({})}>{t('Print')}</Button>
+        <KGIfIHave permission={canWrite}>
+          <Button onClick={() => save(diagramComponent.current.saveDiagram())}>{t('Save')}</Button>
+          <Button onClick={() => diagramComponent.current.exportDiagram({})}>{t('Export as Image')}</Button>
+          <Button onClick={() => diagramComponent.current.print({})}>{t('Print')}</Button>
+        </KGIfIHave>
+        <KGIfIDontHave permission={canWrite}>
+          <Button onClick={() => diagramComponent.current.exportDiagram({})}>{t('Export as Image')}</Button>
+          <Button onClick={() => diagramComponent.current.print({})}>{t('Print')}</Button>
+        </KGIfIDontHave>
       </div>
   )
 }
