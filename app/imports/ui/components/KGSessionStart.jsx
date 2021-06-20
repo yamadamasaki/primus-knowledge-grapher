@@ -3,7 +3,7 @@ import {useTracker} from 'meteor/react-meteor-data'
 import {SessionSpecs} from '../../api/sessionSpec/SessionSpecCollection'
 import {Button, Loader, Message} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
-import KGIfIHave from './KGIfIHave'
+import {KGIfIHave} from './KGIfIHave'
 import {sessionSpecDefineMethod} from '../../api/sessionSpec/SessionSpecCollections.methods'
 
 const KGSessionStart = ({programId, sessionId, specs, canStart, children}) => {

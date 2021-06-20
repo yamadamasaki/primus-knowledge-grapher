@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react'
 import {convertFromRaw, convertToRaw, EditorState} from 'draft-js'
 import {Editor} from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import {Button, Header, Loader, Message} from 'semantic-ui-react'
+import {Button, Loader, Message} from 'semantic-ui-react'
 import {DraftTexts} from '../../api/draftText/DraftTextCollection'
-import {withTracker} from 'meteor/react-meteor-data'
+import {useTracker, withTracker} from 'meteor/react-meteor-data'
 import {draftTextDefineMethod, draftTextUpdateMethod} from '../../api/draftText/DraftTextCollection.methods'
 import {useTranslation} from 'react-i18next'
+import {isPermitted, KGIfIHave} from '../components/KGIfIHave'
+import {Meteor} from 'meteor/meteor'
 
 const toolbar = {
   image: {
@@ -24,8 +26,13 @@ const toolbar = {
   },
 }
 
-const KGDraftTextSection = ({documentLoading, document, selector}) => {
+const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWrite}) => {
+  const currentUser = useTracker(() => Meteor.user())
+
   const {t} = useTranslation()
+
+  if (!isPermitted(currentUser, canRead))
+    return <Message color="yellow">{t('This section is not published')}</Message>
 
   const [editorState, setEditorState] = useState()
   useEffect(() => {
@@ -64,38 +71,41 @@ const KGDraftTextSection = ({documentLoading, document, selector}) => {
     padding: '1rem 2rem',
     borderLeft: '6px double blue',
     borderRight: '6px double blue',
-    margin: '1rem 0rem'
+    margin: '1rem 0rem',
   }
+
+  const readOnly = !isPermitted(currentUser, canWrite)
 
   return (
       documentLoading ? <Loader/> : (
-          <div style={sectionStyle}>
-            <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={setEditorState}
-                toolbar={toolbar}
-            />
-            <Button onClick={save}>{t('Save')}</Button>
-            <ShowError/>
-            <ShowSuccess/>
-          </div>
+          <KGIfIHave permission={canRead}>
+            <div style={sectionStyle}>
+              <Editor
+                  editorState={editorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={setEditorState}
+                  toolbar={toolbar}
+                  readOnly={readOnly} toolbarHidden={readOnly}
+              />
+              <KGIfIHave permission={canWrite}>
+                <Button onClick={save}>{t('Save')}</Button>
+              </KGIfIHave>
+              <ShowError/>
+              <ShowSuccess/>
+            </div>
+          </KGIfIHave>
       )
   )
 }
 
 // id は直接 mongo ドキュメントにアクセスする場合に, {programId, sessionId, subsession} と排他的に用いられる
 // 今のところ, そういう usecase はない
-export default withTracker(({programId, sessionId, subsession, id}) => {
+export default withTracker(({programId, sessionId, subsession, id, canRead, canWrite}) => {
   const selector = id || (subsession ? {programId, sessionId, subsession} : {programId, sessionId})
   const documentLoading = !DraftTexts.subscribe(DraftTexts.getChannels().allWithMeta).ready()
   const document = DraftTexts.findOne(selector)
 
-  return {
-    documentLoading,
-    document,
-    selector,
-  }
+  return {documentLoading, document, selector, canRead, canWrite}
 })(KGDraftTextSection)

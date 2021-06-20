@@ -35,6 +35,7 @@ const KGTextAndDiagramSubsession = () => {
 
   const mySpec = (sessionSpec && sessionSpec.specs[subsessionName]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
+  const {canReadText, canWriteText, canReadDiagram, canWriteDiagram} = mySpec
 
   return (
       <>
@@ -50,8 +51,8 @@ const KGTextAndDiagramSubsession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
-                        <KGDraftTextSection {...params}/>
-                        <KGGeneralDiagramSection {...params}/>
+                        <KGDraftTextSection {...params} canRead={canReadText} canWrite={canWriteText}/>
+                        <KGGeneralDiagramSection {...params} canRead={canReadDiagram} canWrite={canWriteDiagram}/>
                         {/*
                     <Components.KGChatButton match={{
                       params: {
