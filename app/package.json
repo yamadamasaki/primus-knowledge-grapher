@@ -26,6 +26,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-semantic-ui-range": "^0.7.1",
+    "react-toast-notifications": "^2.4.4",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "simpl-schema": "^1.12.0",

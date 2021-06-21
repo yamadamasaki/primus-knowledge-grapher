@@ -9,6 +9,7 @@ import {draftTextDefineMethod, draftTextUpdateMethod} from '../../api/draftText/
 import {useTranslation} from 'react-i18next'
 import {isPermitted, KGIfIHave} from '../components/KGIfIHave'
 import {Meteor} from 'meteor/meteor'
+import {useToasts} from 'react-toast-notifications'
 
 const toolbar = {
   image: {
@@ -28,7 +29,7 @@ const toolbar = {
 
 const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWrite}) => {
   const currentUser = useTracker(() => Meteor.user())
-
+  const {addToast} = useToasts()
   const {t} = useTranslation()
 
   if (!isPermitted(currentUser, canRead))
@@ -42,23 +43,9 @@ const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWr
           setEditorState(EditorState.createEmpty())
   }, [document])
 
-  const [error, setError] = useState(null)
-  const dismissError = () => setError(null)
-  const ShowError = () => error ? <Message onDismiss={dismissError} header={t('Error')} content={error}/> : <div/>
-
-  const [success, setSuccess] = useState(null)
-  const dismissSuccess = () => setSuccess(null)
-  const ShowSuccess = () => success ? <Message color="green" onDismiss={dismissSuccess}>{success}</Message> : <div/>
-
-  const onError = error => {
-    if (error) {
-      setError(<div>{error.message}</div>)
-      setSuccess(null)
-    } else {
-      setSuccess(<div>{t('Success')}</div>)
-      setError(null)
-    }
-  }
+  const showError = message => addToast(message, {appearance: 'error', autoDismiss: false})
+  const showSuccess = () => addToast(t('Success'), {appearance: 'success', autoDismiss: true})
+  const onError = error => error ? showError(error.message) : showSuccess()
 
   const save = () => {
     const currentContent = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
@@ -92,8 +79,6 @@ const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWr
               <KGIfIHave permission={canWrite}>
                 <Button onClick={save}>{t('Save')}</Button>
               </KGIfIHave>
-              <ShowError/>
-              <ShowSuccess/>
             </div>
           </KGIfIHave>
       )

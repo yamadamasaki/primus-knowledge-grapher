@@ -19,10 +19,10 @@ import Users from '../pages/Users'
 import ProgramPage from '../pages/ProgramPage'
 import ScenarioFormPage from '../pages/ScenarioFormPage'
 import ScenarioPage from '../pages/ScenarioPage'
-import KGDraftTextSection from '../sections/KGDraftTextSection'
 import ProgramHomePage from '../pages/ProgramHomePage'
 import SessionPage from '../pages/SessionPage'
 import SubsessionPage from '../pages/SubsessionPage'
+import {ToastProvider} from 'react-toast-notifications'
 
 export const SideBarContext = createContext({})
 
@@ -33,26 +33,28 @@ const App = () => {
   return (
       <Router>
         <SideBarContext.Provider value={{sideBarOpen, setSideBarOpen}}>
-          <NavBar/>
-          <Switch>
-            <Route exact path="/" component={Landing}/>
-            <Route path="/signin" component={Signin}/>
-            <Route path="/signup" component={Meteor.settings.public.selfRegistration ? Signup : NotFound}/>
-            <ProtectedRoute path="/list" component={ListStuff}/>
-            <ProtectedRoute path="/add" component={AddStuff}/>
-            <ProtectedRoute exact path="/programs" component={ProgramPage}/>
-            <ProtectedRoute path="/programs/:programId" component={ProgramHomePage}/>
-            <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
-            <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
-            <ProtectedRoute exact path="/sessions/:programId/:componentName/:sessionId" component={SessionPage}/>
-            <ProtectedRoute path="/sessions/:programId/:componentName/:sessionId/:subsessionName" component={SubsessionPage}/>
-            <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
-            <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
-            <AdminProtectedRoute path="/users" component={Users}/>
-            <ProtectedRoute path="/signout" component={Signout}/>
-            <Route component={NotFound}/>
-          </Switch>
-          <Footer/>
+          <ToastProvider>
+            <NavBar/>
+            <Switch>
+              <Route exact path="/" component={Landing}/>
+              <Route path="/signin" component={Signin}/>
+              <Route path="/signup" component={Meteor.settings.public.selfRegistration ? Signup : NotFound}/>
+              <ProtectedRoute path="/list" component={ListStuff}/>
+              <ProtectedRoute path="/add" component={AddStuff}/>
+              <ProtectedRoute exact path="/programs" component={ProgramPage}/>
+              <ProtectedRoute path="/programs/:programId" component={ProgramHomePage}/>
+              <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
+              <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
+              <ProtectedRoute exact path="/sessions/:programId/:componentName/:sessionId" component={SessionPage}/>
+              <ProtectedRoute path="/sessions/:programId/:componentName/:sessionId/:subsessionName" component={SubsessionPage}/>
+              <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
+              <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
+              <AdminProtectedRoute path="/users" component={Users}/>
+              <ProtectedRoute path="/signout" component={Signout}/>
+              <Route component={NotFound}/>
+            </Switch>
+            <Footer/>
+          </ToastProvider>
         </SideBarContext.Provider>
       </Router>
   )

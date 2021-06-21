@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import SyncFusionGeneralDiagram from '../components/SyncFusionGeneralDiagram.jsx'
 import {SyncFusionDiagrams} from '../../api/syncfusionDiagram/SyncFusionDiagramCollection'
 import {useTracker, withTracker} from 'meteor/react-meteor-data'
@@ -10,6 +10,7 @@ import {
 } from '../../api/syncfusionDiagram/SyncFusionDiagramCollection.methods'
 import {Meteor} from 'meteor/meteor'
 import {isPermitted} from '../components/KGIfIHave'
+import {useToasts} from 'react-toast-notifications'
 
 const sectionStyle = {
   padding: '1rem 2rem',
@@ -21,29 +22,15 @@ const sectionStyle = {
 
 const KGGeneralDiagramSection = ({documentLoading, document, selector, canRead, canWrite}) => {
   const currentUser = useTracker(() => Meteor.user())
-
+  const {addToast} = useToasts()
   const {t} = useTranslation()
 
   if (!isPermitted(currentUser, canRead))
     return <Message color="yellow">{t('This section is not published')}</Message>
 
-  const [error, setError] = useState(null)
-  const dismissError = () => setError(null)
-  const ShowError = () => error ? <Message onDismiss={dismissError} header={t('Error')} content={error}/> : <div/>
-
-  const [success, setSuccess] = useState(null)
-  const dismissSuccess = () => setSuccess(null)
-  const ShowSuccess = () => success ? <Message color="green" onDismiss={dismissSuccess}>{success}</Message> : <div/>
-
-  const onError = error => {
-    if (error) {
-      setError(<div>{error.message}</div>)
-      setSuccess(null)
-    } else {
-      setSuccess(<div>{t('Success')}</div>)
-      setError(null)
-    }
-  }
+  const showError = message => addToast(message, {appearance: 'error', autoDismiss: false})
+  const showSuccess = () => addToast(t('Success'), {appearance: 'success', autoDismiss: true})
+  const onError = error => error ? showError(error.message) : showSuccess()
 
   const save = diagram => {
     !document || !document._id ?
@@ -55,8 +42,6 @@ const KGGeneralDiagramSection = ({documentLoading, document, selector, canRead, 
       documentLoading ? <Loader/> : (
           <div style={sectionStyle}>
             <SyncFusionGeneralDiagram diagram={(document || {}).syncfusionDiagram} canWrite={canWrite} save={save}/>
-            <ShowError/>
-            <ShowSuccess/>
           </div>
       )
   )
