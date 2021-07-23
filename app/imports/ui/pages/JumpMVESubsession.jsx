@@ -1,37 +1,62 @@
 import React from 'react'
-import ReactFlow from 'react-flow-renderer'
-
-const elements = [
-  {
-    id: '1',
-    type: 'input', // input node
-    data: { label: 'Input Node' },
-    position: { x: 250, y: 25 },
-  },
-  // default node
-  {
-    id: '2',
-    // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
-    position: { x: 100, y: 125 },
-  },
-  {
-    id: '3',
-    type: 'output', // output node
-    data: { label: 'Output Node' },
-    position: { x: 250, y: 250 },
-  },
-  // animated edge
-  { id: 'e1-2', source: '1', target: '2', animated: true },
-  { id: 'e2-3', source: '2', target: '3' },
-]
+import {useParams} from 'react-router'
+import {SessionSpecs} from '../../api/sessionSpec/SessionSpecCollection'
+import {Programs} from '../../api/program/ProgramCollection'
+import {useTranslation} from 'react-i18next'
+import {Loader, Message} from 'semantic-ui-react'
+import {useTracker} from 'meteor/react-meteor-data'
+import {Helmet} from 'react-helmet'
+import ProgramIndexMenu from '../components/ProgramIndexMenu'
+import KGBreadCrumbs from '../components/KGBreadCrumbs'
+import KGSessionHeader from '../components/KGSessionHeader'
+import KGSectionMenu from '../components/KGSectionMenu'
+import KGSectionHeader from '../components/KGSectionHeader'
+import JumpMVEDiagramSection from '../sections/JumpMVEDiagramSection'
 
 const JumpMVESubsession = () => {
-  return (
-      <div style={{width: '1920px', height: '1080px'}}>
-        <ReactFlow elements={elements} />
-      </div>
+  const params = useParams()
+  const {programId, sessionId, subsessionName} = params
 
+  const sessionSpecLoading = useTracker(() => !SessionSpecs.subscribe(SessionSpecs.getChannels().allWithMeta).ready())
+  const sessionSpec = useTracker(() => SessionSpecs.findOne({programId, sessionId}))
+  const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
+  const program = useTracker(() => Programs.findOne(programId))
+
+  const {t} = useTranslation()
+
+  const dismissError = () => history.goBack()
+  const ShowError = () => (
+      error && (
+          <Message onDismiss={dismissError} header={t('Error')}
+                   content={t('Unregistered Component', {componentName})}/>
+      )
+  )
+
+  const mySpec = (sessionSpec && sessionSpec.specs[subsessionName]) || {}
+  const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
+  const {canReadText, canWriteText, canReadDiagram, canWriteDiagram} = mySpec // ToDo
+
+  return (
+      <>
+        {
+          sessionSpecLoading || programLoading ? <Loader/> :
+              mySpec ? (
+                  <>
+                    <Helmet><title>{`${sessionName} - ${mySpec.subsessionName}`}</title></Helmet>
+                    <ProgramIndexMenu program={program}>
+                      <div style={{/*height: '100vh'*/}}>
+                        <KGBreadCrumbs {...params} program={program} sessionName={sessionName}
+                                       sessionComponent={sessionComponentName}/>
+                        <KGSessionHeader sessionName={sessionName}/>
+                        <KGSectionMenu subsessions={subsessions}/>
+                        <KGSectionHeader sectionName={subsessionName}/>
+                        <JumpMVEDiagramSection {...params}/>
+                      </div>
+                    </ProgramIndexMenu>
+                  </>
+              ) : <ShowError/>
+        }
+      </>
   )
 }
 
