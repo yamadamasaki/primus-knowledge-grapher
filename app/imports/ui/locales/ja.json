@@ -121,5 +121,15 @@
   "Target": "先",
   "Width": "幅",
   "Height": "高",
-  "This section is not published": "このセクションは公開されていません"
+  "This section is not published": "このセクションは公開されていません",
+  "Experiment": "実験",
+  "Description": "概要",
+  "Due Date": "期限",
+  "Phase": "フェイズ",
+  "Add Phase": "フェイズを追加する",
+  "Name": "名前",
+  "Goal": "目標値",
+  "Current": "現在値",
+  "KPI": "KPI",
+  "Formula": "計算式"
 }

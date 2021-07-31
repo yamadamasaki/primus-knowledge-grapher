@@ -121,5 +121,14 @@
   "Target": "Target",
   "Width": "Width",
   "Height": "Height",
-  "This section is not published": "This section is not published"
+  "This section is not published": "This section is not published",
+  "Experiment": "Experiment",
+  "Description": "Description",
+  "Due Date": "Due Date",
+  "Phase": "Phase",
+  "Name": "Name",
+  "Goal": "Goal",
+  "Current": "Current",
+  "KPI": "KPI",
+  "Formula": "Formula"
 }

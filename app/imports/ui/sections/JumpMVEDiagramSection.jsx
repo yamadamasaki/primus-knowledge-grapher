@@ -1,41 +1,56 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import {Button, Loader} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import {useToasts} from 'react-toast-notifications'
-import {reactFlowDiagramDefineMethod, reactFlowDiagramUpdateMethod} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection.methods'
+import {
+  reactFlowDiagramDefineMethod,
+  reactFlowDiagramUpdateMethod,
+} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection.methods'
 import {withTracker} from 'meteor/react-meteor-data'
 import {ReactFlowDiagrams} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection'
-import ReactFlow from 'react-flow-renderer'
+import ReactFlow, {addEdge, Controls, MiniMap, ReactFlowProvider, removeElements} from 'react-flow-renderer'
+import ExperimentNode from './JumpMVEDiagram/ExperimentNode'
+import PhaseNode from './JumpMVEDiagram/PhaseNode'
+import Header from './JumpMVEDiagram/Header'
+import KPINode from './JumpMVEDiagram/KPINode'
 
-const elements = [
-  {
-    id: '1',
-    type: 'input', // input node
-    data: { label: 'Input Node' },
-    position: { x: 250, y: 25 },
-  },
-  // default node
-  {
-    id: '2',
-    // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
-    position: { x: 100, y: 125 },
-  },
-  {
-    id: '3',
-    type: 'output', // output node
-    data: { label: 'Output Node' },
-    position: { x: 250, y: 250 },
-  },
-  // animated edge
-  { id: 'e1-2', source: '1', target: '2', animated: true },
-  { id: 'e2-3', source: '2', target: '3' },
-]
+const generateNodeId = () => {
+  const idLength = 5
+  let result
+  do {
+    result = Math.floor(Math.random() * 10 ** idLength).toString()
+  } while (false)
+  return result
+}
 
 const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, canWrite}) => {
   const {t} = useTranslation()
   const nodeEditor = useRef() // ToDo
   const {addToast} = useToasts()
+
+  const reactFlowWrapper = useRef()
+
+  const rootElement =
+      {
+        id: '1',
+        type: 'experiment',
+        data: {name: '実験A'},
+        position: {x: 250, y: 25},
+        style: {border: '1px solid #777', padding: 10},
+      }
+  const [elements, setElements] = useState([rootElement])
+  const [reactFlowInstance, setReactFlowInstance] = useState()
+
+  const nodeTypes = {
+    experiment: ExperimentNode,
+    phase: PhaseNode,
+    kpi: KPINode,
+  }
+
+  const addNode = node => {
+    //setElements(els => els.concat({id: generateNodeId(), ...node}))
+    console.log({elements})
+  }
 
   //const nodes = JSON.parse(!documentLoading && document && document.reactFlowDiagram) // ToDo
 
@@ -50,11 +65,47 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
         reactFlowDiagramUpdateMethod.call({_id: document._id, ...selector, reactFlowDiagram: nodes}, onError)
   }
 
+  const onConnect = params => setElements(els => addEdge(params, els))
+  const onElementsRemove = elementsToRemove => setElements(els => removeElements(elementsToRemove, els))
+
+  const onDragOver = (event) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+  }
+
+  const onDrop = (event) => {
+    event.preventDefault()
+
+    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect()
+    const type = event.dataTransfer.getData('application/reactflow')
+    const position = reactFlowInstance.project({
+      x: event.clientX - reactFlowBounds.left,
+      y: event.clientY - reactFlowBounds.top,
+    })
+    const newNode = {
+      id: generateNodeId(),
+      type,
+      position,
+      data: {label: `${type} node`},
+    }
+
+    setElements((es) => es.concat(newNode))
+  }
+
   return (
       documentLoading ? <Loader/> : (
           <>
-            <div style={{width: '1920px', height: '1080px'}}>
-              <ReactFlow elements={elements} />
+            <div>
+              <div ref={reactFlowWrapper} style={{width: '1920px', height: '1080px'}}>
+                <ReactFlowProvider>
+                  <Header/>
+                  <ReactFlow elements={elements} nodeTypes={nodeTypes} onDrop={onDrop} onDragOver={onDragOver}
+                             onLoad={setReactFlowInstance} onConnect={onConnect} onElementsRemove={onElementsRemove}>
+                    <MiniMap/>
+                    <Controls/>
+                  </ReactFlow>
+                </ReactFlowProvider>
+              </div>
             </div>
             <Button onClick={save}>{t('Save')}</Button>
           </>
