@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import React, {createContext, useRef, useState} from 'react'
 import {Button, Loader} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import {useToasts} from 'react-toast-notifications'
@@ -22,6 +22,8 @@ const generateNodeId = () => {
   } while (false)
   return result
 }
+
+export const JumpMVEDiagramContext = createContext(undefined)
 
 const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, canWrite}) => {
   const {t} = useTranslation()
@@ -82,6 +84,7 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     })
+
     const newNode = {
       id: generateNodeId(),
       type,
@@ -96,16 +99,18 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
       documentLoading ? <Loader/> : (
           <>
             <div>
-              <div ref={reactFlowWrapper} style={{width: '1920px', height: '1080px'}}>
-                <ReactFlowProvider>
-                  <Header/>
-                  <ReactFlow elements={elements} nodeTypes={nodeTypes} onDrop={onDrop} onDragOver={onDragOver}
-                             onLoad={setReactFlowInstance} onConnect={onConnect} onElementsRemove={onElementsRemove}>
-                    <MiniMap/>
-                    <Controls/>
-                  </ReactFlow>
-                </ReactFlowProvider>
-              </div>
+              <JumpMVEDiagramContext.Provider value={{elements, setElements}}>
+                <div ref={reactFlowWrapper} style={{width: '1920px', height: '1080px'}}>
+                  <ReactFlowProvider>
+                    <Header/>
+                    <ReactFlow elements={elements} nodeTypes={nodeTypes} onDrop={onDrop} onDragOver={onDragOver}
+                               onLoad={setReactFlowInstance} onConnect={onConnect} onElementsRemove={onElementsRemove}>
+                      <MiniMap/>
+                      <Controls/>
+                    </ReactFlow>
+                  </ReactFlowProvider>
+                </div>
+              </JumpMVEDiagramContext.Provider>
             </div>
             <Button onClick={save}>{t('Save')}</Button>
           </>
