@@ -9,10 +9,3 @@ export const getNeighborsOfNode = (nodeId, type, elements) =>
         map(edge => edge[reverse(type)]).
         map(peerId => elements.find(node => peerId === node.id))
 
-export const recalculateKPI = (node, elements, type) => {
-  const {id} = node
-  const downstream = getNeighborsOfNode(id, 'target', elements)
-  node.data[type] = downstream?.map(input => Number(input.data[type])).reduce((acc, val) => acc + val)
-  getNeighborsOfNode(id, 'source', elements)?.forEach(it => recalculateKPI(it, elements))
-}
-

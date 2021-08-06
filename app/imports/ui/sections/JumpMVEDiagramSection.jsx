@@ -51,7 +51,6 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
 
   const addNode = node => {
     //setElements(els => els.concat({id: generateNodeId(), ...node}))
-    console.log({elements})
   }
 
   //const nodes = JSON.parse(!documentLoading && document && document.reactFlowDiagram) // ToDo
