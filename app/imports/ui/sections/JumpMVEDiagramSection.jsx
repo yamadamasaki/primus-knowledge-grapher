@@ -14,12 +14,12 @@ import PhaseNode from './JumpMVEDiagram/PhaseNode'
 import Header from './JumpMVEDiagram/Header'
 import KPINode from './JumpMVEDiagram/KPINode'
 
-const generateNodeId = () => {
+const generateNodeId = elements => {
   const idLength = 5
   let result
   do {
     result = Math.floor(Math.random() * 10 ** idLength).toString()
-  } while (false)
+  } while (elements.find(it => it.id === result))
   return result
 }
 
@@ -85,7 +85,7 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
     })
 
     const newNode = {
-      id: generateNodeId(),
+      id: generateNodeId(elements),
       type,
       position,
       data: {label: `${type} node`},
