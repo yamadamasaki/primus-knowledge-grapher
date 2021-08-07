@@ -8,11 +8,11 @@ export default memo(({data}) => {
 
   return (
       <div style={{border: '1px solid #777', padding: 10}}>
-        <h3>{t('Phase')}</h3>
         <Handle type="target" position="top" id="experiment" style={{background: '#555'}}/>
         <Handle type="target" position="left" id="previous" style={{background: '#555'}}/>
         <Form>
-          <Form.Input placeholder={t('Name')}/>
+          <Form.Input inline label={<span style={{fontSize: '1.2rem', fontWeight: 'bold'}}>{t('Phase')}: </span>}
+                      placeholder={t('Name')}/>
           <Form.TextArea placeholder={t('Description')}/>
           <Form.Input inline label={t('Due Date')} type="date"/>
         </Form>

@@ -57,11 +57,11 @@ export default node => {
 
   return (
       <div style={{border: '1px solid #777', padding: 10}}>
-        <h3>{t('KPI')}</h3>
         <Handle type="target" position="top" id="phase" style={{background: '#555'}}/>
         <Handle type="target" position="left" id="lowers" style={{background: '#555'}}/>
         <Form>
-          <Form.Input placeholder={t('Name')} onChange={onChange('name')} value={state.name}/>
+          <Form.Input inline label={<span style={{fontSize: '1.2rem', fontWeight: 'bold'}}>{t('KPI')}: </span>}
+                      placeholder={t('Name')} onChange={onChange('name')} value={state.name}/>
           <Form.TextArea placeholder={t('Description')} onChange={onChange('description')} value={state.description}/>
           <Form.Input inline label={t('Goal')} type="number" readOnly={downstream?.length > 0}
                       onChange={onChange('goal')} value={downstream?.length > 0 ? data.goal : state.goal}/>
