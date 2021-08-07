@@ -66,7 +66,7 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
         reactFlowDiagramUpdateMethod.call({_id: document._id, ...selector, reactFlowDiagram: nodes}, onError)
   }
 
-  const onConnect = params => setElements(els => addEdge(params, els))
+  const onConnect = params => setElements(els => addEdge({...params, arrowHeadType: 'arrow'}, els))
   const onElementsRemove = elementsToRemove => setElements(els => removeElements(elementsToRemove, els))
 
   const onDragOver = (event) => {
