@@ -12,8 +12,8 @@ export default node => {
 
   const {elements, setElements} = useContext(JumpMVEDiagramContext)
 
-  const downstream = getNeighborsOfNode(id, 'target', elements)
-  const upstream = getNeighborsOfNode(id, 'source', elements)
+  const downstream = getNeighborsOfNode(id, 'target', elements, 'lowers')
+  const upstream = getNeighborsOfNode(id, 'source', elements, 'upper')
 
   const [state, setState] = useState({
     name: data.name ?? '',
@@ -34,9 +34,9 @@ export default node => {
 
   const recalculateKPI = (id, elements, field) => {
     const node = elements.find(e => e.id === id)
-    const downstream = getNeighborsOfNode(id, 'target', elements)
+    const downstream = getNeighborsOfNode(id, 'target', elements, 'lowers')
     node.data[field] = downstream?.map(input => Number(input.data[field] ?? 0)).reduce((acc, val) => acc + val, 0)
-    getNeighborsOfNode(id, 'source', elements)?.forEach(it => recalculateKPI(it.id, elements, field))
+    getNeighborsOfNode(id, 'source', elements, 'upper')?.forEach(it => recalculateKPI(it.id, elements, field))
   }
 
   const invokeRecalculation = field => {

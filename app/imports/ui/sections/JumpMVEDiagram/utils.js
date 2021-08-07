@@ -1,11 +1,14 @@
 // type should be one of source or target
-export const getEdgesOfNode = (nodeId, type, elements) =>
-    elements ? elements.filter(edge => edge[type] === nodeId) : []
+export const getEdgesOfNode = (nodeId, type, elements, handleId) =>
+    elements ?
+        elements.filter(edge => edge[type] === nodeId &&
+            (handleId === undefined || handleId === null || edge[`${type}Handle`] === handleId)) :
+        []
 
 const reverse = type => type === 'source' ? 'target' : 'source'
 
-export const getNeighborsOfNode = (nodeId, type, elements) =>
-    getEdgesOfNode(nodeId, type, elements).
+export const getNeighborsOfNode = (nodeId, type, elements, handleId) =>
+    getEdgesOfNode(nodeId, type, elements, handleId).
         map(edge => edge[reverse(type)]).
         map(peerId => elements.find(node => peerId === node.id))
 
