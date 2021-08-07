@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import {Handle} from 'react-flow-renderer'
 import {useTranslation} from 'react-i18next'
 import {Form} from 'semantic-ui-react'
-import {getNeighborsOfNode} from './utils'
+import {getNeighborsOfNode, isKpiToKpi, isPhaseToKpi, isValidConnection} from './utils'
 import {JumpMVEDiagramContext} from '../JumpMVEDiagramSection'
 import {format} from 'date-fns'
 
@@ -57,8 +57,10 @@ export default node => {
 
   return (
       <div style={{border: '1px solid #777', padding: 10}}>
-        <Handle type="target" position="top" id="phase" style={{background: '#555'}}/>
-        <Handle type="target" position="left" id="lowers" style={{background: '#555'}}/>
+        <Handle type="target" position="top" id="phase" style={{background: '#555'}}
+                isValidConnection={isValidConnection(elements, isPhaseToKpi)}/>
+        <Handle type="target" position="left" id="lowers" style={{background: '#555'}}
+                isValidConnection={isValidConnection(elements, isKpiToKpi)}/>
         <Form>
           <Form.Input inline label={<span style={{fontSize: '1.2rem', fontWeight: 'bold'}}>{t('KPI')}: </span>}
                       placeholder={t('Name')} onChange={onChange('name')} value={state.name}/>
@@ -70,8 +72,8 @@ export default node => {
           <Form.TextArea label={t('Formula')} onBlur={onChange('formula')} value={state.formula}/>
           <Form.Input inline label={t('Due Date')} type="date" onChange={onChange('dueDate')} value={state.dueDate}/>
         </Form>
-        <Handle type="source" position="right" id="upper" style={{background: '#555'}}/>
-        <Handle type="source" position="bottom" id="kpis" style={{background: '#555'}}/>
+        <Handle type="source" position="right" id="upper" style={{background: '#555'}}
+                isValidConnection={isValidConnection(elements, isKpiToKpi)}/>
       </div>
   )
 }
