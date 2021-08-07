@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next'
 import {Form} from 'semantic-ui-react'
 import {getNeighborsOfNode} from './utils'
 import {JumpMVEDiagramContext} from '../JumpMVEDiagramSection'
+import {format} from 'date-fns'
 
 export default node => {
   const {id, data} = node
@@ -14,27 +15,34 @@ export default node => {
   const downstream = getNeighborsOfNode(id, 'target', elements)
   const upstream = getNeighborsOfNode(id, 'source', elements)
 
-  const [state, setState] = useState(data)
+  const [state, setState] = useState({
+    name: data.name ?? '',
+    description: data.description ?? '',
+    goal: data.goal ?? 0,
+    current: data.current ?? 0,
+    formula: data.formula ?? '',
+    dueDate: data.dueDate ?? format(new Date(), 'yyyy-MM-dd'),
+  })
 
-  const onChange = type => e => {
-    const value = (type === 'goal' || type === 'current') ? Number(e.target.value) : e.target.value
-    const newData = {...state, [type]: value}
+  const onChange = field => e => {
+    const value = (field === 'goal' || field === 'current') ? Number(e.target.value) : e.target.value
+    const newData = {...state, [field]: value}
     setState(newData)
     const newElements = elements.map(element => element.id === id ? {...element, data: newData} : element)
     setElements(newElements)
   }
 
-  const recalculateKPI = (id, elements, type) => {
+  const recalculateKPI = (id, elements, field) => {
     const node = elements.find(e => e.id === id)
     const downstream = getNeighborsOfNode(id, 'target', elements)
-    node.data[type] = downstream?.map(input => Number(input.data[type] ?? 0.0)).reduce((acc, val) => acc + val, 0.0)
-    getNeighborsOfNode(id, 'source', elements)?.forEach(it => recalculateKPI(it.id, elements, type))
+    node.data[field] = downstream?.map(input => Number(input.data[field] ?? 0)).reduce((acc, val) => acc + val, 0)
+    getNeighborsOfNode(id, 'source', elements)?.forEach(it => recalculateKPI(it.id, elements, field))
   }
 
-  const invokeRecalculation = type => {
-    if (upstream.length > 0) {
+  const invokeRecalculation = field => {
+    if (upstream.length > 0) { // 今は上流はひとつだけ
       const newElements = JSON.parse(JSON.stringify(elements))
-      recalculateKPI(upstream[0].id, newElements, type)
+      recalculateKPI(upstream[0].id, newElements, field)
       setElements(newElements)
     }
   }
@@ -47,8 +55,6 @@ export default node => {
     invokeRecalculation('current')
   }, [state.current])
 
-  //const calculateKPI = type => downstream.map(node => Number(node.data[type] ?? 0.0)).reduce((val, acc) => val + acc, 0.0)
-
   return (
       <div style={{border: '1px solid #777', padding: 10}}>
         <h3>{t('KPI')}</h3>
@@ -58,8 +64,9 @@ export default node => {
           <Form.Input placeholder={t('Name')} onChange={onChange('name')} value={state.name}/>
           <Form.TextArea placeholder={t('Description')} onChange={onChange('description')} value={state.description}/>
           <Form.Input inline label={t('Goal')} type="number" readOnly={downstream?.length > 0}
-                      onChange={onChange('goal')} value={state.goal}/>
-          <Form.Input inline label={t('Current')} type="number" onChange={onChange('current')} value={state.current}/>
+                      onChange={onChange('goal')} value={downstream?.length > 0 ? data.goal : state.goal}/>
+          <Form.Input inline label={t('Current')} type="number" readOnly={downstream?.length > 0}
+                      onChange={onChange('current')} value={downstream?.length > 0 ? data.current : state.current}/>
           <Form.TextArea label={t('Formula')} onBlur={onChange('formula')} value={state.formula}/>
           <Form.Input inline label={t('Due Date')} type="date" onChange={onChange('dueDate')} value={state.dueDate}/>
         </Form>
