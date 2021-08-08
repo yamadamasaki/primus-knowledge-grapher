@@ -5,7 +5,7 @@ import {Form} from 'semantic-ui-react'
 import {isExperimentToPhase, isValidConnection} from './utils'
 import {JumpMVEDiagramContext} from '../JumpMVEDiagramSection'
 
-export default memo(({data, addNode}) => {
+const ExperimentNode =  memo(({data}) => {
   const {t} = useTranslation()
 
   const {elements, setElements} = useContext(JumpMVEDiagramContext)
@@ -22,3 +22,7 @@ export default memo(({data, addNode}) => {
       </>
   )
 })
+
+ExperimentNode.newData = {}
+
+export default ExperimentNode

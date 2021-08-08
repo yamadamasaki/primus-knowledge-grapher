@@ -88,7 +88,7 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
       id: generateNodeId(elements),
       type,
       position,
-      data: {label: `${type} node`},
+      data: nodeTypes[type].newData,
     }
 
     setElements((es) => es.concat(newNode))

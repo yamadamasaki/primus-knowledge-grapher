@@ -4,8 +4,9 @@ import {useTranslation} from 'react-i18next'
 import {Form} from 'semantic-ui-react'
 import {JumpMVEDiagramContext} from '../JumpMVEDiagramSection'
 import {isExperimentToPhase, isPhaseToKpi, isPhaseToPhase, isValidConnection} from './utils'
+import {format} from 'date-fns'
 
-export default memo(({data}) => {
+const PhaseNode = memo(({data}) => {
   const {t} = useTranslation()
 
   const {elements, setElements} = useContext(JumpMVEDiagramContext)
@@ -29,3 +30,7 @@ export default memo(({data}) => {
       </div>
   )
 })
+
+PhaseNode.newData = {name: '', description: '', dueDate: format(new Date(), 'yyyy-MM-dd')}
+
+export default PhaseNode

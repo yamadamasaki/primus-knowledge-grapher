@@ -6,7 +6,7 @@ import {getNeighborsOfNode, isKpiToKpi, isPhaseToKpi, isValidConnection} from '.
 import {JumpMVEDiagramContext} from '../JumpMVEDiagramSection'
 import {format} from 'date-fns'
 
-export default node => {
+const KPINode = node => {
   const {id, data} = node
   const {t} = useTranslation()
 
@@ -15,14 +15,7 @@ export default node => {
   const downstream = getNeighborsOfNode(id, 'target', elements, 'lowers')
   const upstream = getNeighborsOfNode(id, 'source', elements, 'upper')
 
-  const [state, setState] = useState({
-    name: data.name ?? '',
-    description: data.description ?? '',
-    goal: data.goal ?? 0,
-    current: data.current ?? 0,
-    formula: data.formula ?? '',
-    dueDate: data.dueDate ?? format(new Date(), 'yyyy-MM-dd'),
-  })
+  const [state, setState] = useState(data)
 
   const onChange = field => e => {
     const value = (field === 'goal' || field === 'current') ? Number(e.target.value) : e.target.value
@@ -77,3 +70,7 @@ export default node => {
       </div>
   )
 }
+
+KPINode.newData = {name: '', description: '', goal: 0, current: 0, formula: 'return acc + val', dueDate: format(new Date(), 'yyyy-MM-dd')}
+
+export default KPINode
