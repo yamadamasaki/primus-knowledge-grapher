@@ -13,6 +13,7 @@ import ExperimentNode from './JumpMVEDiagram/ExperimentNode'
 import PhaseNode from './JumpMVEDiagram/PhaseNode'
 import Header from './JumpMVEDiagram/Header'
 import KPINode from './JumpMVEDiagram/KPINode'
+import {format} from 'date-fns'
 
 const generateNodeId = elements => {
   const idLength = 5
@@ -36,7 +37,7 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
       {
         id: '1',
         type: 'experiment',
-        data: {name: '実験A'},
+        data: {name: '実験A', dueDate: format(new Date(), 'yyyy-MM-dd')},
         position: {x: 250, y: 25},
         style: {border: '1px solid #777', padding: 10},
       }
