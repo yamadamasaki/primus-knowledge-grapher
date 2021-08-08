@@ -25,17 +25,22 @@ const KPINode = node => {
     setElements(newElements)
   }
 
-  const recalculateKPI = (id, elements, field) => {
+  const callFormula = (field, downstream, formula) =>
+      downstream.map(input => Number(input.data[field] ?? 0)).
+          reduce(Function('acc', 'val', 'index', 'array', formula))
+
+  const recalculateKPI = (id, elements, field, formula) => {
     const node = elements.find(e => e.id === id)
     const downstream = getNeighborsOfNode(id, 'target', elements, 'lowers')
-    node.data[field] = downstream?.map(input => Number(input.data[field] ?? 0)).reduce((acc, val) => acc + val, 0)
-    getNeighborsOfNode(id, 'source', elements, 'upper')?.forEach(it => recalculateKPI(it.id, elements, field))
+    node.data[field] = downstream && formula ? callFormula(field, downstream, formula) : 0
+    getNeighborsOfNode(id, 'source', elements, 'upper')?.
+        forEach(it => recalculateKPI(it.id, elements, field, it.data.formula))
   }
 
   const invokeRecalculation = field => {
     if (upstream.length > 0) { // 今は上流はひとつだけ
       const newElements = JSON.parse(JSON.stringify(elements))
-      recalculateKPI(upstream[0].id, newElements, field)
+      recalculateKPI(upstream[0].id, newElements, field, upstream[0].data.formula)
       setElements(newElements)
     }
   }
@@ -62,7 +67,7 @@ const KPINode = node => {
                       onChange={onChange('goal')} value={downstream?.length > 0 ? data.goal : state.goal}/>
           <Form.Input inline label={t('Current')} type="number" readOnly={downstream?.length > 0}
                       onChange={onChange('current')} value={downstream?.length > 0 ? data.current : state.current}/>
-          <Form.TextArea label={t('Formula')} onBlur={onChange('formula')} value={state.formula}/>
+          <Form.TextArea label={t('Formula')} onChange={onChange('formula')} value={state.formula}/>
           <Form.Input inline label={t('Due Date')} type="date" onChange={onChange('dueDate')} value={state.dueDate}/>
         </Form>
         <Handle type="source" position="right" id="upper" style={{background: '#555'}}
@@ -71,6 +76,13 @@ const KPINode = node => {
   )
 }
 
-KPINode.newData = {name: '', description: '', goal: 0, current: 0, formula: 'return acc + val', dueDate: format(new Date(), 'yyyy-MM-dd')}
+KPINode.newData = {
+  name: '',
+  description: '',
+  goal: 0,
+  current: 0,
+  formula: 'return acc + val',
+  dueDate: format(new Date(), 'yyyy-MM-dd'),
+}
 
 export default KPINode
