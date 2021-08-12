@@ -61,10 +61,12 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
   const onError = error => error ? showError(error.message) : showSuccess()
 
   const save = () => {
-    //const nodes = JSON.stringify(nodeEditor.current.getNodes()) // ToDo
-    !document || !document._id ?
-        reactFlowDiagramDefineMethod.call({...selector, reactFlowDiagram: nodes}, onError) :
-        reactFlowDiagramUpdateMethod.call({_id: document._id, ...selector, reactFlowDiagram: nodes}, onError)
+    if (reactFlowInstance) {
+      const nodes = JSON.stringify(reactFlowInstance.toObject())
+      !document || !document._id ?
+          reactFlowDiagramDefineMethod.call({...selector, reactFlowDiagram: nodes}, onError) :
+          reactFlowDiagramUpdateMethod.call({_id: document._id, ...selector, reactFlowDiagram: nodes}, onError)
+    }
   }
 
   const onConnect = params => setElements(els => addEdge({...params, arrowHeadType: 'arrow'}, els))
@@ -105,8 +107,6 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
                     <Header/>
                     <ReactFlow elements={elements} nodeTypes={nodeTypes} onDrop={onDrop} onDragOver={onDragOver}
                                onLoad={setReactFlowInstance} onConnect={onConnect} onElementsRemove={onElementsRemove}>
-                      <MiniMap/>
-                      <Controls/>
                     </ReactFlow>
                   </ReactFlowProvider>
                 </div>
