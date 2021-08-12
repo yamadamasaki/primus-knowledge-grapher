@@ -1,4 +1,4 @@
-import React, {createContext, useRef, useState} from 'react'
+import React, {createContext, useCallback, useEffect, useRef, useState} from 'react'
 import {Button, Loader} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import {useToasts} from 'react-toast-notifications'
@@ -8,7 +8,7 @@ import {
 } from '../../api/reactFlowDiagram/ReactFlowDiagramCollection.methods'
 import {withTracker} from 'meteor/react-meteor-data'
 import {ReactFlowDiagrams} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection'
-import ReactFlow, {addEdge, Controls, MiniMap, ReactFlowProvider, removeElements} from 'react-flow-renderer'
+import ReactFlow, {addEdge, ReactFlowProvider, removeElements} from 'react-flow-renderer'
 import ExperimentNode from './JumpMVEDiagram/ExperimentNode'
 import PhaseNode from './JumpMVEDiagram/PhaseNode'
 import Header from './JumpMVEDiagram/Header'
@@ -41,7 +41,14 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
         position: {x: 250, y: 25},
         style: {border: '1px solid #777', padding: 10},
       }
-  const [elements, setElements] = useState([rootElement])
+  const [elements, setElements] = useState([])
+  useEffect(() => {
+    if (!documentLoading)
+      document ?
+          setElements(JSON.parse(document.reactFlowDiagram).elements) :
+          setElements([rootElement])
+  }, [document, documentLoading, setElements])
+
   const [reactFlowInstance, setReactFlowInstance] = useState()
 
   const nodeTypes = {
@@ -60,14 +67,14 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
   const showSuccess = () => addToast(t('Success'), {appearance: 'success', autoDismiss: true})
   const onError = error => error ? showError(error.message) : showSuccess()
 
-  const save = () => {
+  const save = useCallback(() => {
     if (reactFlowInstance) {
       const nodes = JSON.stringify(reactFlowInstance.toObject())
       !document || !document._id ?
           reactFlowDiagramDefineMethod.call({...selector, reactFlowDiagram: nodes}, onError) :
           reactFlowDiagramUpdateMethod.call({_id: document._id, ...selector, reactFlowDiagram: nodes}, onError)
     }
-  }
+  }, [reactFlowInstance, document])
 
   const onConnect = params => setElements(els => addEdge({...params, arrowHeadType: 'arrow'}, els))
   const onElementsRemove = elementsToRemove => setElements(els => removeElements(elementsToRemove, els))
