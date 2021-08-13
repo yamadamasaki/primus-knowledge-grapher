@@ -48,7 +48,11 @@ const JumpMVESession = () => {
 
   const specs = {
     sessionName, sessionComponentName, subsessions,
-    'mve-kpi' :{subsessionName: 'KPI & アクション'},
+    'mve-kpi' :{
+      subsessionName: 'KPI & アクション',
+      canWrite: {groups: ['admin']},
+      canRead: {groups: ['member']}
+    },
     'mve-timeline': {subsessionName: 'タイムライン'},
     'mve-kanban': {subsessionName: 'カンバン'},
   }

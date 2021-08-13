@@ -34,7 +34,7 @@ const JumpMVESubsession = () => {
 
   const mySpec = (sessionSpec && sessionSpec.specs[subsessionName]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
-  const {canReadText, canWriteText, canReadDiagram, canWriteDiagram} = mySpec // ToDo
+  const {canRead, canWrite} = mySpec // ToDo
 
   return (
       <>
@@ -50,7 +50,7 @@ const JumpMVESubsession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
-                        <JumpMVEDiagramSection {...params}/>
+                        <JumpMVEDiagramSection {...params} canRead={canRead} canWrite={canWrite}/>
                       </div>
                     </ProgramIndexMenu>
                   </>

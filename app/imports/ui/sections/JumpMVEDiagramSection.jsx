@@ -1,12 +1,12 @@
 import React, {createContext, useCallback, useEffect, useRef, useState} from 'react'
-import {Button, Loader} from 'semantic-ui-react'
+import {Button, Loader, Message} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 import {useToasts} from 'react-toast-notifications'
 import {
   reactFlowDiagramDefineMethod,
   reactFlowDiagramUpdateMethod,
 } from '../../api/reactFlowDiagram/ReactFlowDiagramCollection.methods'
-import {withTracker} from 'meteor/react-meteor-data'
+import {useTracker, withTracker} from 'meteor/react-meteor-data'
 import {ReactFlowDiagrams} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection'
 import ReactFlow, {addEdge, ReactFlowProvider, removeElements} from 'react-flow-renderer'
 import ExperimentNode from './JumpMVEDiagram/ExperimentNode'
@@ -14,6 +14,8 @@ import PhaseNode from './JumpMVEDiagram/PhaseNode'
 import Header from './JumpMVEDiagram/Header'
 import KPINode from './JumpMVEDiagram/KPINode'
 import {format} from 'date-fns'
+import {isPermitted, KGIfIHave} from '../components/KGIfIHave'
+import {Meteor} from 'meteor/meteor'
 
 const generateNodeId = elements => {
   const idLength = 5
@@ -27,8 +29,12 @@ const generateNodeId = elements => {
 export const JumpMVEDiagramContext = createContext(undefined)
 
 const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, canWrite}) => {
+  const currentUser = useTracker(() => Meteor.user())
   const {t} = useTranslation()
-  const nodeEditor = useRef() // ToDo
+
+  if (!isPermitted(currentUser, canRead))
+    return <Message color="yellow">{t('This section is not published')}</Message>
+
   const {addToast} = useToasts()
 
   const reactFlowWrapper = useRef()
@@ -104,6 +110,8 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
     setElements((es) => es.concat(newNode))
   }
 
+  const readOnly = !isPermitted(currentUser, canWrite)
+
   return (
       documentLoading ? <Loader/> : (
           <>
@@ -119,7 +127,9 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
                 </div>
               </JumpMVEDiagramContext.Provider>
             </div>
-            <Button onClick={save}>{t('Save')}</Button>
+            <KGIfIHave permission={canWrite}>
+              <Button onClick={save}>{t('Save')}</Button>
+            </KGIfIHave>
           </>
       )
   )
