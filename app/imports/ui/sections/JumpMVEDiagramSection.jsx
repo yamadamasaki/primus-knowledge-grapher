@@ -112,10 +112,17 @@ const JumpMVEDiagramSection = ({documentLoading, document, selector, canRead, ca
 
   const readOnly = !isPermitted(currentUser, canWrite)
 
+  const sectionStyle = {
+    padding: '1rem 2rem',
+    borderLeft: '6px double green',
+    borderRight: '6px double green',
+    margin: '1rem 0rem',
+  }
+
   return (
       documentLoading ? <Loader/> : (
           <>
-            <div>
+            <div style={sectionStyle}>
               <JumpMVEDiagramContext.Provider value={{elements, setElements}}>
                 <div ref={reactFlowWrapper} style={{width: '1920px', height: '1080px'}}>
                   <ReactFlowProvider>
