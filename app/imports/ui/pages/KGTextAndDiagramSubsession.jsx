@@ -13,6 +13,7 @@ import {Programs} from '../../api/program/ProgramCollection'
 import KGDraftTextSection from '../sections/KGDraftTextSection'
 import KGGeneralDiagramSection from '../sections/KGGeneralDiagramSection'
 import ProgramIndexMenu from '../components/ProgramIndexMenu'
+import KGSimpleChatButton from '../components/KGSimpleChatButton'
 
 const KGTextAndDiagramSubsession = () => {
   const params = useParams()
@@ -51,19 +52,11 @@ const KGTextAndDiagramSubsession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
+                        <KGSimpleChatButton program={program} sessionId={sessionId} subsession={subsessionName}
+                                            chatSectionName={'KGSimpleChat'}
+                                            canWrite={{groups: ['members']}} canRead={{groups: ['members']}}/>
                         <KGDraftTextSection {...params} canRead={canReadText} canWrite={canWriteText}/>
                         <KGGeneralDiagramSection {...params} canRead={canReadDiagram} canWrite={canWriteDiagram}/>
-                        {/*
-                    <Components.KGChatButton match={{
-                      params: {
-                        programId,
-                        sectionId,
-                        subsection: `${subsection}-chat`,
-                        canWrite: {groups: ['members']},
-                        canRead: {groups: ['members']},
-                      },
-                    }}/>
-                    */}
                       </div>
                     </ProgramIndexMenu>
                   </>
