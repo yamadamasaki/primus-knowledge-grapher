@@ -7,6 +7,7 @@ import {useTranslation} from 'react-i18next'
 import {Meteor} from 'meteor/meteor'
 import {useToasts} from 'react-toast-notifications'
 import {simpleChatDefineMethod, simpleChatUpdateMethod} from '../../api/simpleChat/SimpleChatCollection.methods'
+import {formatDistance} from 'date-fns'
 
 const KGSimpleChatSection = ({documentLoading, document, selector, canRead, canWrite}) => {
   const currentUser = useTracker(() => Meteor.user())
@@ -44,21 +45,23 @@ const KGSimpleChatSection = ({documentLoading, document, selector, canRead, canW
     setMessage('')
   }
 
+  const users = Meteor.users
+
   return (
       //documentLoading ? <Loader/> : (
           <KGIfIHave permission={canRead}>
             <Comment.Group>
               <Header as="h3" dividing>{selector.subsession ?? selector.sessionId}</Header>
               {
-                chatList?.map((comment, index) =>
+                chatList?.map((message, index) =>
                     <Comment key={index}>
                       <Comment.Avatar src={'foo'}/>
                       <Comment.Content>
-                        <Comment.Author as="a">{'foo'}</Comment.Author>
+                        <Comment.Author as="a">{users.findOne(message.who)?.username}</Comment.Author>
                         <Comment.Metadata>
-                          <div>{'foo'}</div>
+                          <div>{formatDistance(message.when, new Date())}</div>
                         </Comment.Metadata>
-                        <Comment.Text>{'foo'}</Comment.Text>
+                        <Comment.Text>{message.text}</Comment.Text>
                       </Comment.Content>
                     </Comment>,
                 )
