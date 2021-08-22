@@ -37,7 +37,7 @@ const KGTextAndDiagramSubsession = () => {
   const mySpec = (sessionSpec && sessionSpec.specs[subsessionName]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
   const {canReadText, canWriteText, canReadDiagram, canWriteDiagram} = mySpec
-  const canComment = {groups: ['members']}
+  const canComment = {groups: ['member']}
 
   return (
       <>

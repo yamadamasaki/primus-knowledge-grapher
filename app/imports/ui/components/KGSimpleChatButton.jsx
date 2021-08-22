@@ -14,11 +14,10 @@ const KGSimpleChatButton = ({programId, sessionId, subsession, canWrite, canRead
 
   return (
       <div style={{border: 'solid 1px gray', width: '100%', backgroundColor: 'aliceblue'}}>
-        <DialogComponent id="dialogDraggable" header="Drag Me!!!" isModal={false} showCloseIcon={true}
+        <DialogComponent id="dialogDraggable" header={t('Chat')} isModal={false} showCloseIcon={true}
                          allowDragging={true} animationSettings={{effect: 'Fade'}} width="300px"
                          visible={isChatPanelOpen} open={onOpen} close={onClose}
                          enableResize={true} resizeHandles={['All']}>
-          This is a dialog with draggable support.
           <KGSimpleChatSection programId={programId} sessionId={sessionId} subsession={subsession}
                                canWrite={canWrite} canRead={canRead}/>
         </DialogComponent>
