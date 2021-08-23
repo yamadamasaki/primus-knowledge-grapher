@@ -6,6 +6,7 @@ import {DraftTexts} from '../../api/draftText/DraftTextCollection'
 import {SyncFusionDiagrams} from '../../api/syncfusionDiagram/SyncFusionDiagramCollection'
 import {ReactFlowDiagrams} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection'
 import {SimpleChats} from '../../api/simpleChat/SimpleChatCollection'
+import {Touches} from '../../api/touch/TouchCollection'
 
 /** Publish all the collections you need. */
 Stuffs.publish()
@@ -15,6 +16,7 @@ DraftTexts.publish()
 SyncFusionDiagrams.publish()
 ReactFlowDiagrams.publish()
 SimpleChats.publish()
+Touches.publish()
 
 /** Need this for the alanning:roles package */
 Meteor.publish(null, function() {
