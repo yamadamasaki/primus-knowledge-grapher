@@ -1,9 +1,9 @@
-import { Meteor } from 'meteor/meteor'
-import { resetDatabase } from 'meteor/xolvio:cleaner'
-import { expect } from 'chai'
+import {Meteor} from 'meteor/meteor'
+import {resetDatabase} from 'meteor/xolvio:cleaner'
+import {expect} from 'chai'
 import faker from 'faker'
 import fc from 'fast-check'
-import { stuffConditions, Stuffs } from './StuffCollection'
+import {stuffConditions, Stuffs} from './StuffCollection'
 
 /* eslint prefer-arrow-callback: "off",  no-unused-expressions: "off" */
 /* eslint-env mocha */
@@ -46,7 +46,7 @@ if (Meteor.isServer) {
         max: 10,
       })
       const owner = faker.lorem.words()
-      const condition = stuffConditions[faker.random.number({ min: 1, max: stuffConditions.length - 1 })]
+      const condition = stuffConditions[faker.random.number({min: 1, max: stuffConditions.length - 1})]
       const docID = Stuffs.define({
         name,
         quantity,
@@ -63,15 +63,9 @@ if (Meteor.isServer) {
                   condition: stuffConditions[index],
                 })
                 const stuff = Stuffs.findDoc(docID)
-                expect(stuff.name)
-                    .to
-                    .equal(newName)
-                expect(stuff.quantity)
-                    .to
-                    .equal(newQuantity)
-                expect(stuff.condition)
-                    .to
-                    .equal(stuffConditions[index])
+                expect(stuff.name).to.equal(newName)
+                expect(stuff.quantity).to.equal(newQuantity)
+                expect(stuff.condition).to.equal(stuffConditions[index])
               }),
       )
       done()

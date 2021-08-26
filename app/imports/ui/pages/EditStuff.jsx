@@ -1,12 +1,12 @@
 import React from 'react'
-import { Grid, Header, Loader, Segment } from 'semantic-ui-react'
+import {Grid, Header, Loader, Segment} from 'semantic-ui-react'
 import swal from 'sweetalert'
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic'
-import { withTracker } from 'meteor/react-meteor-data'
+import {AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField} from 'uniforms-semantic'
+import {withTracker} from 'meteor/react-meteor-data'
 import PropTypes from 'prop-types'
 import 'uniforms-bridge-simple-schema-2' // required for Uniforms
-import { Stuffs } from '../../api/stuff/StuffCollection'
-import { stuffUpdateMethod } from '../../api/stuff/StuffCollection.methods'
+import {Stuffs} from '../../api/stuff/StuffCollection'
+import {stuffUpdateMethod} from '../../api/stuff/StuffCollection.methods'
 
 /** Renders the Page for editing a single document. */
 class EditStuff extends React.Component {
@@ -14,7 +14,7 @@ class EditStuff extends React.Component {
   /** On successful submit, insert the data. */
   submit(data) {
     // console.log(data);
-    const { name, quantity, condition, _id } = data
+    const {name, quantity, condition, _id} = data
     const updateData = {
       id: _id,
       name,
@@ -39,10 +39,10 @@ class EditStuff extends React.Component {
             <Header as="h2" textAlign="center">Edit Stuff</Header>
             <AutoForm schema={Stuffs.getSchema()} onSubmit={data => this.submit(data)} model={this.props.doc}>
               <Segment>
-                <TextField name='name'/>
-                <NumField name='quantity' decimal={false}/>
-                <SelectField name='condition'/>
-                <SubmitField value='Submit'/>
+                <TextField name="name"/>
+                <NumField name="quantity" decimal={false}/>
+                <SelectField name="condition"/>
+                <SubmitField value="Submit"/>
                 <ErrorsField/>
               </Segment>
             </AutoForm>
@@ -60,7 +60,7 @@ EditStuff.propTypes = {
 }
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
-export default withTracker(({ match }) => {
+export default withTracker(({match}) => {
   // Get the documentID from the URL field. See imports/ui/layouts/App.jsx for the route containing :_id.
   const documentId = match.params._id
   // Get access to Stuff documents.

@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor'
-import { Stuffs } from '../../api/stuff/StuffCollection.js'
+import {Meteor} from 'meteor/meteor'
+import {Stuffs} from '../../api/stuff/StuffCollection.js'
 
 /* eslint-disable no-console */
 

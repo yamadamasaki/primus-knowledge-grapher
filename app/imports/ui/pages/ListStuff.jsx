@@ -1,8 +1,8 @@
 import React from 'react'
-import { Container, Header, Loader, Table } from 'semantic-ui-react'
-import { withTracker } from 'meteor/react-meteor-data'
+import {Container, Header, Loader, Table} from 'semantic-ui-react'
+import {withTracker} from 'meteor/react-meteor-data'
 import PropTypes from 'prop-types'
-import { Stuffs } from '../../api/stuff/StuffCollection'
+import {Stuffs} from '../../api/stuff/StuffCollection'
 import StuffItem from '../components/StuffItem'
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
@@ -47,8 +47,7 @@ export default withTracker(() => {
   // Get access to Stuff documents.
   const subscription = Stuffs.subscribeStuff()
   return {
-    stuffs: Stuffs.find({})
-        .fetch(),
+    stuffs: Stuffs.find({}).fetch(),
     ready: subscription.ready(),
   }
 })(ListStuff)

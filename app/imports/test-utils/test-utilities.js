@@ -1,11 +1,11 @@
-import { Meteor } from 'meteor/meteor'
-import { ValidatedMethod } from 'meteor/mdg:validated-method'
-import { DDP } from 'meteor/ddp-client'
+import {Meteor} from 'meteor/meteor'
+import {ValidatedMethod} from 'meteor/mdg:validated-method'
+import {DDP} from 'meteor/ddp-client'
 import faker from 'faker'
-import { Accounts } from 'meteor/accounts-base'
-import { Roles } from 'meteor/alanning:roles'
-import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin'
-import { Stuffs } from '../api/stuff/StuffCollection'
+import {Accounts} from 'meteor/accounts-base'
+import {Roles} from 'meteor/alanning:roles'
+import {CallPromiseMixin} from 'meteor/didericis:callpromise-mixin'
+import {Stuffs} from '../api/stuff/StuffCollection'
 
 export function withSubscriptions() {
   return new Promise((resolve => {
@@ -39,9 +39,9 @@ export const defineTestAdminUser = new ValidatedMethod({
         email,
         password,
       })
-      Roles.createRole('admin', { unlessExists: true })
+      Roles.createRole('admin', {unlessExists: true})
       Roles.addUsersToRoles([users], ['admin'])
-      return { username, email, password }
+      return {username, email, password}
     }
     throw new Meteor.Error('Need to be in test mode to call this method.')
   },
@@ -67,7 +67,7 @@ export const defineTestUser = new ValidatedMethod({
         email,
         password,
       })
-      return { username, email, password }
+      return {username, email, password}
     }
     throw new Meteor.Error('Need to be in test mode to call this method.')
   },
@@ -78,7 +78,7 @@ export const defineTestUser = new ValidatedMethod({
  * Credentials default to the standard admin username and password.
  * @memberOf api/test
  */
-export function withLoggedInUser({ username = 'admin@foo.com', password = 'changeme' } = {}) {
+export function withLoggedInUser({username = 'admin@foo.com', password = 'changeme'} = {}) {
   return new Promise((resolve, reject) => {
     Meteor.loginWithPassword(username, password, (error) => {
       if (error) {

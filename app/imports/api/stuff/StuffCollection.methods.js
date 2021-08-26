@@ -1,7 +1,7 @@
-import { Meteor } from 'meteor/meteor'
-import { ValidatedMethod } from 'meteor/mdg:validated-method'
-import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin'
-import { Stuffs } from './StuffCollection'
+import {Meteor} from 'meteor/meteor'
+import {ValidatedMethod} from 'meteor/mdg:validated-method'
+import {CallPromiseMixin} from 'meteor/didericis:callpromise-mixin'
+import {Stuffs} from './StuffCollection'
 
 /**
  * Meteor method used to define new instances of the given collection name.

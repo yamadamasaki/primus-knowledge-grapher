@@ -46,7 +46,8 @@ const App = () => {
               <ProtectedRoute path="/scenario/edit/:programId" component={ScenarioFormPage}/>
               <ProtectedRoute path="/scenario/show/:programId" component={ScenarioPage}/>
               <ProtectedRoute exact path="/sessions/:programId/:componentName/:sessionId" component={SessionPage}/>
-              <ProtectedRoute path="/sessions/:programId/:componentName/:sessionId/:subsessionName" component={SubsessionPage}/>
+              <ProtectedRoute path="/sessions/:programId/:componentName/:sessionId/:subsessionName"
+                              component={SubsessionPage}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
               <AdminProtectedRoute path="/users" component={Users}/>

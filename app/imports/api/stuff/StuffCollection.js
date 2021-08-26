@@ -1,7 +1,7 @@
-import { Meteor } from 'meteor/meteor'
+import {Meteor} from 'meteor/meteor'
 import SimpleSchema from 'simpl-schema'
-import { check } from 'meteor/check'
-import { Roles } from 'meteor/alanning:roles'
+import {check} from 'meteor/check'
+import {Roles} from 'meteor/alanning:roles'
 import BaseCollection from '../base/BaseCollection'
 
 export const stuffConditions = ['excellent', 'good', 'fair', 'poor']
@@ -32,14 +32,14 @@ class StuffCollection extends BaseCollection {
    * @param condition the condition of the item.
    * @return {String} the docID of the new document.
    */
-  define({ name, quantity, owner, condition }) {
+  define({name, quantity, owner, condition}) {
     const docID = this._collection.insert({
       name,
       quantity,
       owner,
       condition,
-    });
-    return docID;
+    })
+    return docID
   }
 
   /**
@@ -66,7 +66,7 @@ class StuffCollection extends BaseCollection {
       Meteor.publish(stuffPublications.stuff, function publish() {
         if (this.userId) {
           const username = Meteor.users.findOne(this.userId).username
-          return instance._collection.find({ owner: username })
+          return instance._collection.find({owner: username})
         }
         return this.ready()
       })

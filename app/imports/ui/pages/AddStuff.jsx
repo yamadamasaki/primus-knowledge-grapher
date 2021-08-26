@@ -1,11 +1,11 @@
 import React from 'react'
-import { Grid, Header, Segment } from 'semantic-ui-react'
-import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic'
+import {Grid, Header, Segment} from 'semantic-ui-react'
+import {AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField} from 'uniforms-semantic'
 import swal from 'sweetalert'
-import { Meteor } from 'meteor/meteor'
+import {Meteor} from 'meteor/meteor'
 import 'uniforms-bridge-simple-schema-2' // required for Uniforms
 import SimpleSchema from 'simpl-schema'
-import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods'
+import {stuffDefineMethod} from '../../api/stuff/StuffCollection.methods'
 
 /** Create a schema to specify the structure of the data to appear in the form. */
 const formSchema = new SimpleSchema({
@@ -24,10 +24,10 @@ class AddStuff extends React.Component {
   /** On submit, insert the data. */
   submit(data, formRef) {
     // console.log('AddStuff.submit', data);
-    const { name, quantity, condition } = data
+    const {name, quantity, condition} = data
     const owner = Meteor.user().username
     // console.log(`{ ${name}, ${quantity}, ${condition}, ${owner} }`);
-    stuffDefineMethod.call({ name, quantity, condition, owner },
+    stuffDefineMethod.call({name, quantity, condition, owner},
         (error) => {
           if (error) {
             swal('Error', error.message, 'error')
@@ -51,10 +51,10 @@ class AddStuff extends React.Component {
               fRef = ref
             }} schema={formSchema} onSubmit={data => this.submit(data, fRef)}>
               <Segment>
-                <TextField name='name'/>
-                <NumField name='quantity' decimal={false}/>
-                <SelectField name='condition'/>
-                <SubmitField value='Submit'/>
+                <TextField name="name"/>
+                <NumField name="quantity" decimal={false}/>
+                <SelectField name="condition"/>
+                <SubmitField value="Submit"/>
                 <ErrorsField/>
               </Segment>
             </AutoForm>
