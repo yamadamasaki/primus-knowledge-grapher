@@ -43,7 +43,7 @@ class Signup extends React.Component {
   /** Display the signup form. Redirect to add page after successful registration and login. */
   render() {
     if (Meteor.settings.public.selfRegistration !== true) return <NotFound/>
-    const {from} = this.props.location.state || {from: {pathname: '/add'}}
+    const {from} = this.props.location.state || {from: {pathname: '/programs'}}
     // if correct authentication, redirect to from: page instead of signup screen
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>
