@@ -39,7 +39,7 @@ const KGSimpleChatButton = ({touchLoading, touch, touchSelector, documentLoading
   }, [documentLoading, document, setChatList])
 
   const {programId, sessionId, subsession} = selector
-  const unread = touchLoading ? 0 : chatList?.filter(item => item.when > touch.updatedAt).length
+  const unread = (touchLoading || !touch) ? chatList.length : chatList?.filter(item => item.when > touch.updatedAt).length
 
   return (
       <div style={{border: 'solid 1px gray', width: '100%', backgroundColor: 'aliceblue'}}>
