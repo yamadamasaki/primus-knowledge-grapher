@@ -1,5 +1,5 @@
 {
-  "Login to your account": "自分のアカウントにログインしてください",
+  "Login to your account": "自分のアカウントにログイン",
   "Email": "Email アドレス",
   "Password": "パスワード",
   "Submit": "送信",
@@ -133,5 +133,14 @@
   "KPI": "KPI",
   "Formula": "計算式",
   "Chat": "おしゃべり",
-  "Unread": "未読"
+  "Unread": "未読",
+  "Register your account": "自分のアカウントを作成",
+  "E-mail address": "E-mailアドレス",
+  "Username": "名前",
+  "Avatar": "アバタ画像",
+  "Already have an account? Login": "既にアカウントがある場合には",
+  "here": "ここからログイン",
+  "Registration was not successful": "アカウントを作成できませんでした",
+  "Click here to Register": "ここからアカウントを作成",
+  "Login was not successful": "ログインできませんでした"
 }

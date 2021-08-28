@@ -62,13 +62,13 @@ class Signin extends React.Component {
               {
                 Meteor.settings.public.selfRegistration === true ?
                     <Message>
-                      <Link to="/signup">Click here to Register</Link>
+                      <Link to="/signup">{t('Click here to Register')}</Link>
                     </Message> : <div/>
               }
               {this.state.error === '' ? (
                   ''
               ) : (
-                  <Message error header="Login was not successful" content={this.state.error}/>
+                  <Message error header={t('Login was not successful')} content={this.state.error}/>
               )}
             </Grid.Column>
           </Grid>

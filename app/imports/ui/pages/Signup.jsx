@@ -4,6 +4,7 @@ import {Link, Redirect} from 'react-router-dom'
 import {Button, Container, Form, Grid, Header, Icon, Image, Message, Segment} from 'semantic-ui-react'
 import {Accounts} from 'meteor/accounts-base'
 import NotFound from './NotFound'
+import {withTranslation} from 'react-i18next'
 
 /**
  * Signup component is similar to signin component, but we create a new user instead.
@@ -43,6 +44,7 @@ class Signup extends React.Component {
   /** Display the signup form. Redirect to add page after successful registration and login. */
   render() {
     if (Meteor.settings.public.selfRegistration !== true) return <NotFound/>
+    const {t} = this.props
     const {from} = this.props.location.state || {from: {pathname: '/programs'}}
     // if correct authentication, redirect to from: page instead of signup screen
     if (this.state.redirectToReferer) {
@@ -57,30 +59,31 @@ class Signup extends React.Component {
           <Grid textAlign="center" verticalAlign="middle" centered columns={2}>
             <Grid.Column>
               <Header as="h2" textAlign="center">
-                Register your account
+                {t('Register your account')}
               </Header>
               <Form onSubmit={this.submit}>
                 <Segment stacked>
-                  <Form.Input label="Email" icon="user" iconPosition="left" name="email" type="email"
-                              placeholder="E-mail address" onChange={this.handleChange}/>
-                  <Form.Input label="Password" icon="lock" iconPosition="left" name="password" placeholder="Password"
+                  <Form.Input label={t('Email')} icon="user" iconPosition="left" name="email" type="email"
+                              placeholder={t('E-mail address')} onChange={this.handleChange}/>
+                  <Form.Input label={t('Password')} icon="lock" iconPosition="left" name="password"
+                              placeholder={t('Password')}
                               type="password" onChange={this.handleChange}/>
-                  <Form.Input label="Username" icon="address card" iconPosition="left" name="username"
-                              placeholder="Username" onChange={this.handleChange}/>
-                  <Form.Input label="Avatar" icon="file image" iconPosition="left" name="avatar" type="file"
-                              accept="image/*" placeholder="Avatar" onChange={this.handleChange}
+                  <Form.Input label={t('Username')} icon="address card" iconPosition="left" name="username"
+                              placeholder={t('Username')} onChange={this.handleChange}/>
+                  <Form.Input label={t('Avatar')} icon="file image" iconPosition="left" name="avatar" type="file"
+                              accept="image/*" onChange={this.handleChange}
                               action={<Button onClick={resetAvatar}><Icon name="remove"/></Button>}
                               actionPosition="right"/>
-                  {this.state.avatar ? <Image src={this.state.avatar} avatar size='tiny'/> : <div/>}
-                  <Form.Button content="Submit"/>
+                  {this.state.avatar ? <Image src={this.state.avatar} avatar size="tiny"/> : <div/>}
+                  <Form.Button content={t('Submit')}/>
                 </Segment>
               </Form>
               <Message>
-                Already have an account? Login <Link to="/signin">here</Link>
+                {t('Already have an account? Login')} <Link to="/signin">{t('here')}</Link>
               </Message>
               {
                 this.state.error === '' ? '' :
-                    <Message error header="Registration was not successful" content={this.state.error}/>
+                    <Message error header={t('Registration was not successful')} content={this.state.error}/>
               }
             </Grid.Column>
           </Grid>
@@ -94,4 +97,4 @@ Signup.propTypes = {
   location: PropTypes.object,
 }
 
-export default Signup
+export default withTranslation()(Signup)

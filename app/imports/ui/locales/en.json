@@ -132,5 +132,14 @@
   "KPI": "KPI",
   "Formula": "Formula",
   "Chat": "Chat",
-  "Unread": "Unread"
+  "Unread": "Unread",
+  "Register your account": "Register your account",
+  "E-mail address": "E-mail address",
+  "Username": "Username",
+  "Avatar": "Avatar",
+  "Already have an account? Login": "Already have an account? Login",
+  "here": "here",
+  "Registration was not successful": "Registration was not successful",
+  "Click here to Register": "Click here to Register",
+  "Login was not successful": "Login was not successful"
 }
