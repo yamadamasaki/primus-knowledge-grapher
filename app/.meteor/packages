@@ -36,3 +36,4 @@ xolvio:cleaner
 dburles:factory
 react-meteor-data
 dynamic-import
+service-configuration
