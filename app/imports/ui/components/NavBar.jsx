@@ -61,6 +61,7 @@ const NavBar = () => {
           ) : (
               <Dropdown text={currentUser} pointing="top right" icon={'user'}>
                 <Dropdown.Menu>
+                  <Dropdown.Item icon="address card" text={t('Edit Profile')} as={NavLink} exact to="/profile"/>
                   <Dropdown.Item icon="sign out" text={t('Sign Out')} as={NavLink} exact to="/signout"/>
                 </Dropdown.Menu>
               </Dropdown>

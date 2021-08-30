@@ -23,6 +23,7 @@ import ProgramHomePage from '../pages/ProgramHomePage'
 import SessionPage from '../pages/SessionPage'
 import SubsessionPage from '../pages/SubsessionPage'
 import {ToastProvider} from 'react-toast-notifications'
+import EditProfile from '../pages/EditProfile'
 
 export const SideBarContext = createContext({})
 
@@ -39,6 +40,7 @@ const App = () => {
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={Signin}/>
               <Route path="/signup" component={Meteor.settings.public.selfRegistration ? Signup : NotFound}/>
+              <ProtectedRoute path="/profile" component={EditProfile}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute exact path="/programs" component={ProgramPage}/>
