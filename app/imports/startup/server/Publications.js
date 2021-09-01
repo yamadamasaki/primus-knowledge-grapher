@@ -7,6 +7,7 @@ import {SyncFusionDiagrams} from '../../api/syncfusionDiagram/SyncFusionDiagramC
 import {ReactFlowDiagrams} from '../../api/reactFlowDiagram/ReactFlowDiagramCollection'
 import {SimpleChats} from '../../api/simpleChat/SimpleChatCollection'
 import {Touches} from '../../api/touch/TouchCollection'
+import {Assignments} from '../../api/assignment/AssignmentCollection'
 
 /** Publish all the collections you need. */
 Stuffs.publish()
@@ -17,6 +18,7 @@ SyncFusionDiagrams.publish()
 ReactFlowDiagrams.publish()
 SimpleChats.publish()
 Touches.publish()
+Assignments.publish()
 
 /** Need this for the alanning:roles package */
 Meteor.publish(null, function() {
