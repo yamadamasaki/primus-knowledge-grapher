@@ -40,13 +40,6 @@ const CFPrepSession = () => {
       subsession: 'prep-questionnaire',
       componentName: 'KGAssignmentSubsession', // Not Yet Implemented
     },
-    {
-      name: 'アサイン',
-      programId,
-      sessionId,
-      subsession: 'prep-questionnaire',
-      componentName: 'KGTeamsSubsession', // Not Yet Implemented
-    },
   ]
 
   const specs = {
@@ -70,13 +63,6 @@ const CFPrepSession = () => {
       canWriteDiagram: {groups: ['admin']},
       canReadDiagram: {groups: ['member']},
       // 課題成果物の permission はその先で teamId で決める
-    },
-    'prep-questionnaire-answer': {
-      subsessionName: 'アサイン',
-      canWriteText: {groups: ['admin']},
-      canReadText: {groups: ['member']},
-      canWriteDiagram: {groups: ['admin']},
-      canReadDiagram: {groups: ['member']},
     },
   }
 
@@ -103,17 +89,6 @@ const CFPrepSession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSessionStart {...params} specs={specs} canStart={{groups: ['admin']}}>
                           <KGSectionMenu subsessions={subsessions}/>
-                          {/*
-                              <Components.KGChatButton match={{
-                                params: {
-                                  programId,
-                                  sessionId,
-                                  subsession: 'prep-chat',
-                                  canWrite: {groups: ['member']},
-                                  canRead: {groups: ['member']},
-                                },
-                              }}/>
-                            */}
                         </KGSessionStart>
                       </div>
                     </ProgramIndexMenu>

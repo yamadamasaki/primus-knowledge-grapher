@@ -4,6 +4,7 @@ if (false) {
   import('/imports/ui/pages/KGTextAndDiagramSubsession')
   import('/imports/ui/jump/JumpMVESession')
   import('/imports/ui/pages/JumpMVESubsession')
+  import('/imports/ui/pages/KGAssignmentSubsession')
 }
 
 export const registeredComponents = {
@@ -12,4 +13,5 @@ export const registeredComponents = {
   KGTextAndDiagramSubsession: '/imports/ui/pages/KGTextAndDiagramSubsession',
   JumpMVESession: '/imports/ui/jump/JumpMVESession',
   JumpMVESubsession: '/imports/ui/pages/JumpMVESubsession',
+  KGAssignmentSubsession: '/imports/ui/pages/KGAssignmentSubsession',
 }
