@@ -18,6 +18,7 @@ import KGSimpleChatButton from '../components/KGSimpleChatButton'
 const KGTextAndDiagramSubsession = () => {
   const params = useParams()
   const {programId, sessionId, subsessionName: subsession} = params
+  params.subsession = subsession
 
   const sessionSpecLoading = useTracker(() => !SessionSpecs.subscribe(SessionSpecs.getChannels().allWithMeta).ready())
   const sessionSpec = useTracker(() => SessionSpecs.findOne({programId, sessionId}))
