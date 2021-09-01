@@ -12,6 +12,7 @@ import KGSessionHeader from '../components/KGSessionHeader'
 import KGSectionMenu from '../components/KGSectionMenu'
 import KGSectionHeader from '../components/KGSectionHeader'
 import JumpMVEDiagramSection from '../sections/JumpMVEDiagramSection'
+import KGSimpleChatButton from '../components/KGSimpleChatButton'
 
 const JumpMVESubsession = () => {
   const params = useParams()
@@ -35,6 +36,7 @@ const JumpMVESubsession = () => {
   const mySpec = (sessionSpec && sessionSpec.specs[subsession]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
   const {subsessionName, canRead, canWrite} = mySpec // ToDo
+  const canComment = {groups: ['member']}
 
   return (
       <>
@@ -50,6 +52,7 @@ const JumpMVESubsession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
+                        <KGSimpleChatButton {...params} canWrite={canComment} canRead={canComment}/>
                         <JumpMVEDiagramSection {...params} canRead={canRead} canWrite={canWrite}/>
                       </div>
                     </ProgramIndexMenu>

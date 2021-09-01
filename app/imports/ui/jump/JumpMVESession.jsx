@@ -80,17 +80,6 @@ const JumpMVESession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSessionStart {...params} specs={specs} canStart={{groups: ['admin']}}>
                           <KGSectionMenu subsessions={subsessions}/>
-                          {/*
-                              <Components.KGChatButton match={{
-                                params: {
-                                  programId,
-                                  sessionId,
-                                  subsession: 'prep-chat',
-                                  canWrite: {groups: ['member']},
-                                  canRead: {groups: ['member']},
-                                },
-                              }}/>
-                            */}
                         </KGSessionStart>
                       </div>
                     </ProgramIndexMenu>
