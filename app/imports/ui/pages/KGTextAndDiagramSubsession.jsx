@@ -17,7 +17,7 @@ import KGSimpleChatButton from '../components/KGSimpleChatButton'
 
 const KGTextAndDiagramSubsession = () => {
   const params = useParams()
-  const {programId, sessionId, subsessionName} = params
+  const {programId, sessionId, subsessionName: subsession} = params
 
   const sessionSpecLoading = useTracker(() => !SessionSpecs.subscribe(SessionSpecs.getChannels().allWithMeta).ready())
   const sessionSpec = useTracker(() => SessionSpecs.findOne({programId, sessionId}))
@@ -34,9 +34,9 @@ const KGTextAndDiagramSubsession = () => {
       )
   )
 
-  const mySpec = (sessionSpec && sessionSpec.specs[subsessionName]) || {}
+  const mySpec = (sessionSpec && sessionSpec.specs[subsession]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
-  const {canReadText, canWriteText, canReadDiagram, canWriteDiagram} = mySpec
+  const {subsessionName, canReadText, canWriteText, canReadDiagram, canWriteDiagram} = mySpec
   const canComment = {groups: ['member']}
 
   return (
@@ -45,7 +45,7 @@ const KGTextAndDiagramSubsession = () => {
           sessionSpecLoading || programLoading ? <Loader/> :
               mySpec ? (
                   <>
-                    <Helmet><title>{`${sessionName} - ${mySpec.subsessionName}`}</title></Helmet>
+                    <Helmet><title>{`${sessionName} - ${subsessionName}`}</title></Helmet>
                     <ProgramIndexMenu program={program}>
                       <div style={{/*height: '100vh'*/}}>
                         <KGBreadCrumbs {...params} program={program} sessionName={sessionName}
@@ -53,8 +53,7 @@ const KGTextAndDiagramSubsession = () => {
                         <KGSessionHeader sessionName={sessionName}/>
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
-                        <KGSimpleChatButton programId={programId} sessionId={sessionId} subsession={subsessionName}
-                                            canWrite={canComment} canRead={canComment}/>
+                        <KGSimpleChatButton {...params} canWrite={canComment} canRead={canComment}/>
                         <KGDraftTextSection {...params} canRead={canReadText} canWrite={canWriteText}/>
                         <KGGeneralDiagramSection {...params} canRead={canReadDiagram} canWrite={canWriteDiagram}/>
                       </div>

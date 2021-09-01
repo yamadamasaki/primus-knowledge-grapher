@@ -15,7 +15,7 @@ import JumpMVEDiagramSection from '../sections/JumpMVEDiagramSection'
 
 const JumpMVESubsession = () => {
   const params = useParams()
-  const {programId, sessionId, subsessionName} = params
+  const {programId, sessionId, subsessionName: subsession} = params
 
   const sessionSpecLoading = useTracker(() => !SessionSpecs.subscribe(SessionSpecs.getChannels().allWithMeta).ready())
   const sessionSpec = useTracker(() => SessionSpecs.findOne({programId, sessionId}))
@@ -32,9 +32,9 @@ const JumpMVESubsession = () => {
       )
   )
 
-  const mySpec = (sessionSpec && sessionSpec.specs[subsessionName]) || {}
+  const mySpec = (sessionSpec && sessionSpec.specs[subsession]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
-  const {canRead, canWrite} = mySpec // ToDo
+  const {subsessionName, canRead, canWrite} = mySpec // ToDo
 
   return (
       <>
@@ -42,7 +42,7 @@ const JumpMVESubsession = () => {
           sessionSpecLoading || programLoading ? <Loader/> :
               mySpec ? (
                   <>
-                    <Helmet><title>{`${sessionName} - ${mySpec.subsessionName}`}</title></Helmet>
+                    <Helmet><title>{`${sessionName} - $subsessionName}`}</title></Helmet>
                     <ProgramIndexMenu program={program}>
                       <div style={{/*height: '100vh'*/}}>
                         <KGBreadCrumbs {...params} program={program} sessionName={sessionName}
