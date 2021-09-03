@@ -146,5 +146,10 @@
   "Edit your profile": "自分のプロファイルを設定",
   "Edit Profile": "プロファイルの設定",
   "Updating was not successful": "プロファイルの設定ができませんでした",
-  "Your profile has updated": "ユーザ・プロファイルを更新しました"
+  "Your profile has updated": "ユーザ・プロファイルを更新しました",
+  "Team Name": "チーム名",
+  "Members": "メンバ",
+  "Page": "ページ URL",
+  "Status": "状況",
+  "Goto Page": "チーム・ページへ"
 }

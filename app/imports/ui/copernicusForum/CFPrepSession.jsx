@@ -55,14 +55,10 @@ const CFPrepSession = () => {
     },
     'prep-questionnaire': {
       subsessionName: '課題',
-      canQuestion: {groups: ['admin']},
-      canAnswer: {groups: ['member']}, // Not Implemented Yet
-      // isText... があれば showText: true, isDiagram... があれば showDiagram: true
       canWriteText: {groups: ['admin']},
       canReadText: {groups: ['member']},
-      canWriteDiagram: {groups: ['admin']},
-      canReadDiagram: {groups: ['member']},
-      // 課題成果物の permission はその先で teamId で決める
+      canWriteTeams: {groups: ['admin']},
+      canReadTeams: {groups: ['member']},
     },
   }
 

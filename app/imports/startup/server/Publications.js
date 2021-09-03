@@ -20,6 +20,14 @@ SimpleChats.publish()
 Touches.publish()
 Assignments.publish()
 
+// このシステムにアカウントを持つユーザは基本的に信頼できるものとする
+Meteor.publish('allUserData', function() {
+  if (this.userId) {
+    return Meteor.users.find({}, {fields: {emails: 1, profile: 1, username: 1}})
+  }
+  return this.ready()
+})
+
 /** Need this for the alanning:roles package */
 Meteor.publish(null, function() {
   if (this.userId) {

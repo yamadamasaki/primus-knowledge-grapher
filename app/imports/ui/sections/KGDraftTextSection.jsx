@@ -27,6 +27,13 @@ const toolbar = {
   },
 }
 
+const sectionStyle = {
+  padding: '1rem 2rem',
+  borderLeft: '6px double blue',
+  borderRight: '6px double blue',
+  margin: '1rem 0rem',
+}
+
 const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWrite}) => {
   const currentUser = useTracker(() => Meteor.user())
   const {addToast} = useToasts()
@@ -41,7 +48,7 @@ const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWr
       document ?
           setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(document.draftText)))) :
           setEditorState(EditorState.createEmpty())
-  }, [document])
+  }, [documentLoading, document, setEditorState])
 
   const showError = message => addToast(message, {appearance: 'error', autoDismiss: false})
   const showSuccess = () => addToast(t('Success'), {appearance: 'success', autoDismiss: true})
@@ -52,13 +59,6 @@ const KGDraftTextSection = ({documentLoading, document, selector, canRead, canWr
     !document || !document._id ?
         draftTextDefineMethod.call({...selector, draftText: currentContent}, onError) :
         draftTextUpdateMethod.call({_id: document._id, ...selector, draftText: currentContent}, onError)
-  }
-
-  const sectionStyle = {
-    padding: '1rem 2rem',
-    borderLeft: '6px double blue',
-    borderRight: '6px double blue',
-    margin: '1rem 0rem',
   }
 
   const readOnly = !isPermitted(currentUser, canWrite)
