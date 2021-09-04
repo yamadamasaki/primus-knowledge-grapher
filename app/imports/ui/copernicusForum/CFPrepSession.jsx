@@ -38,7 +38,14 @@ const CFPrepSession = () => {
       programId,
       sessionId,
       subsession: 'prep-questionnaire',
-      componentName: 'KGAssignmentSubsession', // Not Yet Implemented
+      componentName: 'KGAssignmentSubsession',
+    },
+    {
+      name: '応答',
+      programId,
+      sessionId,
+      subsession: 'prep-response',
+      componentName: 'KGResponseSubsession',
     },
   ]
 
@@ -60,6 +67,13 @@ const CFPrepSession = () => {
       canWriteTeams: {groups: ['admin']},
       canReadTeams: {groups: ['member']},
     },
+    'prep-response': {
+      subsessionName: '応答',
+      // 各チームの応答は各チーム・メンバとが canWrite, member が canRead
+      // まとめは admin が canWrite, member が canRead
+      // この定義は prep-response に任せる?
+      sectionComponentName: 'KGTextAndDiagramSection',
+    }
   }
 
   const dismissError = () => history.goBack()
