@@ -1,8 +1,11 @@
 import React from 'react'
-import {withTracker, useTracker} from 'meteor/react-meteor-data'
+import {withTracker} from 'meteor/react-meteor-data'
 import {Assignments} from '../../api/assignment/AssignmentCollection'
-import {Menu, Label, Loader, Tab} from 'semantic-ui-react'
+import {Loader, Tab} from 'semantic-ui-react'
 import {KGIfIHave} from '../components/KGIfIHave'
+import KGSimpleChatButton from '../components/KGSimpleChatButton'
+import KGDraftTextSection from './KGDraftTextSection'
+import KGGeneralDiagramSection from './KGGeneralDiagramSection'
 
 const sectionStyle = {
   padding: '1rem 2rem',
@@ -11,36 +14,37 @@ const sectionStyle = {
   margin: '1rem 0rem',
 }
 
-const KGTeamsGallerySection = ({documentLoading, document, selector, canRead}) => {
-  const panes = [
-    {
-      menuItem: { key: 'users', icon: 'users', content: 'Users' },
-      render: () => <Tab.Pane>Tab 1 Content</Tab.Pane>,
-    },
-    {
-      menuItem: (
-          <Menu.Item key='messages'>
-            Messages<Label>15</Label>
-          </Menu.Item>
-      ),
-      render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>,
-    },
-  ]
-  return(
+const canTeamRead = {groups: ['member']}
+
+const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, sectionComponentName}) => {
+  const documentToPanes = teams => teams.map(team => {
+    const canTeamWrite = {users: team.members}
+    return ({
+      menuItem: {key: team.teamId, icon: 'users', content: team.name},
+      render: () =>
+          <Tab.Pane>
+            <KGSimpleChatButton {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
+            <KGDraftTextSection {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
+            <KGGeneralDiagramSection {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
+          </Tab.Pane>,
+    })
+  })
+
+  return (
       documentLoading ? <Loader/> : (
           <KGIfIHave permission={canRead}>
             <div style={sectionStyle}>
-              <Tab panes={panes} />
+              <Tab panes={documentToPanes(document.teams)}/>
             </div>
           </KGIfIHave>
       )
   )
 }
 
-export default withTracker(({programId, sessionId, subsession, id, canRead}) => {
+export default withTracker(({programId, sessionId, subsession, id, canRead, assignmentName, sectionComponentName}) => {
   const selector = id || (subsession ? {programId, sessionId, subsession} : {programId, sessionId})
   const documentLoading = !Assignments.subscribe(Assignments.getChannels().allWithMeta).ready()
-  const document = Assignments.findOne(selector)
+  const document = Assignments.findOne({programId, sessionId, assignmentName})
 
-  return {documentLoading, document, selector, canRead}
+  return {documentLoading, document, selector, canRead, sectionComponentName}
 })(KGTeamsGallerySection)

@@ -12,7 +12,6 @@ import KGSectionMenu from '../components/KGSectionMenu'
 import KGSectionHeader from '../components/KGSectionHeader'
 import KGSimpleChatButton from '../components/KGSimpleChatButton'
 import ProgramIndexMenu from '../components/ProgramIndexMenu'
-import {Assignments} from '../../api/assignment/AssignmentCollection'
 import KGTeamsGallerySection from '../sections/KGTeamsGallerySection'
 
 const KGResponseSubsession = () => {
@@ -37,7 +36,7 @@ const KGResponseSubsession = () => {
 
   const mySpec = (sessionSpec && sessionSpec.specs[subsession]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
-  const {subsessionName, sectionComponentName} = mySpec
+  const {subsessionName, sectionComponentName, assignmentName} = mySpec
   const canComment = {groups: ['member']}
 
   return (
@@ -55,7 +54,8 @@ const KGResponseSubsession = () => {
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
                         <KGSimpleChatButton {...params} canWrite={canComment} canRead={canComment}/>
-                        <KGTeamsGallerySection {...params} sectionComponentName={sectionComponentName}/>
+                        <KGTeamsGallerySection {...params} sectionComponentName={sectionComponentName}
+                                               assignmentName={assignmentName}/>
                         {/*KGDraftTextSection, KGGeneralDiagramSection = wrap-up*/}
                       </div>
                     </ProgramIndexMenu>
