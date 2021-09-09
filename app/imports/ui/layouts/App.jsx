@@ -1,7 +1,7 @@
 import React, {createContext, useState} from 'react'
 import PropTypes from 'prop-types'
 import {Meteor} from 'meteor/meteor'
-import 'semantic-ui-css/semantic.css'
+//import 'semantic-ui-css/semantic.css'
 import {Roles} from 'meteor/alanning:roles'
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
 import NavBar from '../components/NavBar'
@@ -26,6 +26,11 @@ import {ToastProvider} from 'react-toast-notifications'
 import EditProfile from '../pages/EditProfile'
 
 export const SideBarContext = createContext({})
+
+const styleLink = document.createElement("link")
+styleLink.rel = "stylesheet"
+styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css"
+document.head.appendChild(styleLink)
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
