@@ -66,9 +66,6 @@ const KGTeamsSection = ({documentLoading, document, selector, canRead, canWrite}
   const usernames = Meteor.users.find().fetch().
       map(user => ({key: user._id, text: user.username || user.profile.username, value: user._id}))
 
-  const {programId, sessionId, subsession} = selector
-  const pageUrl = team => `/sessions/${programId}/KGTextAndDiagramSubsession/${sessionId}/${subsession}+team+${team.teamId}`
-
   return (
       documentLoading ? <Loader/> : (
           <KGIfIHave permission={canRead}>
@@ -76,10 +73,9 @@ const KGTeamsSection = ({documentLoading, document, selector, canRead, canWrite}
               <Table celled>
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell><Button icon="plus square outline" onClick={addEmptyTeam}/></Table.HeaderCell>
+                    <Table.HeaderCell><Button icon="plus square outline" onClick={addEmptyTeam} disabled={readOnly}/></Table.HeaderCell>
                     <Table.HeaderCell>{t('Team Name')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('Members')}</Table.HeaderCell>
-                    <Table.HeaderCell>{t('Page URL')}</Table.HeaderCell>
                     <Table.HeaderCell>{t('Status')}</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -87,16 +83,13 @@ const KGTeamsSection = ({documentLoading, document, selector, canRead, canWrite}
                   {
                     teams.map((team, index) =>
                         <Table.Row key={index}>
-                          <Table.Cell><Button icon="minus square outline" onClick={deleteTeam(index)}/></Table.Cell>
+                          <Table.Cell><Button icon="minus square outline" onClick={deleteTeam(index)} disabled={readOnly}/></Table.Cell>
                           <Table.Cell>
                             <Input placeholder={t('Team Name')} disabled={readOnly} value={team.name} onChange={onChange(index, 'name')}/>
                           </Table.Cell>
                           <Table.Cell>
                             <Dropdown selection multiple scrolling disabled={readOnly} value={team.members} options={usernames}
                                       onChange={onChangeMembers(index)}/>
-                          </Table.Cell>
-                          <Table.Cell>
-                            <Link to={pageUrl(team)}>{t('Goto Page')}</Link>
                           </Table.Cell>
                           <Table.Cell>
                             <Input placeholder={t('Status')} disabled={readOnly} value={team.status} onChange={onChange(index, 'status')}/>
