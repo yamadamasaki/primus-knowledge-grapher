@@ -36,7 +36,7 @@ const KGResponseSubsession = () => {
 
   const mySpec = (sessionSpec && sessionSpec.specs[subsession]) || {}
   const {sessionName, sessionComponentName, subsessions} = (sessionSpec && sessionSpec.specs) || {}
-  const {subsessionName, sectionComponentName, assignmentName} = mySpec
+  const {subsessionName, sectionComponents, assignmentName} = mySpec
   const canComment = {groups: ['member']}
 
   return (
@@ -54,7 +54,7 @@ const KGResponseSubsession = () => {
                         <KGSectionMenu subsessions={subsessions}/>
                         <KGSectionHeader sectionName={subsessionName}/>
                         <KGSimpleChatButton {...params} canWrite={canComment} canRead={canComment}/>
-                        <KGTeamsGallerySection {...params} sectionComponentName={sectionComponentName}
+                        <KGTeamsGallerySection {...params} sectionComponents={sectionComponents}
                                                assignmentName={assignmentName}/>
                         {/*KGDraftTextSection, KGGeneralDiagramSection = wrap-up*/}
                       </div>

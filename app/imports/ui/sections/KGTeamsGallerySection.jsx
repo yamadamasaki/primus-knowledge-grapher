@@ -16,7 +16,8 @@ const sectionStyle = {
 
 const canTeamRead = {groups: ['member']}
 
-const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, sectionComponentName}) => {
+const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, sectionComponents}) => {
+  console.log({documentLoading, document, selector, canRead, sectionComponents})
   const documentToPanes = teams => teams.map(team => {
     const canTeamWrite = {users: team.members}
     return ({
@@ -24,8 +25,11 @@ const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, se
       render: () =>
           <Tab.Pane>
             <KGSimpleChatButton {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
-            <KGDraftTextSection {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
-            <KGGeneralDiagramSection {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
+            {
+              Object.entries(sectionComponents).map(([key, value]) => {
+                React.createElement(key, {...selector, canWrite: canTeamWrite, canRead: canTeamRead, ...value})
+              })
+            }
           </Tab.Pane>,
     })
   })
@@ -41,10 +45,17 @@ const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, se
   )
 }
 
-export default withTracker(({programId, sessionId, subsession, id, canRead, assignmentName, sectionComponentName}) => {
+export default withTracker(({programId, sessionId, subsession, id, canRead, assignmentName, sectionComponents}) => {
+  console.log({programId, sessionId, subsession, id, canRead, assignmentName, sectionComponents})
   const selector = id || (subsession ? {programId, sessionId, subsession} : {programId, sessionId})
   const documentLoading = !Assignments.subscribe(Assignments.getChannels().allWithMeta).ready()
-  const document = Assignments.findOne({programId, sessionId, assignmentName})
+  const document = Assignments.findOne({programId, sessionId, subsession: assignmentName})
 
-  return {documentLoading, document, selector, canRead, sectionComponentName}
+  return {documentLoading, document, selector, canRead, sectionComponents}
 })(KGTeamsGallerySection)
+
+/*
+            <KGDraftTextSection {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
+            <KGGeneralDiagramSection {...selector} canWrite={canTeamWrite} canRead={canTeamRead}/>
+
+ */

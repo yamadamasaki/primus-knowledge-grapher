@@ -72,7 +72,7 @@ const CFPrepSession = () => {
       // 各チームの応答は各チーム・メンバとが canWrite, member が canRead
       // まとめは admin が canWrite, member が canRead
       // この定義は prep-response に任せる?
-      sectionComponentName: 'KGTextAndDiagramSection',
+      sectionComponents: {KGDraftTextSection: {}, KGGeneralTextSection: {}},
       assignmentName: 'prep-questionnaire'
     }
   }
