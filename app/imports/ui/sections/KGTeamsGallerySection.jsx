@@ -18,7 +18,7 @@ const canTeamRead = {groups: ['member']}
 
 const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, sectionComponents}) => {
   console.log({documentLoading, document, selector, canRead, sectionComponents})
-  const documentToPanes = teams => teams.map(team => {
+  const documentToPanes = teams => teams?.map(team => {
     const canTeamWrite = {users: team.members}
     return ({
       menuItem: {key: team.teamId, icon: 'users', content: team.name},
@@ -38,7 +38,7 @@ const KGTeamsGallerySection = ({documentLoading, document, selector, canRead, se
       documentLoading ? <Loader/> : (
           <KGIfIHave permission={canRead}>
             <div style={sectionStyle}>
-              <Tab panes={documentToPanes(document.teams)}/>
+              <Tab panes={documentToPanes(document?.teams)}/>
             </div>
           </KGIfIHave>
       )

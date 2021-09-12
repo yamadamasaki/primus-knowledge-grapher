@@ -24,33 +24,18 @@ const DefaultProgramHomePage = ({program}) => {
   )
 }
 
-const DelegatedProgramHomePage = ({program}) => {
+const ProgramHomePage = () => {
+  const {programId} = useParams()
+
+  const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
+  const program = useTracker(() => Programs.findOne(programId))
+
   const [componentState, setComponentState] = useState({isLoaded: false, component: undefined})
-  const componentName = registeredComponents[program.structure.indexComponent]
+  const componentName = registeredComponents[program?.structure.indexComponent]
 
   useEffect(() => {
     if (componentName) import(componentName).then(component => setComponentState({isLoaded: true, component}))
-  }, [])
-
-  return (
-      <ProgramIndexMenu program={program}>
-        {
-          componentName ?
-              (
-                  componentState.isLoaded ?
-                      React.createElement(componentState.component.default, {program}) :
-                      <Loader/>
-              ) :
-              <DefaultProgramHomePage program={program}/>
-        }
-      </ProgramIndexMenu>
-  )
-}
-
-const ProgramHomePage = () => {
-  const {programId} = useParams()
-  const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
-  const program = useTracker(() => Programs.findOne(programId))
+  }, [componentName])
 
   return (
       <>
@@ -58,7 +43,18 @@ const ProgramHomePage = () => {
         {
           programLoading ?
               <Loader/> :
-              <Container><DelegatedProgramHomePage program={program}/></Container>
+              <Container>
+                <ProgramIndexMenu program={program}>
+                  {
+                    componentName ? (
+                            componentState.isLoaded ?
+                                React.createElement(componentState.component.default, {program}) :
+                                <Loader/>
+                        ) :
+                        <DefaultProgramHomePage program={program}/>
+                  }
+                </ProgramIndexMenu>
+              </Container>
         }
       </>
   )

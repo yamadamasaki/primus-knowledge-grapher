@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {useHistory, useParams} from 'react-router'
-import {Programs} from '../../api/program/ProgramCollection'
-import {useTracker} from 'meteor/react-meteor-data'
-import {Helmet} from 'react-helmet'
 import {registeredComponents} from '../../startup/client/registerComponents'
 import {Loader, Message} from 'semantic-ui-react'
 import {useTranslation} from 'react-i18next'
 
-const DelegatedSessionPage = ({componentName, ...restProps}) => {
+const SessionPage = () => {
+  const {componentName, ...restParams} = useParams()
+
   const [componentState, setComponentState] = useState({isLoaded: false, component: undefined})
   const componentPath = registeredComponents[componentName]
 
@@ -16,7 +15,7 @@ const DelegatedSessionPage = ({componentName, ...restProps}) => {
 
   useEffect(() => {
     if (componentPath) import(componentPath).then(component => setComponentState({isLoaded: true, component}))
-  }, [])
+  }, [componentName])
 
   const dismissError = () => history.goBack()
   const error = t('Unregistered Component', {componentName})
@@ -28,29 +27,10 @@ const DelegatedSessionPage = ({componentName, ...restProps}) => {
 
   return (
       componentPath ?
-          (
-              componentState.isLoaded ?
-                  React.createElement(componentState.component.default, {...restProps}) :
-                  <Loader/>
-          ) :
+          (componentState.isLoaded ?
+              React.createElement(componentState.component.default, {...restParams}) :
+              <Loader/>) :
           <ShowError/>
-  )
-}
-
-const SessionPage = () => {
-  const {programId, ...restParams} = useParams()
-  const programLoading = useTracker(() => !Programs.subscribe(Programs.getChannels().allWithMeta).ready())
-  const program = useTracker(() => Programs.findOne(programId))
-
-  return (
-      <>
-        <Helmet><title>Session Page</title></Helmet>
-        {
-          programLoading ?
-              <Loader/> :
-              <DelegatedSessionPage {...restParams} program={program}/>
-        }
-      </>
   )
 }
 
